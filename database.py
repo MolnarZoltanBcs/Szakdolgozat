@@ -4,24 +4,51 @@ from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButt
 from app_modules import *
 import sqlite3
 
-conn = sqlite3.connect('datagov.db')
-c = conn.cursor()
-#c.execute('''CREATE TABLE stocks
-#             (date text, trans text, symbol text, qty real, price real)''')
-#c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+class NomenData(object):
+    conn = sqlite3.connect('datagov.db')
+    c = conn.cursor()
+    def newTable():
+        c.execute('''CREATE TABLE stocks
+                     (date text, trans text, symbol text, qty real, price real)''')
+        #c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
 
-# Save (commit) the changes
-#conn.commit()
+        # Save (commit) the changes
+        conn.commit()
 
-# We can also close the connection if we are done with it.
-# Just be sure any changes have been committed or they will be lost.
+        # We can also close the connection if we are done with it.
+        # Just be sure any changes have been committed or they will be lost.
 
 
-for row in c.execute('SELECT * FROM stocks ORDER BY price'):
-        print(row)
+        for row in c.execute('SELECT * FROM stocks ORDER BY price'):
+                print(row)
 
-('2006-01-05', 'BUY', 'RHAT', 100, 35.14)
-('2006-03-28', 'BUY', 'IBM', 1000, 45.0)
-('2006-04-06', 'SELL', 'IBM', 500, 53.0)
-('2006-04-05', 'BUY', 'MSFT', 1000, 72.0)
-conn.close()
+        ('2006-01-05', 'BUY', 'RHAT', 100, 35.14)
+        ('2006-03-28', 'BUY', 'IBM', 1000, 45.0)
+        ('2006-04-06', 'SELL', 'IBM', 500, 53.0)
+        ('2006-04-05', 'BUY', 'MSFT', 1000, 72.0)
+        conn.close()
+
+class Selection(object):
+    conn = sqlite3.connect('datagov.db')
+    conn.isolation_level = None
+    c = conn.cursor()
+    def newTable():
+        #c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+        user_input = input("Expense Amount: ")
+        sql = "SELECT * FROM ?"
+        conn.execute(sql, (user_input,))
+        # Save (commit) the changes
+        conn.commit()
+
+        # We can also close the connection if we are done with it.
+        # Just be sure any changes have been committed or they will be lost.
+
+
+        for row in c.execute('SELECT * FROM stocks ORDER BY price'):
+                print(row)
+
+        ('2006-01-05', 'BUY', 'RHAT', 100, 35.14)
+        ('2006-03-28', 'BUY', 'IBM', 1000, 45.0)
+        ('2006-04-06', 'SELL', 'IBM', 500, 53.0)
+        ('2006-04-05', 'BUY', 'MSFT', 1000, 72.0)
+        conn.close()
