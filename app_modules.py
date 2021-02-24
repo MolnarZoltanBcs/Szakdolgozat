@@ -15,3 +15,5 @@ from rekord import *
 from szelekcio import *
 
 from dataimport import *
+
+from database import *
