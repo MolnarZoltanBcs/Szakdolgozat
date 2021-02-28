@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButt
 from app_modules import *
 import sqlite3
 
+content = "abb"
+
 class Ui_Szelekcio(object):
     def setupUi(x, Ui_Szelekcio):
         Ui_Szelekcio.setObjectName("Ui_Szelekcio")
@@ -40,9 +42,11 @@ class Ui_Szelekcio(object):
         x.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         x.label_4.setWordWrap(True)
         x.label_4.setObjectName("label_4")
+        #az sql szöveget beolvasó input doboz 
         x.textEdit_szelekcio = QtWidgets.QTextEdit(x.groupBox)
         x.textEdit_szelekcio.setGeometry(QtCore.QRect(210, 120, 291, 101))
         x.textEdit_szelekcio.setObjectName("textEdit_szelekcio")
+        #a szöveget megjelenítő doboz
         x.listWidget = QtWidgets.QListWidget(x.centralwidget)
         x.listWidget.setGeometry(QtCore.QRect(120, 300, 331, 231))
         x.listWidget.setObjectName("listWidget")
@@ -51,8 +55,9 @@ class Ui_Szelekcio(object):
         font = QtGui.QFont()
         font.setPointSize(11)
         x.pushButton_futtat.setFont(font)
-        #x.selection = Selection()
-        #x.pushButton_futtat.clicked.connect(x.selection.newTable())
+        x.selection = Selection()
+        x.pushButton_futtat.clicked.connect(x.save_text)
+        x.pushButton_futtat.clicked.connect(x.selection.newTable)
         x.pushButton_futtat.setObjectName("pushButton_futtat")
         x.pushButton_megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_megse.setGeometry(QtCore.QRect(300, 560, 91, 31))
@@ -87,27 +92,31 @@ class Ui_Szelekcio(object):
         x.pushButton_futtat.setText(_translate("Ui_Szelekcio", "Futtatás"))
         x.pushButton_megse.setText(_translate("Ui_Szelekcio", "Mégse"))
 
+    def save_text(x):
+        global content
+        content = x.textEdit_szelekcio.toPlainText()
+        
 class Selection(object):
-    conn = sqlite3.connect('datagov.db')
-    conn.isolation_level = None
-    c = conn.cursor()
-    def newTable(value):
-        #c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-        user_input = input("Expense Amount: ")
-        sql = "SELECT * FROM ?"
-        conn.execute(sql, (user_input,))
-        # Save (commit) the changes
-        conn.commit()
 
+    def newTable(x):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        #c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
+        #user_input = input("Expense Amount: ")
+        #sql = "SELECT * FROM ?"
+        #for row in c.execute(content):
+        #    print(row)
+        for row in c.execute(format(content.replace('"', '""'))):
+            print(row)
+        # Save (commit) the changes
+        #print(content)
+        conn.commit()
         # We can also close the connection if we are done with it.
         # Just be sure any changes have been committed or they will be lost.
 
 
-        for row in c.execute('SELECT * FROM stocks ORDER BY price'):
-                print(row)
+        #for row in c.execute('SELECT * FROM stocks ORDER BY price'):
+        #        print(row)
 
-        ('2006-01-05', 'BUY', 'RHAT', 100, 35.14)
-        ('2006-03-28', 'BUY', 'IBM', 1000, 45.0)
-        ('2006-04-06', 'SELL', 'IBM', 500, 53.0)
-        ('2006-04-05', 'BUY', 'MSFT', 1000, 72.0)
         conn.close()

@@ -16,4 +16,4 @@ from szelekcio import *
 
 from dataimport import *
 
-from database import *
+#from database import *
