@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
 import sqlite3
-
+#TODO: az összeset megjeleníteni, nem csak 1 sort, a felső 2 boxot is munkára fogni
 content = "abb"
 content2= ""
 class Ui_Szelekcio(object):
@@ -56,6 +56,7 @@ class Ui_Szelekcio(object):
         font.setPointSize(11)
         x.pushButton_futtat.setFont(font)
         x.selection = Selection()
+        #a futtatás gombra kattintva először lekérem a dobozba beírt szöveget, és elmentem a contentbe, majd elvégzem az adatb műveleteket, végül megjelenítem a másik dobozban
         x.pushButton_futtat.clicked.connect(x.save_text)
         x.pushButton_futtat.clicked.connect(x.selection.newTable)
         x.pushButton_futtat.clicked.connect(x.show_text)
@@ -98,32 +99,17 @@ class Ui_Szelekcio(object):
         content = x.textEdit_szelekcio.toPlainText()
 
     def show_text(x):
-        #global content2
         x.listWidget.addItem(str(content2))
 class Selection(object):
-
     def newTable(x):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
-        #c.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
-        #user_input = input("Expense Amount: ")
-        #sql = "SELECT * FROM ?"
-        #for row in c.execute(content):
-        #    print(row)
         global content2
         for row in c.execute(format(content.replace('"', '""'))):
             print(row)
             content2 = row
         # Save (commit) the changes
-        #print(content)
         conn.commit()
-        
-        # We can also close the connection if we are done with it.
-        # Just be sure any changes have been committed or they will be lost.
-
-
-        #for row in c.execute('SELECT * FROM stocks ORDER BY price'):
-        #        print(row)
-
+        #Closing the database
         conn.close()
