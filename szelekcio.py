@@ -5,7 +5,7 @@ from app_modules import *
 import sqlite3
 
 content = "abb"
-
+content2= ""
 class Ui_Szelekcio(object):
     def setupUi(x, Ui_Szelekcio):
         Ui_Szelekcio.setObjectName("Ui_Szelekcio")
@@ -58,6 +58,7 @@ class Ui_Szelekcio(object):
         x.selection = Selection()
         x.pushButton_futtat.clicked.connect(x.save_text)
         x.pushButton_futtat.clicked.connect(x.selection.newTable)
+        x.pushButton_futtat.clicked.connect(x.show_text)
         x.pushButton_futtat.setObjectName("pushButton_futtat")
         x.pushButton_megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_megse.setGeometry(QtCore.QRect(300, 560, 91, 31))
@@ -95,7 +96,10 @@ class Ui_Szelekcio(object):
     def save_text(x):
         global content
         content = x.textEdit_szelekcio.toPlainText()
-        
+
+    def show_text(x):
+        #global content2
+        x.listWidget.addItem(str(content2))
 class Selection(object):
 
     def newTable(x):
@@ -107,11 +111,14 @@ class Selection(object):
         #sql = "SELECT * FROM ?"
         #for row in c.execute(content):
         #    print(row)
+        global content2
         for row in c.execute(format(content.replace('"', '""'))):
             print(row)
+            content2 = row
         # Save (commit) the changes
         #print(content)
         conn.commit()
+        
         # We can also close the connection if we are done with it.
         # Just be sure any changes have been committed or they will be lost.
 
