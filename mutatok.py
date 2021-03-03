@@ -1,9 +1,17 @@
 import sys
+import sip
+sip.setapi('QString', 2)
 from PyQt5 import QtCore, QtGui, QtWidgets  
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow, QLineEdit
 from PyQt5.QtCore import pyqtSlot
 from app_modules import *
+import sqlite3
 
+valtnev = ""
+cimke = ""
+leiras = ""
+hossz = 0.0
+csoport = ""
 class Ui_Mutatok(QtWidgets.QMainWindow):
     def setupUi(x,  Ui_Mutatok):
          Ui_Mutatok.setObjectName("Ui_Mutatok")
@@ -255,8 +263,12 @@ class Ui_Mutatok_UJ(object):
         x.pushButton_Mentes.setGeometry(QtCore.QRect(270, 400, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
+        #mentés logika
+        x.newMutatDB = newMutatDB()
+        x.pushButton_Mentes.clicked.connect(x.save_text)
         x.pushButton_Mentes.setFont(font)
         x.pushButton_Mentes.setObjectName("pushButton_Mentes")
+        x.pushButton_Mentes.clicked.connect(x.newMutatDB.newMutat)
         x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
         font = QtGui.QFont()
@@ -349,6 +361,14 @@ class Ui_Mutatok_UJ(object):
         x.retranslateUi(Ui_Mutatok_UJ)
         x.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Ui_Mutatok_UJ)
+
+    def save_text(x):
+        global valtnev, cimke, leiras, hossz, csoport
+        valtnev = x.lineEdit_valtozonev.text()
+        cimke = x.lineEdit_cimke.text()
+        leiras = x.lineEdit_leiras.text()
+        hossz= x.lineEdit_hossz.text()
+        csoport = x.lineEdit_csoport.text()
 
     def newRowUj(self):
         self.line_edit = QLineEdit()
@@ -536,3 +556,19 @@ class Ui_Mutatok_UJ(object):
         x.tabWidget.setTabText(x.tabWidget.indexOf(x.tab_leiras), _translate("Ui_Mutatok_Modosit", "Leírások"))"""
         
 
+class newMutatDB(object):
+    def newMutat(x):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        #c.execute('''DROP TABLE mutatok''')
+        #c.execute('''CREATE TABLE mutatok
+        #             (nev text, cimke text, leiras text, hossz real, csoport text)''')
+        script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, csoport) VALUES (?, ?, ?, ?, ?);"
+        c.execute(script, (valtnev,cimke,leiras,hossz,csoport))
+        #c.execute('''INSERT INTO mutatok VALUES
+         #            (nev text, cimke text, leiras text, hossz real, tipus real)''')
+                 # Save (commit) the changes
+        conn.commit()
+        #Closing the database
+        conn.close()

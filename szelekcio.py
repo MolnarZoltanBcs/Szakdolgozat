@@ -3,7 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
 import sqlite3
-#TODO: az összeset megjeleníteni, nem csak 1 sort, a felső 2 boxot is munkára fogni
+#TODO: az összeset megjeleníteni, nem csak 1 sort, a felső 2 boxot is munkára fogni, ha hibás kifejezést írnak be akkor lekezelni hogy ne crasheljen
 content = "abb"
 content2= ""
 class Ui_Szelekcio(object):
