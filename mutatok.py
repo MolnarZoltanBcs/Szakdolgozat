@@ -12,13 +12,15 @@ cimke = ""
 leiras = ""
 hossz = 0.0
 csoport = ""
+query = ()
 class Ui_Mutatok(QtWidgets.QMainWindow):
     def setupUi(x,  Ui_Mutatok):
          Ui_Mutatok.setObjectName("Ui_Mutatok")
          Ui_Mutatok.resize(1175, 500)
          
          Ui_Mutatok.setWindowTitle("Mutatók kezelése")
-         
+         x.newmutatdb = newMutatDB()
+         newMutatDB.listMutat()
          
          x.tableWidget = QtWidgets.QTableWidget(Ui_Mutatok)
          x.tableWidget.horizontalHeader().setStretchLastSection(True)
@@ -151,8 +153,19 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          item.setText(_translate("Ui_Mutatok", "3"))
          item = x.tableWidget.verticalHeaderItem(3)
          item.setText(_translate("Ui_Mutatok", "4"))
+         x.newMutatDB = newMutatDB()
+         #query = x.newMutatDB.listMutat()
          
-         
+         #while query.next():
+         for row in query:
+            rows = x.tableWidget.rowCount()
+            x.tableWidget.setRowCount(rows + 1)
+            x.tableWidget.setItem(rows, 0, QTableWidgetItem(str(row[0])))
+            x.tableWidget.setItem(rows, 1, QTableWidgetItem(str(row[1])))
+            x.tableWidget.setItem(rows, 2, QTableWidgetItem(str(row[2])))
+            #x.tableWidget.setItem(rows, 3, QTableWidgetItem(query.value(3)))
+
+         x.tableWidget.resizeColumnsToContents()
          item = x.tableWidget.horizontalHeaderItem(0)
          item.setText(_translate("Ui_Mutatok", "Változó neve"))
          item = x.tableWidget.horizontalHeaderItem(1)
@@ -175,7 +188,8 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          
          __sortingEnabled = x.tableWidget.isSortingEnabled()
          x.tableWidget.setSortingEnabled(False)
-         item = x.tableWidget.item(0, 0)
+         
+         """item = x.tableWidget.item(0, 0)
          item.setText(_translate("Ui_Mutatok", "Testsuly"))
          item = x.tableWidget.item(0, 3)
          item.setText(_translate("Ui_Mutatok", "3"))
@@ -204,7 +218,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          item = x.tableWidget.item(3, 7)
          item.setText(_translate("Ui_Mutatok", "2005.01.01."))
          item = x.tableWidget.item(3, 8)
-         item.setText(_translate("Ui_Mutatok", "2010.12.31."))
+         item.setText(_translate("Ui_Mutatok", "2010.12.31."))"""
         
          
          
@@ -269,6 +283,7 @@ class Ui_Mutatok_UJ(object):
         x.pushButton_Mentes.setFont(font)
         x.pushButton_Mentes.setObjectName("pushButton_Mentes")
         x.pushButton_Mentes.clicked.connect(x.newMutatDB.newMutat)
+        #x.pushButton_Mentes.clicked.connect(Ui_Mutatok.setupUi())
         x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
         font = QtGui.QFont()
@@ -572,3 +587,19 @@ class newMutatDB(object):
         conn.commit()
         #Closing the database
         conn.close()
+
+    def listMutat():
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        #c.execute('''DROP TABLE mutatok''')
+        #c.execute('''CREATE TABLE mutatok
+        #             (nev text, cimke text, leiras text, hossz real, csoport text)''')
+        global query
+        query = c.execute('''SELECT * FROM mutatok''')
+        #c.execute('''INSERT INTO mutatok VALUES
+         #            (nev text, cimke text, leiras text, hossz real, tipus real)''')
+                 # Save (commit) the changes
+        conn.commit()
+        #Closing the database
+        #conn.close()

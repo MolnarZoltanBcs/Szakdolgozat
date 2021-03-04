@@ -99,6 +99,7 @@ class Ui_Szelekcio(object):
         content = x.textEdit_szelekcio.toPlainText()
 
     def show_text(x):
+        #for item in content2:
         x.listWidget.addItem(str(content2))
 class Selection(object):
     def newTable(x):
