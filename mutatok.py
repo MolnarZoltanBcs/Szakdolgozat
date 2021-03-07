@@ -254,17 +254,21 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
         if result == QtWidgets.QMessageBox.Yes:
             indexes = self.tableWidget.selectionModel().selectedRows() 
+            #items = self.tree.selectedItems()
+            conn = sqlite3.connect('datagov.db')
+            #indexes:lista      index:QTCORE.Qmodelindex
             for index in sorted(indexes):
                 self.tableWidget.removeRow(index.row())
+                conn.execute("DELETE from mutatok WHERE nev = ?", (str(index),))
+                print(type(index))
             
-    def newRow(self):
-        self.text_from_window2 = QLineEdit()
-        self.text_from_window2.setStyleSheet("color: red;")
-        self.text_from_window2.setDisabled(True)
-
-    @pyqtSlot(str)
-    def update_label(self, txt):
-        self.text_from_window2.setText(txt)
+            #conn.isolation_level = None
+            #c = conn.cursor()
+            #sql_query_delete = '''DELETE FROM mutatok'''.rowCount 
+            
+            conn.commit()
+            conn.close()
+            
         
 #ez az uj mutato felvetel ablaka
 class Ui_Mutatok_UJ(object):
@@ -603,3 +607,15 @@ class newMutatDB(object):
         conn.commit()
         #Closing the database
         #conn.close()
+    def deleteDB():
+        #row = self.products_table.currentRow()
+        #currentproductid = (self.products_table.item(row, 0).text() )
+        #product_name = (self.products_table.item(row, 1).text() )
+        #query = session.query(Product).filter(Product.product_id==str(currentproductid)).first()
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        sql_query_delete = '''DELETE FROM mutatok WHERE id IN''', [current_table, archive_table]
+        c.execute(sql_query_delete)
+        conn.commit()
+        conn.close()
