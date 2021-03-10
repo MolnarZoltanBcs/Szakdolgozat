@@ -165,7 +165,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
             x.tableWidget.setItem(rows, 2, QTableWidgetItem(str(row[2])))
             #x.tableWidget.setItem(rows, 3, QTableWidgetItem(query.value(3)))
 
-         x.tableWidget.resizeColumnsToContents()
+         #x.tableWidget.resizeColumnsToContents()
          item = x.tableWidget.horizontalHeaderItem(0)
          item.setText(_translate("Ui_Mutatok", "Változó neve"))
          item = x.tableWidget.horizontalHeaderItem(1)
