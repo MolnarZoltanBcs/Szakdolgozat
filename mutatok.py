@@ -20,7 +20,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          
          Ui_Mutatok.setWindowTitle("Mutatók kezelése")
          x.newmutatdb = newMutatDB()
-         newMutatDB.listMutat()
+         newMutatDB.listMutat(x.newmutatdb)
          
          x.tableWidget = QtWidgets.QTableWidget(Ui_Mutatok)
          x.tableWidget.horizontalHeader().setStretchLastSection(True)
@@ -260,7 +260,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
             for index in sorted(indexes):
                 self.tableWidget.removeRow(index.row())
                 conn.execute("DELETE from mutatok WHERE nev = ?", (str(index),))
-                print(type(index))
+                # print(type(index))
             
             #conn.isolation_level = None
             #c = conn.cursor()
@@ -272,7 +272,9 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
         
 #ez az uj mutato felvetel ablaka
 class Ui_Mutatok_UJ(object):
+    proba=None
     def setupUi(x, Ui_Mutatok_UJ):
+        x.proba=Ui_Mutatok_UJ
         Ui_Mutatok_UJ.setObjectName("Ui_Mutatok_UJ")
         Ui_Mutatok_UJ.resize(484, 466)
         x.centralwidget = QtWidgets.QWidget(Ui_Mutatok_UJ)
@@ -388,6 +390,10 @@ class Ui_Mutatok_UJ(object):
         leiras = x.lineEdit_leiras.text()
         hossz= x.lineEdit_hossz.text()
         csoport = x.lineEdit_csoport.text()
+        try:
+            x.proba.close()
+        except Exception as e:
+            print(e)
 
     def newRowUj(self):
         self.line_edit = QLineEdit()
@@ -576,7 +582,7 @@ class Ui_Mutatok_UJ(object):
         
 
 class newMutatDB(object):
-    def newMutat(x):
+    def newMutat(self):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
@@ -592,7 +598,7 @@ class newMutatDB(object):
         #Closing the database
         conn.close()
 
-    def listMutat():
+    def listMutat(self):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
@@ -607,7 +613,7 @@ class newMutatDB(object):
         conn.commit()
         #Closing the database
         #conn.close()
-    def deleteDB():
+    def deleteDB(self):
         #row = self.products_table.currentRow()
         #currentproductid = (self.products_table.item(row, 0).text() )
         #product_name = (self.products_table.item(row, 1).text() )
