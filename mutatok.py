@@ -7,14 +7,21 @@ from PyQt5.QtCore import pyqtSlot
 from app_modules import *
 import sqlite3
 
+import datetime
+from datetime import date
+
 valtnev = ""
 cimke = ""
 leiras = ""
 hossz = 0.0
+tipus = ""
 csoport = ""
+kezdoidopont = QtCore.QDate
+vegidopont = QtCore.QDate
 query = ()
 class Ui_Mutatok(QtWidgets.QMainWindow):
     def setupUi(x,  Ui_Mutatok):
+         x.parentAblak=Ui_Mutatok
          Ui_Mutatok.setObjectName("Ui_Mutatok")
          Ui_Mutatok.resize(1175, 500)
          
@@ -31,16 +38,16 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.tableWidget.setObjectName("tableWidget")
          
          x.tableWidget.setColumnCount(9)
-         x.tableWidget.setRowCount(4)
+         x.tableWidget.setRowCount(0)
          
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(1, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(2, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(3, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setVerticalHeaderItem(0, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setVerticalHeaderItem(1, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setVerticalHeaderItem(2, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setVerticalHeaderItem(3, item)
          item = QtWidgets.QTableWidgetItem()
          
          x.tableWidget.setHorizontalHeaderItem(0, item)
@@ -60,39 +67,39 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.tableWidget.setHorizontalHeaderItem(7, item)
          item = QtWidgets.QTableWidgetItem()
          x.tableWidget.setHorizontalHeaderItem(8, item)
+
+
          
-         
-         
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 3, item)        
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 4, item)         
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 6, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 7, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 8, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(0, 0, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(0, 3, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(0, 4, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(1, 0, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(1, 3, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(1, 4, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(2, 0, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(2, 3, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(2, 4, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 0, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 3, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 4, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 6, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 7, item)
+         # item = QtWidgets.QTableWidgetItem()
+         # x.tableWidget.setItem(3, 8, item)
         
         
          x.pushButton_uj = QtWidgets.QPushButton(Ui_Mutatok)
@@ -108,6 +115,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.pushButton_export = QtWidgets.QPushButton(Ui_Mutatok)
          x.pushButton_export.setGeometry(QtCore.QRect(423, 26, 110, 23))
          x.pushButton_export.setObjectName("pushButton_export") #exportal
+
 
 
          x.valtoztatUi(Ui_Mutatok)
@@ -145,14 +153,14 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
     def valtoztatUi(x, Ui_Mutatok):
          _translate = QtCore.QCoreApplication.translate
          Ui_Mutatok.setWindowTitle(_translate("Ui_Mutatok", "Mutatók"))
-         item = x.tableWidget.verticalHeaderItem(0)
-         item.setText(_translate("Ui_Mutatok", "1"))
-         item = x.tableWidget.verticalHeaderItem(1)
-         item.setText(_translate("Ui_Mutatok", "2"))
-         item = x.tableWidget.verticalHeaderItem(2)
-         item.setText(_translate("Ui_Mutatok", "3"))
-         item = x.tableWidget.verticalHeaderItem(3)
-         item.setText(_translate("Ui_Mutatok", "4"))
+         # item = x.tableWidget.verticalHeaderItem(0)
+         # item.setText(_translate("Ui_Mutatok", "1"))
+         # item = x.tableWidget.verticalHeaderItem(1)
+         # item.setText(_translate("Ui_Mutatok", "2"))
+         # item = x.tableWidget.verticalHeaderItem(2)
+         # item.setText(_translate("Ui_Mutatok", "3"))
+         # item = x.tableWidget.verticalHeaderItem(3)
+         # item.setText(_translate("Ui_Mutatok", "4"))
          x.newMutatDB = newMutatDB()
          #query = x.newMutatDB.listMutat()
          
@@ -163,6 +171,12 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
             x.tableWidget.setItem(rows, 0, QTableWidgetItem(str(row[0])))
             x.tableWidget.setItem(rows, 1, QTableWidgetItem(str(row[1])))
             x.tableWidget.setItem(rows, 2, QTableWidgetItem(str(row[2])))
+            x.tableWidget.setItem(rows, 3, QTableWidgetItem(str(row[3])))
+            x.tableWidget.setItem(rows, 4, QTableWidgetItem(str(row[4])))
+            x.tableWidget.setItem(rows, 5, QTableWidgetItem(str(row[5])))
+            x.tableWidget.setItem(rows, 6, QTableWidgetItem(str(row[6])))
+            x.tableWidget.setItem(rows, 7, QTableWidgetItem(str(row[7])))
+            x.tableWidget.setItem(rows, 8, QTableWidgetItem(str(row[8])))
             #x.tableWidget.setItem(rows, 3, QTableWidgetItem(query.value(3)))
 
          #x.tableWidget.resizeColumnsToContents()
@@ -233,7 +247,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
     def openUjMutato(x):
          x.window = QtWidgets.QMainWindow()
          x.ui =  Ui_Mutatok_UJ()
-         x.ui.setupUi(x.window)
+         x.ui.setupUi(x.window, x)
          #x.window.setWindowTitle("Új mutató létrehozása")
          x.window.show()
     #es definialjuk a modosit mutato ablakot
@@ -249,32 +263,58 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
         result = QtWidgets.QMessageBox.question(self,
                       "Törlés megerősítése...",
                       "Biztos ki akarod törölni a kiválaszott sorokat?",
-                      QtWidgets.QMessageBox.Yes| QtWidgets.QMessageBox.No)
+                      QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No)
         
 
         if result == QtWidgets.QMessageBox.Yes:
             indexes = self.tableWidget.selectionModel().selectedRows() 
             #items = self.tree.selectedItems()
             conn = sqlite3.connect('datagov.db')
+            cursor=conn.cursor()
             #indexes:lista      index:QTCORE.Qmodelindex
+            lista=[]
             for index in sorted(indexes):
-                self.tableWidget.removeRow(index.row())
-                conn.execute("DELETE from mutatok WHERE nev = ?", (str(index),))
-                # print(type(index))
+                # print(str(index.row()))
+                # print(self.tableWidget.item(index.row(),0).text())
+                cursor.execute("DELETE from mutatok WHERE nev = '"+(self.tableWidget.item(index.row(),0).text())+"'")
+                lista.append(index.row())
+                # self.tableWidget.removeRow(index.row())
+            i=0
+            for elem in lista:
+                # print(elem)
+                self.tableWidget.removeRow(elem-i)
+                i+=1
+
             
             #conn.isolation_level = None
             #c = conn.cursor()
             #sql_query_delete = '''DELETE FROM mutatok'''.rowCount 
-            
             conn.commit()
             conn.close()
-            
-        
+
+#tábla frissítése a beszúrás után
+def addNewRow(ablak,valtnev,cimke,leiras,hossz, tipus, csoport, today, kezdoidopont, vegidopont):
+    item = QtWidgets.QTableWidgetItem()
+    pozicio=ablak.tableWidget.rowCount()
+    ablak.tableWidget.insertRow(pozicio)
+    ablak.tableWidget.setItem(pozicio,0, QTableWidgetItem(valtnev))
+    ablak.tableWidget.setItem(pozicio,1, QTableWidgetItem(cimke))
+    ablak.tableWidget.setItem(pozicio,2, QTableWidgetItem(leiras))
+    ablak.tableWidget.setItem(pozicio,3, QTableWidgetItem(hossz))
+    ablak.tableWidget.setItem(pozicio,4, QTableWidgetItem(tipus))
+    ablak.tableWidget.setItem(pozicio,5, QTableWidgetItem(csoport))
+    ablak.tableWidget.setItem(pozicio,6, QTableWidgetItem(today))
+    ablak.tableWidget.setItem(pozicio,7, QTableWidgetItem(kezdoidopont))
+    ablak.tableWidget.setItem(pozicio,8, QTableWidgetItem(vegidopont))
+
+    ablak.tableWidget.setRowCount(pozicio+1)
+
 #ez az uj mutato felvetel ablaka
 class Ui_Mutatok_UJ(object):
-    proba=None
-    def setupUi(x, Ui_Mutatok_UJ):
-        x.proba=Ui_Mutatok_UJ
+    ablak=None
+
+    def setupUi(x, Ui_Mutatok_UJ, parentAblak):
+        x.ablak=Ui_Mutatok_UJ
         Ui_Mutatok_UJ.setObjectName("Ui_Mutatok_UJ")
         Ui_Mutatok_UJ.resize(484, 466)
         x.centralwidget = QtWidgets.QWidget(Ui_Mutatok_UJ)
@@ -288,7 +328,10 @@ class Ui_Mutatok_UJ(object):
         x.pushButton_Mentes.clicked.connect(x.save_text)
         x.pushButton_Mentes.setFont(font)
         x.pushButton_Mentes.setObjectName("pushButton_Mentes")
-        x.pushButton_Mentes.clicked.connect(x.newMutatDB.newMutat)
+        x.pushButton_Mentes.clicked.connect(lambda: x.newMutatDB.newMutat(parentAblak))
+
+
+
         #x.pushButton_Mentes.clicked.connect(Ui_Mutatok.setupUi())
         x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
@@ -384,14 +427,18 @@ class Ui_Mutatok_UJ(object):
         QtCore.QMetaObject.connectSlotsByName(Ui_Mutatok_UJ)
 
     def save_text(x):
-        global valtnev, cimke, leiras, hossz, csoport
+        global valtnev, cimke, leiras, hossz, tipus, csoport, kezdoidopont, vegidopont
         valtnev = x.lineEdit_valtozonev.text()
         cimke = x.lineEdit_cimke.text()
         leiras = x.lineEdit_leiras.text()
         hossz= x.lineEdit_hossz.text()
+        tipus=x.comboBox.currentText()
         csoport = x.lineEdit_csoport.text()
+        kezdoidopont=x.dateEdit_kezdet.date().toPyDate()
+        vegidopont=x.dateEdit_veg.date().toPyDate()
+        # print(valtnev, cimke, leiras, hossz, tipus, csoport, str(kezdoidopont), str(vegidopont))
         try:
-            x.proba.close()
+            x.ablak.close()
         except Exception as e:
             print(e)
 
@@ -582,21 +629,24 @@ class Ui_Mutatok_UJ(object):
         
 
 class newMutatDB(object):
-    def newMutat(self):
+    def newMutat(self, parentAblak):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
-        #c.execute('''DROP TABLE mutatok''')
-        #c.execute('''CREATE TABLE mutatok
-        #             (nev text, cimke text, leiras text, hossz real, csoport text)''')
-        script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, csoport) VALUES (?, ?, ?, ?, ?);"
-        c.execute(script, (valtnev,cimke,leiras,hossz,csoport))
+        # c.execute('''DROP TABLE mutatok''')
+        # c.execute('''CREATE TABLE mutatok
+        #             (nev text, cimke text, leiras text, hossz integer , tipus text, csoport text,utolso_modositas date, kezdoidopont date, vegidopont date)''')
+        script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, tipus, csoport, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+        c.execute(script, (valtnev,cimke,leiras,hossz, tipus, csoport, str(date.today()), kezdoidopont, vegidopont))
         #c.execute('''INSERT INTO mutatok VALUES
          #            (nev text, cimke text, leiras text, hossz real, tipus real)''')
                  # Save (commit) the changes
         conn.commit()
         #Closing the database
         conn.close()
+
+        #ez a frissítéshez van
+        addNewRow(parentAblak,valtnev,cimke,leiras,hossz, tipus, csoport, str(date.today()), str(kezdoidopont), str(vegidopont))
 
     def listMutat(self):
         conn = sqlite3.connect('datagov.db')
