@@ -9,6 +9,7 @@ import sqlite3
 
 import datetime
 from datetime import date
+import pandas as pd
 
 valtnev = ""
 cimke = ""
@@ -135,6 +136,21 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.tableWidget.selectionModel().selectionChanged.connect(
              x.on_selection_changed
          )
+
+         # x.layout=QtWidgets.QGridLayout()
+         # x.radioGombCsv=QtWidgets.QRadioButton("CSV")
+         # x.radioGombCsv.setChecked(True)
+         # x.radioGombCsv.setText("CSV")
+         # x.radioGombExcel=QtWidgets.QRadioButton("Excel")
+         # x.radioGombExcel.setText("Excel")
+         # x.layout.addWidget(x.radioGombCsv,0,0)
+         # x.layout.addWidget(x.radioGombExcel,0,1)
+         # x.setLayout(x.layout)
+
+
+         kiterjesztes="CSV fájl (*.csv)"
+         # kiterjesztes="Excel fájl (*.xlsx)"
+         x.pushButton_export.clicked.connect(lambda: x.newmutatdb.exportMutat(x, kiterjesztes=kiterjesztes))
  
          x.on_selection_changed()
                   
@@ -668,7 +684,59 @@ class Ui_Mutatok_UJ(object):
         
 
 class newMutatDB(object):
+
+    def exportMutat(self, parentablak, kiterjesztes):
+        self.parentAblak=parentablak
+        if self.parentAblak.tableWidget.selectionModel().hasSelection():
+            rows= self.parentAblak.tableWidget.selectionModel().selectedRows()
+            exportalando_dataframe=pd.DataFrame({'nev':[],
+                         'cimke':[],
+                         'leiras':[],
+                         'hossz':[],
+                         'tipus':[],
+                         'csoport':[],
+                         'utolso_modositas':[],
+                         'kezdoidopont':[],
+                         'vegidopont':[]})
+            exportalando_dataframe.index+=1
+            for elem in sorted(rows):
+                try:
+                    exportalando_dataframe=exportalando_dataframe.append({'nev':self.parentAblak.tableWidget.item(elem.row(),0).text(),
+                                                                          'cimke':self.parentAblak.tableWidget.item(elem.row(),1).text(),
+                                                                          'leiras':self.parentAblak.tableWidget.item(elem.row(),2).text(),
+                                                                          'hossz':self.parentAblak.tableWidget.item(elem.row(),3).text(),
+                                                                          'tipus':self.parentAblak.tableWidget.item(elem.row(),4).text(),
+                                                                          'csoport':self.parentAblak.tableWidget.item(elem.row(),5).text(),
+                                                                          'utolso_modositas':self.parentAblak.tableWidget.item(elem.row(),6).text(),
+                                                                          'kezdoidopont':self.parentAblak.tableWidget.item(elem.row(),7).text(),
+                                                                          'vegidopont':self.parentAblak.tableWidget.item(elem.row(),8).text()}, ignore_index=True)
+                except Exception as e:
+                    print(e)
+
+        else:
+            try:
+                conn = sqlite3.connect('datagov.db', isolation_level=None,
+                               detect_types=sqlite3.PARSE_COLNAMES)
+                exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT * FROM mutatok", conn))
+                exportalando_dataframe.index += 1
+            except Exception as e:
+                print(e)
+
+
+        fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption="Fájl mentése "+kiterjesztes+"-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
+        # print(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+
+        try:
+            if kiterjesztes=="CSV fájl (*.csv)":
+                exportalando_dataframe.to_csv(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+            else:
+                exportalando_dataframe.to_excel(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+        except Exception as e:
+            print(e)
+
+
     def newMutat(self, parentAblak, modosit=False):
+        self.parentAblak=parentAblak
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
@@ -677,21 +745,21 @@ class newMutatDB(object):
         #             (nev text, cimke text, leiras text, hossz integer , tipus text, csoport text,utolso_modositas date, kezdoidopont date, vegidopont date)''')
         try:
             sor=c.execute("SELECT * FROM mutatok WHERE nev='"+valtnev+"'")
-            for elem in sor:
+            for elem in sor: # lényegében ezzek csekkolom hogy van e már ilyen sor az adatbázisban
                  if not modosit:
                      raise Exception("Már van ilyen változónév")
                  else:
                      c.execute("UPDATE mutatok SET cimke='"+cimke+"', leiras='"+leiras+"', hossz='"+hossz+"', tipus='"+tipus+"', csoport='"+csoport+"', utolso_modositas='"+str(date.today())+"', kezdoidopont='"+str(kezdoidopont)+"', vegidopont='"+str(vegidopont)+"' WHERE nev='"+valtnev+"';")
-                     indexek=parentAblak.tableWidget.selectionModel().selectedRows()
+                     indexek=self.parentAblak.tableWidget.selectionModel().selectedRows()
                      for index in indexek:
-                         parentAblak.tableWidget.setItem(index.row(), 1, QTableWidgetItem(cimke))
-                         parentAblak.tableWidget.setItem(index.row(), 2, QTableWidgetItem(leiras))
-                         parentAblak.tableWidget.setItem(index.row(), 3, QTableWidgetItem(hossz))
-                         parentAblak.tableWidget.setItem(index.row(), 4, QTableWidgetItem(tipus))
-                         parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(csoport))
-                         parentAblak.tableWidget.setItem(index.row(), 6, QTableWidgetItem(str(date.today())))
-                         parentAblak.tableWidget.setItem(index.row(), 7, QTableWidgetItem(str(kezdoidopont)))
-                         parentAblak.tableWidget.setItem(index.row(), 8, QTableWidgetItem(str(vegidopont)))
+                         self.parentAblak.tableWidget.setItem(index.row(), 1, QTableWidgetItem(cimke))
+                         self.parentAblak.tableWidget.setItem(index.row(), 2, QTableWidgetItem(leiras))
+                         self.parentAblak.tableWidget.setItem(index.row(), 3, QTableWidgetItem(hossz))
+                         self.parentAblak.tableWidget.setItem(index.row(), 4, QTableWidgetItem(tipus))
+                         self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(csoport))
+                         self.parentAblak.tableWidget.setItem(index.row(), 6, QTableWidgetItem(str(date.today())))
+                         self.parentAblak.tableWidget.setItem(index.row(), 7, QTableWidgetItem(str(kezdoidopont)))
+                         self.parentAblak.tableWidget.setItem(index.row(), 8, QTableWidgetItem(str(vegidopont)))
 
             if not modosit:
 
@@ -705,7 +773,7 @@ class newMutatDB(object):
                 conn.close()
 
                 # ez a frissítéshez van
-                addNewRow(parentAblak, valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), str(kezdoidopont),str(vegidopont))
+                addNewRow(self.parentAblak, valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), str(kezdoidopont),str(vegidopont))
         except Exception as e:
             print(e)
             result = QtWidgets.QMessageBox.question(parentAblak,
