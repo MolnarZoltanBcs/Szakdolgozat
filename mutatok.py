@@ -147,12 +147,29 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          # x.layout.addWidget(x.radioGombExcel,0,1)
          # x.setLayout(x.layout)
 
+         x.radioButton_export_csv = QtWidgets.QRadioButton(Ui_Mutatok)
+         x.radioButton_export_csv.setGeometry(QtCore.QRect(550, 26, 110, 23))
+         x.radioButton_export_csv.setObjectName("RadioButtonCsv")
+         x.radioButton_export_csv.setText("Csv")
+         x.radioButton_export_csv.setChecked(True) # default
 
-         kiterjesztes="CSV fájl (*.csv)"
-         # kiterjesztes="Excel fájl (*.xlsx)"
-         x.pushButton_export.clicked.connect(lambda: x.newmutatdb.exportMutat(x, kiterjesztes=kiterjesztes))
+         x.radioButton_export_excel = QtWidgets.QRadioButton(Ui_Mutatok)
+         x.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
+         x.radioButton_export_excel.setObjectName("RadioButtonExcel")
+         x.radioButton_export_excel.setText("Excel")
+
+
+         x.pushButton_export.clicked.connect(lambda: x.radio_button_checked())
  
          x.on_selection_changed()
+
+    def radio_button_checked(self):
+
+        if self.radioButton_export_csv.isChecked():
+            kiterjesztes = "CSV fájl (*.csv)"
+        else:
+            kiterjesztes="Excel fájl (*.xlsx)"
+        self.newmutatdb.exportMutat(self, kiterjesztes=kiterjesztes)
                   
         
     def on_selection_changed(self):
@@ -433,6 +450,12 @@ class Ui_Mutatok_UJ(object):
         x.lineEdit_valtozonev = QtWidgets.QLineEdit(x.tab)
         x.lineEdit_valtozonev.setGeometry(QtCore.QRect(220, 10, 201, 31))
         x.lineEdit_valtozonev.setObjectName("lineEdit_valtozonev")
+        if modosit:
+            x.lineEdit_valtozonev.setReadOnly(True)
+            x.lineEdit_valtozonev.setStyleSheet("QLineEdit"
+                                    "{"
+                                    "background : lightgray;"
+                                    "}")
         x.lineEdit_cimke = QtWidgets.QLineEdit(x.tab)
         x.lineEdit_cimke.setGeometry(QtCore.QRect(220, 50, 201, 31))
         x.lineEdit_cimke.setObjectName("lineEdit_cimke")
