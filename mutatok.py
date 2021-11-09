@@ -431,11 +431,13 @@ class newMutatDB(object):
             exportalando_dataframe.index += 1
 
         fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption="Fájl mentése "+kiterjesztes+"-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
-
-        if kiterjesztes=="CSV fájl (*.csv)":
-            exportalando_dataframe.to_csv(QtCore.QUrl.toLocalFile(fajl_nev[0]))
-        else:
-            exportalando_dataframe.to_excel(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+        try:
+            if kiterjesztes=="CSV fájl (*.csv)":
+                exportalando_dataframe.to_csv(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+            else:
+                exportalando_dataframe.to_excel(QtCore.QUrl.toLocalFile(fajl_nev[0]))
+        except Exception as e:
+            print("Nem lett szabályosan megadva útvónal")
 
 
     def newMutat(self, parentAblak, modosit=False):
