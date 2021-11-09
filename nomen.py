@@ -103,10 +103,6 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
          x.pushButton_export = QtWidgets.QPushButton(Ui_Nomenklatura)
          x.pushButton_export.setGeometry(QtCore.QRect(689, 26, 110, 23))
          x.pushButton_export.setObjectName("pushButton_export") #export
-         
-         
-         
-         
 
          x.valtoztatUi(Ui_Nomenklatura)
          QtCore.QMetaObject.connectSlotsByName(Ui_Nomenklatura)
