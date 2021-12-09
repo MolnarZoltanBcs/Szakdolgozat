@@ -24,7 +24,7 @@ query = ()
 class Ui_Mutatok(QtWidgets.QMainWindow):
 
     def setupUi(x,  Ui_Mutatok):
-         x.parentAblak=Ui_Mutatok
+         x.ablak=Ui_Mutatok
          Ui_Mutatok.setObjectName("Ui_Mutatok")
          Ui_Mutatok.resize(1175, 500)
          
@@ -268,6 +268,7 @@ class Ui_Mutatok_UJ(object):
 
         x.leirasLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.leirasLabel,40, 90, 161, 31, "leirasLabel")
+
         x.hosszLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.hosszLabel, 40, 130, 161, 31, "hosszLabel")
 
