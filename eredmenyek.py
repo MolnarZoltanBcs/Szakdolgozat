@@ -98,7 +98,7 @@ class Korfa(Eredmenyek):
                                             "{"
                                             "background : lightgray;"
                                             "}")
-        self.adathalmaz_tallozPushButton.setGeometry(QtCore.QRect(370, 10, 60, 31))
+        self.adathalmaz_tallozPushButton.setGeometry(QtCore.QRect(370, 10, 70, 31))
         self.adathalmaz_tallozPushButton.setText("Tallózás")
         self.adathalmaz_tallozPushButton.clicked.connect(lambda: self.getAdathalmaz())
 
