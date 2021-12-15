@@ -2,7 +2,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets  
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
-from eredmenyek import Eredmenyek, Korfa
+from Korfa import Korfa, KorfaGeneralas
 
 
 class Ui_foWindow(object):
@@ -41,7 +41,7 @@ class Ui_foWindow(object):
         self.menuAdatkezeles = QtWidgets.QMenu(self.menubar)
         self.menuAdatkezeles.setObjectName("menuAdatkezeles")
         self.menuAdatelemzes = QtWidgets.QMenu(self.menubar)
-        self.menuAdatelemzes.setCursor(QtGui.QCursor(QtCore.Qt.ForbiddenCursor))
+        # self.menuAdatelemzes.setCursor(QtGui.QCursor(QtCore.Qt.ForbiddenCursor))
         self.menuAdatelemzes.setObjectName("menuAdatelemzes")
         self.menuEredmenyek = QtWidgets.QMenu(self.menubar)
         # self.menuEredmenyek.setCursor(QtGui.QCursor(QtCore.Qt.ForbiddenCursor))
@@ -145,6 +145,9 @@ class Ui_foWindow(object):
         self.menuAdatelemzes.addAction(self.actionLeiro_statisztika)
         self.menuAdatelemzes.addAction(self.actionStatisztikai_tabla)
         self.menuAdatelemzes.addAction(self.actionGrafikus_megjelenites)
+
+        self.menuAdatelemzes.addAction(self.actionKorfa)
+
         self.menuAdatelemzes.addAction(self.actionTobbv_elemzes)
         self.menuAdatelemzes.addAction(self.actionMikroszimulacio)
         self.menuAdatelemzes.addAction(self.actionMI)
@@ -169,7 +172,7 @@ class Ui_foWindow(object):
         self.menubar.addAction(self.menuFoSugo.menuAction())
         self.menubar.addAction(self.menuRendszerbeallitas.menuAction())
 
-        self.menuEredmenyek.addAction(self.actionKorfa)
+
         
         self.retranslateUi(foWindow)
         QtCore.QMetaObject.connectSlotsByName(foWindow)
@@ -187,13 +190,13 @@ class Ui_foWindow(object):
 
         #az adott menu osszes actionja megnyitja a felugro ablakot
         self.menuFelhasznalok_kezelese.triggered.connect(self.show_popup)
-        self.menuAdatelemzes.triggered.connect(self.show_popup)
+        # self.menuAdatelemzes.triggered.connect(self.show_popup)
         self.actionJelszovaltas.triggered.connect(self.show_popup)
         self.actionGray.triggered.connect(self.change_color_gray)
         self.actionWhite.triggered.connect(self.change_color_white)
         self.actionBlack.triggered.connect(self.change_color_black)
         
-        self.actionKorfa.triggered.connect(self.eredmenyek_korfa)
+        self.actionKorfa.triggered.connect(self.korfa)
 
         #kellene meg adattisztitas is, es eredmeny is, mert azok sem a DG feladatköre
         #self.menuAdattisztitas.menuAction(self.show_popup) #ez igy nem reagal a kattintasra
@@ -360,9 +363,9 @@ class Ui_foWindow(object):
         self.ui.setupUi(self.window)
         self.window.show()
 
-    def eredmenyek_korfa(self):
+    def korfa(self):
         self.window = QtWidgets.QMainWindow()
-        self.ui = Korfa(self.window, foWindow)
+        self.ui = KorfaGeneralas(self.window, foWindow)
         self.window.show()
         
     def window_import(self):

@@ -9,10 +9,10 @@ from PIL import Image
 import seaborn as sns
 
 
-class Eredmenyek(QtWidgets.QMainWindow):
+class Korfa(QtWidgets.QMainWindow):
 
     def __init__(self, ablak, parentAblak):
-        super(Eredmenyek, self).__init__()
+        super(Korfa, self).__init__()
         #deklarációk
         self.ablak=ablak
         self.parentAblak=parentAblak
@@ -27,7 +27,7 @@ class Eredmenyek(QtWidgets.QMainWindow):
         self.setup()
 
     def setup(self):
-        self.ablak.setObjectName("Eredmények")
+        self.ablak.setObjectName("Korfa")
         self.ablak.resize(484, 466)
         self.ablak.setWindowTitle(self.ablak.objectName())
         self.centralwidget.setObjectName("centralwidget")
@@ -53,14 +53,14 @@ class Eredmenyek(QtWidgets.QMainWindow):
         self.tabWidget.setFont(self.font)
 
 
-class Korfa(Eredmenyek):
+class KorfaGeneralas(Korfa):
 
     def __init__(self, ablak, parentAblak):
-        super(Korfa, self).__init__(ablak, parentAblak)
-        self.adathalmazLabel = QtWidgets.QLabel(self.tab)
-        self.lineEdit_adathalmaz = QtWidgets.QLineEdit(self.tab)
-        self.adathalmaz_tallozPushButton = QtWidgets.QPushButton(self.tab)
-        self.adathalmaz_eleresi_ut=""
+        super(KorfaGeneralas, self).__init__(ablak, parentAblak)
+        self.adatallomanyLabel = QtWidgets.QLabel(self.tab)
+        self.lineEdit_adatallomany = QtWidgets.QLineEdit(self.tab)
+        self.adatallomany_tallozPushButton = QtWidgets.QPushButton(self.tab)
+        self.adatallomany_eleresi_ut=""
 
         self.korcsoportLabel = QtWidgets.QLabel(self.tab)
         self.lineEdit_korcsoport = QtWidgets.QLineEdit(self.tab)
@@ -84,23 +84,28 @@ class Korfa(Eredmenyek):
         self.plotNevLabel = QtWidgets.QLabel(self.tab)
         self.lineEdit_plotNev = QtWidgets.QLineEdit(self.tab)
 
+        self.plotFajlNevLabel = QtWidgets.QLabel(self.tab)
+        self.lineEdit_plotFajlNev = QtWidgets.QLineEdit(self.tab)
+
+        self.pngLabel = QtWidgets.QLabel(self.tab)
+
         self.setup_korfa()
 
     def setup_korfa(self):
         self.ablak.setWindowTitle("Korfa")
 
 
-        labelSetUp(self.adathalmazLabel, 40, 10, 161, 31, "Adathalmaz:")
-        self.lineEdit_adathalmaz.setGeometry(QtCore.QRect(220, 10, 140, 31))
-        self.lineEdit_adathalmaz.setReadOnly(True)
-        self.lineEdit_adathalmaz.setObjectName("lineEdit_adathalmaz")
-        self.lineEdit_adathalmaz.setStyleSheet("QLineEdit"
+        labelSetUp(self.adatallomanyLabel, 40, 10, 161, 31, "Adatállomány:")
+        self.lineEdit_adatallomany.setGeometry(QtCore.QRect(220, 10, 140, 31))
+        self.lineEdit_adatallomany.setReadOnly(True)
+        self.lineEdit_adatallomany.setObjectName("lineEdit_adatallomany")
+        self.lineEdit_adatallomany.setStyleSheet("QLineEdit"
                                             "{"
                                             "background : lightgray;"
                                             "}")
-        self.adathalmaz_tallozPushButton.setGeometry(QtCore.QRect(370, 10, 70, 31))
-        self.adathalmaz_tallozPushButton.setText("Tallózás")
-        self.adathalmaz_tallozPushButton.clicked.connect(lambda: self.getAdathalmaz())
+        self.adatallomany_tallozPushButton.setGeometry(QtCore.QRect(370, 10, 70, 31))
+        self.adatallomany_tallozPushButton.setText("Tallózás")
+        self.adatallomany_tallozPushButton.clicked.connect(lambda: self.getadatallomany())
 
         labelSetUp(self.korcsoportLabel, 40, 50, 161, 31, "Korcsoport indexe:")
         self.lineEdit_korcsoport.setGeometry(QtCore.QRect(220, 50, 210, 31))
@@ -122,23 +127,29 @@ class Korfa(Eredmenyek):
         self.lineEdit_xTengely.setGeometry(QtCore.QRect(220, 210, 210, 31))
         self.lineEdit_xTengely.setText("x")
 
-        labelSetUp(self.plotNevLabel, 40, 250, 161, 31, "Eredmény címe:")
+        labelSetUp(self.plotNevLabel, 40, 250, 161, 31, "Korfa címe:")
         self.lineEdit_plotNev.setGeometry(QtCore.QRect(220, 250, 210, 31))
         self.lineEdit_plotNev.setText("Korfa")
+
+        labelSetUp(self.plotFajlNevLabel, 40, 290, 161, 31, "Eredmény fájl neve:")
+        self.lineEdit_plotFajlNev.setGeometry(QtCore.QRect(220, 290, 150, 31))
+        self.lineEdit_plotFajlNev.setText("eredmeny")
+
+        labelSetUp(self.pngLabel, 370, 290, 40, 31, ".png")
 
         self.tabWidget.addTab(self.tab, "Új korfa generálása")
 
         self.pushButton_Mentes.clicked.connect(lambda: self.generalas())
 
-    def getAdathalmaz(self):
-        self.adathalmaz_eleresi_ut = QtWidgets.QFileDialog.getOpenFileUrl(caption="Adathalmaz betöltése", filter="CSV fájl (*.csv)", initialFilter="CSV fájl (*.csv)")
+    def getadatallomany(self):
+        self.adatallomany_eleresi_ut = QtWidgets.QFileDialog.getOpenFileUrl(caption="Adatállomány betöltése", filter="CSV fájl (*.csv)", initialFilter="CSV fájl (*.csv)")
         try:
-            self.lineEdit_adathalmaz.setText(self.adathalmaz_eleresi_ut[0].fileName())
+            self.lineEdit_adatallomany.setText(self.adatallomany_eleresi_ut[0].fileName())
         except:
             print("nem lett megadva szabályosan az útvonal")
 
     def generalas(self):
-        if(self.lineEdit_adathalmaz.text() != ""):
+        if(self.lineEdit_adatallomany.text() != ""):
             if(self.lineEdit_korcsoport.text()==""):
                 korcsoport=0
             else:
@@ -151,7 +162,7 @@ class Korfa(Eredmenyek):
                 no = 2
             else:
                 no = int(self.lineEdit_no.text())
-            df = pd.read_csv(self.adathalmaz_eleresi_ut[0].toString())
+            df = pd.read_csv(self.adatallomany_eleresi_ut[0].toString())
             try:
                 self.generateAgeTree(df, ageGroups=korcsoport, menColumn=ferfi, womenColumn=no, ylabelText=self.lineEdit_yTengely.text(), xlabelText=self.lineEdit_xTengely.text(), titleText=self.lineEdit_plotNev.text())
             except:
@@ -176,9 +187,11 @@ class Korfa(Eredmenyek):
             self.korfa = sns.barplot(x='Female', y='Age', data=new_df, order=groups)
             self.korfa.set(xlabel=xlabelText, ylabel=ylabelText, title=titleText)
             try:
-                self.korfa_eredmeny_eleresi_utvonal = QtCore.QUrl.toLocalFile(QtWidgets.QFileDialog.getSaveFileUrl(caption="Eredmény mentése", filter="PNG fájl (*.png)", initialFilter="PNG fájl (*.png)")[0])
-                self.korfa.figure.savefig(self.korfa_eredmeny_eleresi_utvonal)
-                self.korfa_img=Image.open(self.korfa_eredmeny_eleresi_utvonal)
+                # self.korfa_eredmeny_eleresi_utvonal = QtCore.QUrl.toLocalFile(QtWidgets.QFileDialog.getSaveFileUrl(caption="Eredmény mentése", filter="PNG fájl (*.png)", initialFilter="PNG fájl (*.png)")[0])
+                # if self.korfa_eredmeny_eleresi_utvonal=="": # hibakezelés, ha bezárják a fájlmentéses ablakot, vagy a mégse gombra kattintanak
+                #     return
+                self.korfa.figure.savefig("eredmenyek/"+self.lineEdit_plotFajlNev.text()+".png")
+                self.korfa_img=Image.open("eredmenyek/"+self.lineEdit_plotFajlNev.text()+".png")
                 self.korfa_img.show()
             except:
                 print("nem lett megadva útvonal a generáláshoz")
