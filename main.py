@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
 from Korfa import Korfa, KorfaGeneralas
+from eredmenyek import EredmenyekMegjelenitese
 
 
 class Ui_foWindow(object):
@@ -125,6 +126,8 @@ class Ui_foWindow(object):
 
         self.actionKorfa = QtWidgets.QAction(foWindow)
         self.actionKorfa.setObjectName("Korfa generálás")
+        self.actionEredmenyekMegjelenitese = QtWidgets.QAction(foWindow)
+        self.actionEredmenyekMegjelenitese.setObjectName("Eredmények megjelenítése")
         
        
         self.menuFelhasznalok_kezelese.addAction(self.actionFelhasznalok)
@@ -161,6 +164,9 @@ class Ui_foWindow(object):
         self.menuRendszerbeallitas.addAction(self.menuNyelvbeallitas.menuAction())
         self.menuRendszerbeallitas.addAction(self.menuSzinvalasztas.menuAction())
         self.menuRendszerbeallitas.addAction(self.actionJelszovaltas)
+
+        self.menuEredmenyek.addAction(self.actionEredmenyekMegjelenitese)
+
         self.menubar.addAction(self.menuFelhasznalok_kezelese.menuAction())
         self.menubar.addAction(self.menuMeta_kezeles.menuAction())
         self.menubar.addAction(self.menuAdatimport.menuAction())
@@ -196,12 +202,14 @@ class Ui_foWindow(object):
         self.actionWhite.triggered.connect(self.change_color_white)
         self.actionBlack.triggered.connect(self.change_color_black)
         
-        self.actionKorfa.triggered.connect(self.korfa)
+        self.actionKorfa.triggered.connect(self.window_korfa)
 
         #kellene meg adattisztitas is, es eredmeny is, mert azok sem a DG feladatköre
         #self.menuAdattisztitas.menuAction(self.show_popup) #ez igy nem reagal a kattintasra
         #self.menuAdattisztitas.clicked.triggered[QAction].connect(self.show_popup)
         #self.menuEredmenyek.triggered.connect(self.show_popup)
+
+        self.actionEredmenyekMegjelenitese.triggered.connect(self.window_eredmenyek_megjelenitese)
         
      
         
@@ -314,6 +322,7 @@ class Ui_foWindow(object):
         self.actionWhite.setText(_translate("MainWindow", "Fehér"))
         self.actionJelszovaltas.setText(_translate("MainWindow", "Jelszóváltás"))
         self.actionKorfa.setText(_translate("foWindow", self.actionKorfa.objectName()))
+        self.actionEredmenyekMegjelenitese.setText(_translate("foWindow", self.actionEredmenyekMegjelenitese.objectName()))
 
     #ez nyitja meg a mutatok ablakot
     def window_mutatok(self):
@@ -363,9 +372,14 @@ class Ui_foWindow(object):
         self.ui.setupUi(self.window)
         self.window.show()
 
-    def korfa(self):
+    def window_korfa(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = KorfaGeneralas(self.window, foWindow)
+        self.window.show()
+
+    def window_eredmenyek_megjelenitese(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = EredmenyekMegjelenitese(self.window, foWindow)
         self.window.show()
         
     def window_import(self):
