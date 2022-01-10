@@ -54,34 +54,19 @@ class Eredmeny(QtWidgets.QMainWindow):
         self.scrollbar.setEnabled(True)
         self.scrollbar.setFixedHeight(470)
 
-        self.layoutElemLista=[]
-        self.fajlLista=[]
-        index=0
+
         self.buttonGroup=QButtonGroup()
         self.buttonGroup.setExclusive(True)
-        for fajl in os.listdir("eredmenyek"):
-            self.fajlLista.append(fajl)
-            layout = QtWidgets.QHBoxLayout()
-            megtekint=QtWidgets.QPushButton(self.scrollbar)
-            megtekint.setText(fajl+" Megtekintése")
-            self.buttonGroup.addButton(megtekint)
-            torol=QtWidgets.QPushButton(self.scrollbar)
-            torol.setText("Törlés")
-            self.buttonGroup.addButton(torol)
-            layout.addWidget(megtekint)
-            layout.addWidget(torol)
-            self.form.addRow(fajl, layout)
-            self.layoutElemLista.append(LayoutElem(layout, index))
-            index+=1
-        # for i in range(len(self.layoutElemLista)):
-        #     self.layoutElemLista[i].layout.itemAt(0).widget().clicked.connect(lambda : self.fajlinditas(self.layoutElemLista[i]))
+
+        self.form_init()
+
         self.buttonGroup.buttonClicked.connect(lambda: self.fajlinditas())
         self.tab.setLayout(self.form)
         self.pushButton_Megse.setGeometry(QtCore.QRect(504, 534, 91, 41))
         self.pushButton_Megse.setDefault(True)
         self.pushButton_Megse.setObjectName("pushButton_Megse")
         self.pushButton_Megse.setText("Bezár")
-        self.pushButton_Megse.clicked.connect(lambda: self.alma())
+        self.pushButton_Megse.clicked.connect(lambda: self.ablak.close())
 
         self.font.setPointSize(11)
         self.pushButton_Megse.setFont(self.font)
@@ -89,19 +74,45 @@ class Eredmeny(QtWidgets.QMainWindow):
         self.tab.setFont(self.font)
         # self.tab2.setFont(self.font)
         self.tabWidget.setFont(self.font)
+
+    def form_init(self):
+        index=0
+        while(self.form.rowCount()>0):
+            self.form.removeRow(0)
+        # self.form=QtWidgets.QFormLayout(self.scrollbar)
+        self.layoutElemLista = []
+        self.fajlLista = []
+        for fajl in os.listdir("eredmenyek"):
+            self.fajlLista.append(fajl)
+            layout = QtWidgets.QHBoxLayout()
+            megtekint=QtWidgets.QPushButton(self.scrollbar)
+            megtekint.setCheckable(True)
+            megtekint.setText("Megtekintés")
+            self.buttonGroup.addButton(megtekint)
+            torol=QtWidgets.QPushButton(self.scrollbar)
+            torol.setText("Törlés")
+            torol.setCheckable(True)
+            self.buttonGroup.addButton(torol)
+            layout.addWidget(megtekint)
+            layout.addWidget(torol)
+            self.form.addRow(fajl, layout)
+            self.layoutElemLista.append(LayoutElem(layout, index))
+            index+=1
+
     def fajlinditas(self):
-        print(self.buttonGroup.checkedButton())
+        # print(self.buttonGroup.checkedButton())
         for elem in self.layoutElemLista:
-            print(elem)
+            # print(elem)
             if elem.layout.itemAt(0).widget().isChecked():
-                os.system("start eredmenyek/"+self.fajlLista[elem.index])
+                os.system('start eredmenyek/'+'"'+self.fajlLista[elem.index]+'"')
                 return
             if elem.layout.itemAt(1).widget().isChecked():
                 os.remove("eredmenyek/"+self.fajlLista[elem.index])
+                self.form_init()
                 return
 
-    def alma(self):
-        raise ValueError
+    # def alma(self):
+    #     raise ValueError
 
 class EredmenyekMegjelenitese(Eredmeny):
     def __init__(self, ablak, parentAblak):
@@ -117,3 +128,5 @@ class LayoutElem():
     def __init__(self, layout, index):
         self.layout=layout
         self.index=index
+
+
