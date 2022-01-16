@@ -25,25 +25,25 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
     def setupUi(x,  Ui_Mutatok):
          x.ablak=Ui_Mutatok
-         x.ablak.setObjectName("Ui_Mutatok")
-         x.ablak.resize(1175, 500)
+         Ui_Mutatok.setObjectName("Ui_Mutatok")
+         Ui_Mutatok.resize(1175, 500)
          
-         x.ablak.setWindowTitle("Mutatók kezelése")
+         Ui_Mutatok.setWindowTitle("Mutatók kezelése")
          x.newmutatdb = newMutatDB()
          newMutatDB.listMutat(x.newmutatdb)
          
-         x.tableWidget = QtWidgets.QTableWidget(x.ablak)
+         x.tableWidget = QtWidgets.QTableWidget(Ui_Mutatok)
          x.tableWidgetSetUp(x.tableWidget)
 
-         QtCore.QMetaObject.connectSlotsByName(x.ablak)
+         QtCore.QMetaObject.connectSlotsByName(Ui_Mutatok)
 
-         x.pushButton_uj = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_modosit = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_torol = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_export = QtWidgets.QPushButton(x.ablak)
+         x.pushButton_uj = QtWidgets.QPushButton(Ui_Mutatok)
+         x.pushButton_modosit = QtWidgets.QPushButton(Ui_Mutatok)
+         x.pushButton_torol = QtWidgets.QPushButton(Ui_Mutatok)
+         x.pushButton_export = QtWidgets.QPushButton(Ui_Mutatok)
          x.pushButtonSetUp(x.pushButton_uj,x.pushButton_modosit,x.pushButton_torol,x.pushButton_export)
 
-         x.valtoztatUi(x.ablak)
+         x.valtoztatUi(Ui_Mutatok)
 
          x.pushButton_uj.clicked.connect(x.openUjMutato) #ez fogja megnyitni azt az ablakot amelyikkel uj sort vehetunk fel
 
@@ -55,11 +55,11 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
          x.tableWidget.selectionModel().selectionChanged.connect(x.on_selection_changed)
 
-         x.radioButton_export_csv = QtWidgets.QRadioButton(x.ablak)
+         x.radioButton_export_csv = QtWidgets.QRadioButton(Ui_Mutatok)
          x.radioButton_export_csv.setGeometry(QtCore.QRect(550, 26, 110, 23))
          x.radioButtonSetUp(x.radioButton_export_csv, "RadioButtonCsv", "Csv", checked=True)
 
-         x.radioButton_export_excel = QtWidgets.QRadioButton(x.ablak)
+         x.radioButton_export_excel = QtWidgets.QRadioButton(Ui_Mutatok)
          x.radioButtonSetUp(x.radioButton_export_excel, "RadioButtonExcel", "Excel")
          x.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
 
@@ -226,9 +226,9 @@ class Ui_Mutatok_UJ(object):
 
         x.parentAblak=parentAblak
         x.ablak=Ui_Mutatok_UJ
-        x.ablak.setObjectName("Uj mutatok ablak")
-        x.ablak.resize(484, 466)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
+        Ui_Mutatok_UJ.setObjectName("Uj mutatok ablak")
+        Ui_Mutatok_UJ.resize(484, 466)
+        x.centralwidget = QtWidgets.QWidget(Ui_Mutatok_UJ)
         x.centralwidget.setObjectName("centralwidget")
         x.pushButton_Mentes = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Mentes.setGeometry(QtCore.QRect(270, 400, 91, 41))
@@ -240,7 +240,7 @@ class Ui_Mutatok_UJ(object):
         x.pushButton_Mentes.clicked.connect(x.save_text)
         x.pushButton_Mentes.setFont(font)
         x.pushButton_Mentes.setObjectName("pushButton_Mentes")
-        x.pushButton_Mentes.clicked.connect(lambda: x.newMutatDB.newMutat(x.parentAblak,modosit=modosit))
+        x.pushButton_Mentes.clicked.connect(lambda: x.newMutatDB.newMutat(parentAblak,modosit=modosit))
 
         x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
@@ -249,7 +249,7 @@ class Ui_Mutatok_UJ(object):
         x.pushButton_Megse.setFont(font)
         x.pushButton_Megse.setDefault(True)
         x.pushButton_Megse.setObjectName("pushButton_Megse")
-        x.pushButton_Megse.clicked.connect(lambda: x.ablak.close())
+        x.pushButton_Megse.clicked.connect(lambda: Ui_Mutatok_UJ.close())
 
         x.tabWidget = QtWidgets.QTabWidget(x.centralwidget)
         x.tabWidget.setGeometry(QtCore.QRect(10, 10, 451, 371))
@@ -269,6 +269,7 @@ class Ui_Mutatok_UJ(object):
 
         x.leirasLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.leirasLabel,40, 90, 161, 31, "leirasLabel")
+
         x.hosszLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.hosszLabel, 40, 130, 161, 31, "hosszLabel")
 
@@ -324,15 +325,16 @@ class Ui_Mutatok_UJ(object):
         x.comboBox.addItem("")
         x.comboBox.addItem("")
         x.tabWidget.addTab(x.tab, "")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
+        Ui_Mutatok_UJ.setCentralWidget(x.centralwidget)
+        x.statusbar = QtWidgets.QStatusBar(Ui_Mutatok_UJ)
         x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        Ui_Mutatok_UJ.setStatusBar(x.statusbar)
 
-        x.retranslateUi(x.ablak,  x.parentAblak)
+        x.retranslateUi(Ui_Mutatok_UJ, modosit, parentAblak)
         x.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
-        x.parentAblak.window.show()
+        QtCore.QMetaObject.connectSlotsByName(Ui_Mutatok_UJ)
+        parentAblak.window.setWindowTitle("Kiválasztott mutató módosítása")
+        parentAblak.window.show()
 
     def labelSetUp(x, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
         label.setGeometry(QtCore.QRect(kezdopont_x, kezdopont_y, hossz_x, hossz_y))
@@ -357,7 +359,7 @@ class Ui_Mutatok_UJ(object):
             print(e)
             print("save_text hiba")
 
-    def retranslateUi(x, Ui_Mutatok_UJ, modosit):
+    def retranslateUi(x, Ui_Mutatok_UJ, modosit, parentAblak=None):
         # a translate-nek most még nem igazán van értelme, majd ha angolra vagy németre is akarnánk fordítani az oldalt akkor kellhet, most egyelőre így hagyom
         _translate = QtCore.QCoreApplication.translate
         if not modosit:
@@ -379,17 +381,17 @@ class Ui_Mutatok_UJ(object):
         x.comboBox.setItemText(2, _translate(x.comboBox.itemText(2), "Dátum"))
         x.tabWidget.setTabText(x.tabWidget.indexOf(x.tab), _translate(x.tabWidget.objectName(), "Attribútumok"))
 
-        if modosit and x.parentAblak is not None:
-            indexes = x.parentAblak.tableWidget.selectionModel().selectedRows()
+        if modosit and parentAblak is not None:
+            indexes = parentAblak.tableWidget.selectionModel().selectedRows()
             for index in sorted(indexes):
-                valtnev=x.parentAblak.tableWidget.item(index.row(),0).text()
-                cimke=x.parentAblak.tableWidget.item(index.row(),1).text()
-                leiras=x.parentAblak.tableWidget.item(index.row(),2).text()
-                hossz=x.parentAblak.tableWidget.item(index.row(),3).text()
-                tipus=x.parentAblak.tableWidget.item(index.row(),4).text()
-                csoport=x.parentAblak.tableWidget.item(index.row(),5).text()
-                kezdoidopont=x.parentAblak.tableWidget.item(index.row(),7).text()
-                vegidopont=x.parentAblak.tableWidget.item(index.row(),8).text()
+                valtnev=parentAblak.tableWidget.item(index.row(),0).text()
+                cimke=parentAblak.tableWidget.item(index.row(),1).text()
+                leiras=parentAblak.tableWidget.item(index.row(),2).text()
+                hossz=parentAblak.tableWidget.item(index.row(),3).text()
+                tipus=parentAblak.tableWidget.item(index.row(),4).text()
+                csoport=parentAblak.tableWidget.item(index.row(),5).text()
+                kezdoidopont=parentAblak.tableWidget.item(index.row(),7).text()
+                vegidopont=parentAblak.tableWidget.item(index.row(),8).text()
                 x.lineEdit_valtozonev.setText(valtnev)
                 x.lineEdit_cimke.setText(cimke)
                 x.lineEdit_leiras.setText(leiras)
