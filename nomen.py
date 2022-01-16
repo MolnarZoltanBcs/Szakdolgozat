@@ -2,137 +2,162 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets  
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
+from mutatok import Ui_Mutatok_UJ, Ui_Mutatok
+
 
 class Ui_Nomenklatura(QtWidgets.QMainWindow):
     def setupUi(x,  Ui_Nomenklatura):
-         Ui_Nomenklatura.setObjectName("Ui_Nomenklatura")
-         Ui_Nomenklatura.resize(1175, 500)
-         
-         Ui_Nomenklatura.setWindowTitle("Nómenklatúrák kezelése")        
-         
-         x.tableWidget = QtWidgets.QTableWidget(Ui_Nomenklatura)        
-         x.tableWidget.setGeometry(QtCore.QRect(60, 75, 1025, 370))
-         x.tableWidget.setAlternatingRowColors(True)
-         x.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
-         x.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-         x.tableWidget.horizontalHeader().setStretchLastSection(True)
-         x.tableWidget.verticalHeader().setStretchLastSection(False)
-         x.tableWidget.setObjectName("tableWidget")
-         
-         x.tableWidget.setColumnCount(8)
-         x.tableWidget.setRowCount(4)
-         
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(1, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(2, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setVerticalHeaderItem(3, item)
-         item = QtWidgets.QTableWidgetItem()
-         
-         x.tableWidget.setHorizontalHeaderItem(0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(1, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(2, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(5, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(6, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setHorizontalHeaderItem(7, item)
-         
-         
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(0, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(1, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 3, item)        
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(2, 4, item)         
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 0, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 3, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 4, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 5, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 6, item)
-         item = QtWidgets.QTableWidgetItem()
-         x.tableWidget.setItem(3, 7, item)
-             
-         x.pushButton_uj = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_uj.setGeometry(QtCore.QRect(60, 26, 91, 23))
-         x.pushButton_uj.setObjectName("pushButton_uj") #uj
-         x.pushButton_uj.setDefault(True) #ez lesz az alapertelmezett gomb
-         x.pushButton_modosit = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_modosit.setGeometry(QtCore.QRect(181, 26, 91, 23))
-         x.pushButton_modosit.setObjectName("pushButton_modosit") #modosit
-         
-         x.pushButton_elemek = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_elemek.setGeometry(QtCore.QRect(302, 26, 115, 23))
-         x.pushButton_elemek.setObjectName("pushButton_elemek") #nomeklatura elemek
-         
-         
-         x.pushButton_kepzes = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_kepzes.setGeometry(QtCore.QRect(447, 26, 91, 23))
-         x.pushButton_kepzes.setObjectName("pushButton_kepzes") #kepzes
-         
-         x.pushButton_torol = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_torol.setGeometry(QtCore.QRect(568, 26, 91, 23))
-         x.pushButton_torol.setObjectName("pushButton_torol") #torol
-         x.pushButton_export = QtWidgets.QPushButton(Ui_Nomenklatura)
-         x.pushButton_export.setGeometry(QtCore.QRect(689, 26, 110, 23))
-         x.pushButton_export.setObjectName("pushButton_export") #export
-         
-         
-         
-         
+         x.ablak=Ui_Nomenklatura
+         x.ui=Ui_Mutatok()
+         x.ui.setupUi(x.ablak)
+         x.ui.ablak.setWindowTitle("Nomenklaturák kezelése")
 
-         x.valtoztatUi(Ui_Nomenklatura)
-         QtCore.QMetaObject.connectSlotsByName(Ui_Nomenklatura)
-         
-         #ez fogja megnyitni azt az ablakot amelyikkel uj sort vehetunk fel     
-         x.pushButton_uj.clicked.connect(x.openUjNomeklatura)
-         
-         #ez fogja megnyitni azt az ablakot amelyikkel modosithatunk a felvett adatokon     
-         x.pushButton_modosit.clicked.connect(x.openModositNomenklatura)
-         
-         #ez fogja megnyitni az nomenklatura elemek ablakot ablakot
-         x.pushButton_elemek.clicked.connect(x.open_Nomen_Elemek)
-         
-         #ez nyitja meg a kepzest
-         x.pushButton_kepzes.clicked.connect(x.open_Nomen_Elemek_Kepzes)
+         x.ui.pushButton_elemek = QtWidgets.QPushButton(x.ui.ablak)
+         x.ui.pushButton_elemek.setGeometry(QtCore.QRect(302, 26, 115, 23))
+         x.ui.pushButton_elemek.setObjectName("pushButton_elemek") #nomeklatura elemek
+         x.ui.pushButton_elemek.setText("Nómenklatúra Elemek") #nomeklatura elemek
 
-         #ez fogja törölni a kiválasztott sort 
-         x.pushButton_torol.clicked.connect(x.deleteCurrentRow)
+         x.ui.pushButton_kepzes = QtWidgets.QPushButton(x.ui.ablak)
+         x.ui.pushButton_kepzes.setGeometry(QtCore.QRect(447, 26, 91, 23))
+         x.ui.pushButton_kepzes.setObjectName("pushButton_kepzes")  # kepzes
+         x.ui.pushButton_kepzes.setText("Képzés")  # kepzes
 
-         #modosit torol gomb allapot valtozasahoz 
-         x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-         x.tableWidget.selectionModel().selectionChanged.connect(
-             x.on_selection_changed
-         )
- 
-         x.on_selection_changed()
+         x.ui.pushButton_torol.setGeometry(QtCore.QRect(568, 26, 91, 23))
+
+         x.ui.pushButton_export.setGeometry(QtCore.QRect(689, 26, 110, 23))
+
+         x.ui.radioButton_export_csv.setGeometry(QtCore.QRect(830, 26, 110, 23))
+         x.ui.radioButton_export_excel.setGeometry(QtCore.QRect(880, 26, 110, 23))
+
+
+
+         if(False):
+             Ui_Nomenklatura.setObjectName("Ui_Nomenklatura")
+             Ui_Nomenklatura.resize(1175, 500)
+
+             Ui_Nomenklatura.setWindowTitle("Nómenklatúrák kezelése")
+
+             x.ablak=Ui_Nomenklatura
+
+             x.tableWidget = QtWidgets.QTableWidget(x.ablak)
+             x.tableWidget.setGeometry(QtCore.QRect(60, 75, 1025, 370))
+             x.tableWidget.setAlternatingRowColors(True)
+             x.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+             x.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+             x.tableWidget.horizontalHeader().setStretchLastSection(True)
+             x.tableWidget.verticalHeader().setStretchLastSection(False)
+             x.tableWidget.setObjectName("tableWidget")
+
+             x.tableWidget.setColumnCount(8)
+             x.tableWidget.setRowCount(4)
+
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setVerticalHeaderItem(0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setVerticalHeaderItem(1, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setVerticalHeaderItem(2, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setVerticalHeaderItem(3, item)
+             item = QtWidgets.QTableWidgetItem()
+
+             x.tableWidget.setHorizontalHeaderItem(0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(1, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(2, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(3, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(4, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(5, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(6, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setHorizontalHeaderItem(7, item)
+
+
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(0, 0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(0, 3, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(0, 4, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(1, 0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(1, 3, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(1, 4, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(2, 0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(2, 3, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(2, 4, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 0, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 3, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 4, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 5, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 6, item)
+             item = QtWidgets.QTableWidgetItem()
+             x.tableWidget.setItem(3, 7, item)
+
+             x.pushButton_uj = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_uj.setGeometry(QtCore.QRect(60, 26, 91, 23))
+             x.pushButton_uj.setObjectName("pushButton_uj") #uj
+             x.pushButton_uj.setDefault(True) #ez lesz az alapertelmezett gomb
+             x.pushButton_modosit = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_modosit.setGeometry(QtCore.QRect(181, 26, 91, 23))
+             x.pushButton_modosit.setObjectName("pushButton_modosit") #modosit
+
+             x.pushButton_elemek = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_elemek.setGeometry(QtCore.QRect(302, 26, 115, 23))
+             x.pushButton_elemek.setObjectName("pushButton_elemek") #nomeklatura elemek
+
+
+             x.pushButton_kepzes = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_kepzes.setGeometry(QtCore.QRect(447, 26, 91, 23))
+             x.pushButton_kepzes.setObjectName("pushButton_kepzes") #kepzes
+
+             x.pushButton_torol = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_torol.setGeometry(QtCore.QRect(568, 26, 91, 23))
+             x.pushButton_torol.setObjectName("pushButton_torol") #torol
+             x.pushButton_export = QtWidgets.QPushButton(x.ablak)
+             x.pushButton_export.setGeometry(QtCore.QRect(689, 26, 110, 23))
+             x.pushButton_export.setObjectName("pushButton_export") #export
+
+             x.valtoztatUi(x.ablak)
+             QtCore.QMetaObject.connectSlotsByName(x.ablak)
+
+             #ez fogja megnyitni azt az ablakot amelyikkel uj sort vehetunk fel
+             x.pushButton_uj.clicked.connect(x.openUjNomeklatura)
+
+             #ez fogja megnyitni azt az ablakot amelyikkel modosithatunk a felvett adatokon
+             x.pushButton_modosit.clicked.connect(x.openModositNomenklatura)
+
+             #ez fogja megnyitni az nomenklatura elemek ablakot ablakot
+             x.pushButton_elemek.clicked.connect(x.open_Nomen_Elemek)
+
+             #ez nyitja meg a kepzest
+             x.pushButton_kepzes.clicked.connect(x.open_Nomen_Elemek_Kepzes)
+
+             #ez fogja törölni a kiválasztott sort
+             x.pushButton_torol.clicked.connect(x.deleteCurrentRow)
+
+             #modosit torol gomb allapot valtozasahoz
+             x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
+             x.tableWidget.selectionModel().selectionChanged.connect(
+                 x.on_selection_changed
+             )
+
+             x.on_selection_changed()
                   
         
     def on_selection_changed(self):
@@ -239,28 +264,28 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
     def openUjNomeklatura(x):
          x.window = QtWidgets.QMainWindow()
          x.ui =  Ui_Mutatok_UJ()
-         x.ui.setupUi(x.window)
+         x.ui.setupUi(x.window, x.ablak) #az ablak a parentje az új windownak
          x.window.setWindowTitle("Új nómenklatúra létrehozása")
          x.ui.comboBox.addItem("Karakteres")
-         x.ui.label_6.deleteLater()
+         x.ui.csoportLabel.deleteLater()
          x.ui.lineEdit_csoport.deleteLater()
-         x.ui.label_7.setGeometry(QtCore.QRect(40, 200, 161, 51))
+         x.ui.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 200, 161, 51))
          x.ui.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
-         x.ui.label_8.setGeometry(QtCore.QRect(40, 250, 161, 31))
+         x.ui.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 250, 161, 31))
          x.ui.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
          x.window.show()
     #es definialjuk a modosit mutato ablakot
     def openModositNomenklatura(x):
          x.window = QtWidgets.QMainWindow()
          x.ui =  Ui_Mutatok_UJ()
-         x.ui.setupUi(x.window)
+         x.ui.setupModositUi(x.window, x.ablak)
          x.window.setWindowTitle("Kiválasztott nómenklatúra módosítása")
          x.ui.comboBox.addItem("Karakteres")
-         x.ui.label_6.deleteLater()
+         # x.ui.label_6.deleteLater()
          x.ui.lineEdit_csoport.deleteLater()
-         x.ui.label_7.setGeometry(QtCore.QRect(40, 200, 161, 51))
+         # x.ui.label_7.setGeometry(QtCore.QRect(40, 200, 161, 51))
          x.ui.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
-         x.ui.label_8.setGeometry(QtCore.QRect(40, 250, 161, 31))
+         # x.ui.label_8.setGeometry(QtCore.QRect(40, 250, 161, 31))
          x.ui.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
          
          x.window.show()
