@@ -333,7 +333,7 @@ class Ui_Mutatok_UJ(object):
         x.retranslateUi(Ui_Mutatok_UJ, modosit, parentAblak)
         x.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Ui_Mutatok_UJ)
-        parentAblak.window.setWindowTitle("Kiválasztott mutató módosítása")
+        # parentAblak.window.setWindowTitle("Kiválasztott mutató módosítása")
         parentAblak.window.show()
 
     def labelSetUp(x, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
@@ -363,7 +363,7 @@ class Ui_Mutatok_UJ(object):
         # a translate-nek most még nem igazán van értelme, majd ha angolra vagy németre is akarnánk fordítani az oldalt akkor kellhet, most egyelőre így hagyom
         _translate = QtCore.QCoreApplication.translate
         if not modosit:
-            Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Mutato letrehozasa"))
+            Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Mutató létrehozása"))
         x.pushButton_Mentes.setText(_translate(x.pushButton_Mentes.objectName(), "Mentés"))
         x.pushButton_Megse.setText(_translate(x.pushButton_Megse.objectName(), "Mégse"))
 
@@ -383,6 +383,7 @@ class Ui_Mutatok_UJ(object):
 
         if modosit and parentAblak is not None:
             indexes = parentAblak.tableWidget.selectionModel().selectedRows()
+            Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Kiválasztott mutató módosítása"))
             for index in sorted(indexes):
                 valtnev=parentAblak.tableWidget.item(index.row(),0).text()
                 cimke=parentAblak.tableWidget.item(index.row(),1).text()
