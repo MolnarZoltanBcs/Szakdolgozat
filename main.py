@@ -2,6 +2,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets  
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
+import uj_fuggveny_ablak
 from Korfa import Korfa, KorfaGeneralas
 from eredmenyek import EredmenyekMegjelenitese
 
@@ -128,6 +129,8 @@ class Ui_foWindow(object):
         self.actionKorfa.setObjectName("Korfa generálás")
         self.actionEredmenyekMegjelenitese = QtWidgets.QAction(foWindow)
         self.actionEredmenyekMegjelenitese.setObjectName("Eredmények megjelenítése")
+        self.action_uj_fuggveny_ablak = QtWidgets.QAction(foWindow)
+        self.action_uj_fuggveny_ablak.setObjectName("Új függvény")
         
        
         self.menuFelhasznalok_kezelese.addAction(self.actionFelhasznalok)
@@ -150,6 +153,7 @@ class Ui_foWindow(object):
         self.menuAdatelemzes.addAction(self.actionGrafikus_megjelenites)
 
         self.menuAdatelemzes.addAction(self.actionKorfa)
+        self.menuAdatelemzes.addAction(self.action_uj_fuggveny_ablak)
 
         self.menuAdatelemzes.addAction(self.actionTobbv_elemzes)
         self.menuAdatelemzes.addAction(self.actionMikroszimulacio)
@@ -203,6 +207,8 @@ class Ui_foWindow(object):
         self.actionBlack.triggered.connect(self.change_color_black)
         
         self.actionKorfa.triggered.connect(self.window_korfa)
+
+        self.action_uj_fuggveny_ablak.triggered.connect(lambda: self.window_uj_fuggveny_ablak(foWindow))
 
         #kellene meg adattisztitas is, es eredmeny is, mert azok sem a DG feladatköre
         #self.menuAdattisztitas.menuAction(self.show_popup) #ez igy nem reagal a kattintasra
@@ -323,6 +329,16 @@ class Ui_foWindow(object):
         self.actionJelszovaltas.setText(_translate("MainWindow", "Jelszóváltás"))
         self.actionKorfa.setText(_translate("foWindow", self.actionKorfa.objectName()))
         self.actionEredmenyekMegjelenitese.setText(_translate("foWindow", self.actionEredmenyekMegjelenitese.objectName()))
+
+        self.action_uj_fuggveny_ablak.setText(_translate("foWindow", self.action_uj_fuggveny_ablak.objectName()))
+
+    def window_uj_fuggveny_ablak(self, parentablak):
+        def proba_fuggveny(lista):
+            for elem in lista:
+                print(elem)
+        fuggveny = uj_fuggveny_ablak.Fuggveny(proba_fuggveny,"proba", {"név":"string", "szín":"string","méret":"string","szag":"string","dátum":"string"}, "mz", "ez egy proba, itt tesztelek")
+        self.uj_fuggveny_ablak = uj_fuggveny_ablak.Fuggveny_ablak(fuggveny, parentablak)
+        self.uj_fuggveny_ablak.ablak.show()
 
     #ez nyitja meg a mutatok ablakot
     def window_mutatok(self):
