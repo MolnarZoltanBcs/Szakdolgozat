@@ -6,7 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:D:\5_felev\szakdolgozat\u_project_0\datagov.db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="datagov [2]" uuid="2da7ede3-aed4-4201-935c-58e1ee922d14">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:E:\Szakdolgozat\up_zoli\up_Zoli\datagov.db</jdbc-url>
     </data-source>
   </component>
 </project>
