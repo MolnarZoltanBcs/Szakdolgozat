@@ -336,7 +336,7 @@ class Ui_foWindow(object):
         def proba_fuggveny(lista):
             for elem in lista:
                 print(elem)
-        fuggveny = uj_fuggveny_ablak.Fuggveny(proba_fuggveny,"proba", {"név":"string", "szín":"string","méret":"string","szag":"string","dátum":"string"}, "mz", "ez egy proba, itt tesztelek")
+        fuggveny = uj_fuggveny_ablak.Fuggveny(proba_fuggveny,"proba", {"név":"string", "szín":"string","méret":"string","szag":"string","dátum":"string","valami":"string"}, "mz", "ez egy proba, itt tesztelek")
         self.uj_fuggveny_ablak = uj_fuggveny_ablak.Fuggveny_ablak(fuggveny, parentablak)
         self.uj_fuggveny_ablak.ablak.show()
 
