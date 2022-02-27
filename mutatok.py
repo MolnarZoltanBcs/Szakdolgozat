@@ -57,7 +57,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
          x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)#modosit torol gomb allapot valtozasahoz
 
-         x.tableWidget.selectionModel().selectionChanged.connect(x.on_selection_changed)
+         x.tableWidget.selectionModel().selectionChanged.connect(lambda: x.on_selection_changed())
 
          x.radioButton_export_csv = QtWidgets.QRadioButton(x.ablak)
          x.radioButton_export_csv.setGeometry(QtCore.QRect(550, 26, 110, 23))
@@ -68,7 +68,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
 
          x.pushButton_export.clicked.connect(lambda: x.radio_button_checked())
- 
+
          x.on_selection_changed()
 
     def tableWidgetSetUp(self, tableWidget, nomen=False):
