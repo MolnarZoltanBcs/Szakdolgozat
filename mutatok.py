@@ -67,7 +67,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          x.radioButtonSetUp(x.radioButton_export_excel, "RadioButtonExcel", "Excel")
          x.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
 
-         x.pushButton_export.clicked.connect(lambda: x.radio_button_checked())
+         x.pushButton_export.clicked.connect(lambda: x.radio_button_checked(nomen=nomen))
 
          x.on_selection_changed()
 
@@ -105,12 +105,12 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
         button.setText(text)
         button.setChecked(checked)
 
-    def radio_button_checked(self):
+    def radio_button_checked(self, nomen=None):
         if self.radioButton_export_csv.isChecked():
             kiterjesztes = "CSV fájl (*.csv)"
         else:
             kiterjesztes="Excel fájl (*.xlsx)"
-        self.newmutatdb.exportMutat(self, kiterjesztes=kiterjesztes)
+        self.newmutatdb.exportMutat(self, kiterjesztes=kiterjesztes, nomen=nomen)
                   
         
     def on_selection_changed(self):
@@ -349,7 +349,7 @@ class Ui_Mutatok_UJ(object):
         label.setObjectName(nev)
 
     def save_text(x, modosit=False):
-        global valtnev, cimke, leiras, hossz, tipus, csoport,kepzett_e, kezdoidopont, vegidopont
+        global valtnev, cimke, leiras, hossz, tipus, csoport, kepzett_e, kezdoidopont, vegidopont
         valtnev = x.lineEdit_valtozonev.text()
         cimke = x.lineEdit_cimke.text()
         leiras = x.lineEdit_leiras.text()
@@ -428,9 +428,14 @@ class newMutatDB(object):
                          'utolso_modositas':[],
                          'kezdoidopont':[],
                          'vegidopont':[]})
+            if nomen:
+                exportalando_dataframe = pd.DataFrame({'nev': [],'cimke': [],'leiras': [],'hossz': [],'tipus': [],'csoport': [],
+                                                       'kepzett_e':[],
+                                                       'utolso_modositas': [],'kezdoidopont': [],'vegidopont': []})
 
             for elem in sorted(rows):
-                exportalando_dataframe=exportalando_dataframe.append({'nev':self.parentAblak.tableWidget.item(elem.row(),0).text(),
+                if not nomen:
+                    exportalando_dataframe=exportalando_dataframe.append({'nev':self.parentAblak.tableWidget.item(elem.row(),0).text(),
                                                                       'cimke':self.parentAblak.tableWidget.item(elem.row(),1).text(),
                                                                       'leiras':self.parentAblak.tableWidget.item(elem.row(),2).text(),
                                                                       'hossz':self.parentAblak.tableWidget.item(elem.row(),3).text(),
@@ -439,6 +444,18 @@ class newMutatDB(object):
                                                                       'utolso_modositas':self.parentAblak.tableWidget.item(elem.row(),6).text(),
                                                                       'kezdoidopont':self.parentAblak.tableWidget.item(elem.row(),7).text(),
                                                                       'vegidopont':self.parentAblak.tableWidget.item(elem.row(),8).text()}, ignore_index=True)
+                else:
+                    exportalando_dataframe = exportalando_dataframe.append(
+                        {'nev': self.parentAblak.tableWidget.item(elem.row(), 0).text(),
+                         'cimke': self.parentAblak.tableWidget.item(elem.row(), 1).text(),
+                         'leiras': self.parentAblak.tableWidget.item(elem.row(), 2).text(),
+                         'hossz': self.parentAblak.tableWidget.item(elem.row(), 3).text(),
+                         'tipus': self.parentAblak.tableWidget.item(elem.row(), 4).text(),
+                         'csoport': self.parentAblak.tableWidget.item(elem.row(), 5).text(),
+                         'kepzett_e': self.parentAblak.tableWidget.item(elem.row(), 6).text(),
+                         'utolso_modositas': self.parentAblak.tableWidget.item(elem.row(), 7).text(),
+                         'kezdoidopont': self.parentAblak.tableWidget.item(elem.row(), 8).text(),
+                         'vegidopont': self.parentAblak.tableWidget.item(elem.row(), 9).text()}, ignore_index=True)
 
             exportalando_dataframe.index +=1
         else:
@@ -446,7 +463,7 @@ class newMutatDB(object):
             if not nomen:
                 exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT * FROM mutatok", conn))
             else:
-                exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT * FROM nomenklaturak", conn))
+                exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT nev, cimke, leiras, hossz, tipus, csoport,kepzett_e,utolso_modositas, kezdoidopont, vegidopont FROM nomenklaturak", conn))
             exportalando_dataframe.index += 1
 
         fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption="Fájl mentése "+kiterjesztes+"-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
@@ -493,8 +510,8 @@ class newMutatDB(object):
                          self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(csoport))
 
                          str_kepzett_e = c.execute("select kepzett_e from nomenklaturak where nev='"+valtnev+"'")
+                         global kepzett_e
                          for elem in str_kepzett_e:
-                             global kepzett_e
                              kepzett_e="Nem"
                              if elem[0]==1:
                                  kepzett_e="Igen"
@@ -507,7 +524,7 @@ class newMutatDB(object):
                 if not nomen:
                     script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, tipus, csoport, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
                 else:
-                    script = "INSERT INTO nomenklaturak (nev, cimke, leiras, hossz, tipus, csoport, kepzett_e, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?);"
+                    script = "INSERT INTO nomenklaturak (nev, cimke, leiras, hossz, tipus, csoport, kepzett_e, bal_kepzett_nev, jobb_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, 0, '', '', ?, ?, ?);"
 
                 c.execute(script, (valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), kezdoidopont, vegidopont))
                 conn.commit()
@@ -533,7 +550,7 @@ class newMutatDB(object):
         if not nomen:
             query = c.execute('''SELECT * FROM mutatok''')
         else:
-            query = c.execute('''select * from nomenklaturak''')
+            query = c.execute('''select nev, cimke, leiras, hossz, tipus, csoport,kepzett_e,utolso_modositas, kezdoidopont, vegidopont  from nomenklaturak''')
         conn.commit()
 
         # conn.close() #Closing the database, valamiért ezzel kifagy az egész
