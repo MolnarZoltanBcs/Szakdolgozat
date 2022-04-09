@@ -75,8 +75,6 @@ six==1.16.0
 sniffio==1.2.0
 snowballstemmer==2.1.0
 sortedcontainers==2.4.0
-spotdl==3.3.2
-spotipy==2.16.1
 toml==0.10.2
 tqdm==4.57.0
 trio==0.19.0
@@ -90,6 +88,4 @@ wrapt==1.13.2
 wsproto==1.0.0
 yapf==0.31.0
 yarl==1.5.1
-youtube-dl==2020.12.22
-ytmusicapi==0.14.3
 zipp==3.6.0

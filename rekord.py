@@ -3,92 +3,39 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QLabel, QLineEdit, QMessageBox, QComboBox, QPushButton, QTableWidgetItem, QFileDialog, QAction, QMdiArea, QMdiSubWindow
 from app_modules import *
 
+mutatok={}
+nomenklaturak={}
+
 class Ui_Rekordleirasok(QtWidgets.QMainWindow):
     def setupUi(x,  Ui_Rekordleirasok):
-         Ui_Rekordleirasok.setObjectName("Ui_Rekordleirasok")
-         Ui_Rekordleirasok.resize(1175, 500)
+         global mainTableWidget
+         x.ablak=Ui_Rekordleirasok
+         x.ablak.setObjectName("Ui_Rekordleirasok")
+         x.ablak.resize(1175, 500)
          
-         Ui_Rekordleirasok.setWindowTitle("Rekordleírások kezelése")        
+         x.ablak.setWindowTitle("Rekordleírások kezelése")
          
-         x.tableWidget = QtWidgets.QTableWidget(Ui_Rekordleirasok)        
+         x.tableWidget = QtWidgets.QTableWidget(x.ablak)
          x.tableWidget.setGeometry(QtCore.QRect(60, 75, 650, 370))
          x.tableWidget.setObjectName("tableWidget")
          x.tableWidget.horizontalHeader().setStretchLastSection(True)
          x.db=DbConnectRekord()
          x.tableWidgetSetUp(x.tableWidget)
+         mainTableWidget=x.tableWidget
 
-         # x.tableWidget.setColumnCount(6)
-         # x.tableWidget.setRowCount(3)
-         #
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setVerticalHeaderItem(0, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setVerticalHeaderItem(1, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setVerticalHeaderItem(2, item)
-         #
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(0, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(1, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(2, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(3, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(4, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setHorizontalHeaderItem(5, item)
-         
-         
-         
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(0, 0, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(0, 1, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(0, 2, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(0, 4, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(0, 5, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(1, 0, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(1, 1, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(1, 2, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(1, 4, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(1, 5, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(2, 0, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(2, 1, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(2, 2, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(2, 4, item)
-         # item = QtWidgets.QTableWidgetItem()
-         # x.tableWidget.setItem(2, 5, item)
-              
-         #x.pushButton_modosit = QtWidgets.QPushButton(Ui_Rekordleirasok)
-       #  x.pushButton_modosit.setGeometry(QtCore.QRect(60, 26, 91, 23))
-        # x.pushButton_modosit.setObjectName("pushButton_modosit")          
-         x.pushButton_ujrekord = QtWidgets.QPushButton(Ui_Rekordleirasok)
-         x.pushButton_ujrekord.setGeometry(QtCore.QRect(60, 26, 140, 23))
+         x.pushButton_ujrekord = QtWidgets.QPushButton(x.ablak)
+         x.pushButton_ujrekord.setGeometry(QtCore.QRect(60, 26, 180, 30))
          x.pushButton_ujrekord.setObjectName("pushButton_ujrekord")    
-         x.pushButton_mezok = QtWidgets.QPushButton(Ui_Rekordleirasok)
-         x.pushButton_mezok.setGeometry(QtCore.QRect(240, 26, 91, 23))
+         x.pushButton_mezok = QtWidgets.QPushButton(x.ablak)
+         x.pushButton_mezok.setGeometry(QtCore.QRect(260, 26, 110, 30))
          x.pushButton_mezok.setObjectName("pushButton_mezok")
-         x.pushButton_torol = QtWidgets.QPushButton(Ui_Rekordleirasok)
-         x.pushButton_torol.setGeometry(QtCore.QRect(371, 26, 91, 23))
+         x.pushButton_torol = QtWidgets.QPushButton(x.ablak)
+         x.pushButton_torol.setGeometry(QtCore.QRect(390, 26, 110, 30))
          x.pushButton_torol.setObjectName("pushButton_torol") 
 
 
-         x.valtoztatUi(Ui_Rekordleirasok)
-         QtCore.QMetaObject.connectSlotsByName(Ui_Rekordleirasok)
+         x.valtoztatUi(x.ablak)
+         QtCore.QMetaObject.connectSlotsByName(x.ablak)
          
           
          x.pushButton_mezok.clicked.connect(x.rekord_mezok_window)
@@ -96,8 +43,8 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
          x.pushButton_ujrekord.clicked.connect(x.rekord_uj_Window)
          
          #ez fogja törölni a kiválasztott sort 
-         x.pushButton_torol.clicked.connect(x.deleteCurrentRow)
-          #modosit torol gomb allapot valtozasahoz 
+         # x.pushButton_torol.clicked.connect(x.deleteCurrentRow)
+          #modosit torol gomb allapot valtozasahoz
          x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
          x.tableWidget.selectionModel().selectionChanged.connect(
              x.on_selection_changed
@@ -105,7 +52,18 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
  
          x.on_selection_changed()
 
+         x.pushButton_torol.clicked.connect(lambda: x.delete_rekord())
+
+    def delete_rekord(self):
+        result = QtWidgets.QMessageBox.question(self,
+                                                "Törlés megerősítése...",
+                                                "Biztos ki akarod törölni a kiválaszott sorokat?",
+                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if result == QtWidgets.QMessageBox.Yes:
+            self.db.delete_rekord(self)
+
     def tableWidgetSetUp(self, tableWidget, nomen=False):
+        tableWidget.reset()
         tableWidget.horizontalHeader().setStretchLastSection(True)
         tableWidget.setGeometry(QtCore.QRect(60, 75, 1025, 370))
         tableWidget.setAlternatingRowColors(True)
@@ -128,16 +86,11 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
             i += 1
 
     def deleteCurrentRow(self):
-        result = QtWidgets.QMessageBox.question(self,
-                      "Törlés megerősítése...",
-                      "Biztos ki akarod törölni a kiválaszott sorokat?",
-                      QtWidgets.QMessageBox.Yes| QtWidgets.QMessageBox.No)
-        
-
-        if result == QtWidgets.QMessageBox.Yes:
-            indexes = self.tableWidget.selectionModel().selectedRows() 
-            for index in sorted(indexes):
-                self.tableWidget.removeRow(index.row())                
+        i=0
+        indexes = self.tableWidget.selectionModel().selectedRows()
+        for index in sorted(indexes):
+            self.tableWidget.removeRow(index.row()-i)
+            i+=1
         
     def on_selection_changed(self):
         #self.pushButton_modosit.setEnabled(
@@ -187,27 +140,38 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
    
     
     def rekord_mezok_window(x):
+         indexes = x.tableWidget.selectionModel().selectedRows()
+         if len(indexes) != 1:
+             QtWidgets.QMessageBox.question(x,
+                                             "Helytelen kiválasztás",
+                                             "Kérlek pontosan egy sort jelölj ki!",
+                                             QtWidgets.QMessageBox.Ok)
+             return
+         for index in indexes:
+             rekord=x.tableWidget.item(index.row(),0).text()
          x.window = QtWidgets.QMainWindow()
-         x.ui = Ui_Mezok()
-         x.ui.setupUi(x.window)
+         x.ui_mezok = Ui_Mezok()
+         x.ui_mezok.setupUi(x.window, rekord=rekord)
          x.window.show()     
             
     def rekord_uj_Window(x):
         x.window = QtWidgets.QMainWindow()
-        x.ui = Ui_Rekord_Uj()
-        x.ui.setupUi(x.window)            
+        x.ui_rekord_uj = Ui_Rekord_Uj()
+        x.ui_rekord_uj.setupUi(x.window, x)
         x.window.show()     
       
       
 class Ui_Rekord_Uj(object):
-    def setupUi(x, Ui_Rekord_Uj):
+    def setupUi(x, Ui_Rekord_Uj, parent):
         x.ablak=Ui_Rekord_Uj
+        x.parent=parent
+        x.db=DbConnectRekord()
         x.ablak.setObjectName("Ui_Rekord_Uj")
         x.ablak.resize(429, 392)
         x.centralwidget = QtWidgets.QWidget(x.ablak)
         x.centralwidget.setObjectName("centralwidget")
         x.tabWidget = QtWidgets.QTabWidget(x.centralwidget)
-        x.tabWidget.setGeometry(QtCore.QRect(10, 10, 391, 281))
+        x.tabWidget.setGeometry(QtCore.QRect(10, 10, 391, 290))
         font = QtGui.QFont()
         font.setPointSize(11)
         x.tabWidget.setFont(font)
@@ -245,6 +209,29 @@ class Ui_Rekord_Uj(object):
         x.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         x.label_4.setObjectName("label_4")
         x.tabWidget.addTab(x.tab_attributum, "")
+
+        x.label_kezdet = QtWidgets.QLabel(x.tab_attributum)
+        x.label_kezdet.setGeometry(QtCore.QRect(30, 190, 111, 21))
+        x.label_kezdet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        x.label_kezdet.setObjectName("label")
+
+        x.dateEdit_kezdet = QtWidgets.QDateEdit(x.tab_attributum)
+        x.dateEdit_kezdet.setGeometry(QtCore.QRect(150, 190, 131, 20))
+        x.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
+        x.dateEdit_kezdet.setCalendarPopup(True)
+        x.dateEdit_kezdet.setObjectName("dateEdit_kezdet")
+
+        x.label_veg = QtWidgets.QLabel(x.tab_attributum)
+        x.label_veg.setGeometry(QtCore.QRect(30, 230, 111, 21))
+        x.label_veg.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        x.label_veg.setObjectName("label")
+
+        x.dateEdit_veg = QtWidgets.QDateEdit(x.tab_attributum)
+        x.dateEdit_veg.setGeometry(QtCore.QRect(150, 230, 131, 20))
+        x.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
+        x.dateEdit_veg.setCalendarPopup(True)
+        x.dateEdit_veg.setObjectName("dateEdit_veg")
+
         x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
         x.pushButton_Megse.setGeometry(QtCore.QRect(310, 310, 91, 41))
         font = QtGui.QFont()
@@ -277,7 +264,9 @@ class Ui_Rekord_Uj(object):
         x.pushButton_Kezeles.clicked.connect(x.open_Ui_Mezok_Szerk)
 
         x.pushButton_Mentes.clicked.connect(lambda: x.save_record())
-        
+        x.pushButton_Mentes.clicked.connect(lambda: x.ablak.close())
+        x.pushButton_Mentes.clicked.connect(lambda: x.parent.tableWidgetSetUp(x.parent.tableWidget))
+
 
     def retranslateUi(x, Ui_Rekord_Uj):
         _translate = QtCore.QCoreApplication.translate
@@ -288,6 +277,8 @@ class Ui_Rekord_Uj(object):
         x.label_2.setText(_translate("Ui_Rekord_Uj", "Típus:"))
         x.label_3.setText(_translate("Ui_Rekord_Uj", "Nyomtatási címke:"))
         x.label_4.setText(_translate("Ui_Rekord_Uj", "Leírás:"))
+        x.label_kezdet.setText(_translate("Ui_Rekord_Uj", "Kezdőidőpint:"))
+        x.label_veg.setText(_translate("Ui_Rekord_Uj", "Végidőpont:"))
         x.tabWidget.setTabText(x.tabWidget.indexOf(x.tab_attributum), _translate("Ui_Rekord_Uj", "Attribútumok"))
         x.pushButton_Megse.setText(_translate("Ui_Rekord_Uj", "Mégse"))
         x.pushButton_Mentes.setText(_translate("Ui_Rekord_Uj", "Mentés"))
@@ -296,25 +287,30 @@ class Ui_Rekord_Uj(object):
     def open_Ui_Mezok_Szerk(x):
         x.window = QtWidgets.QMainWindow()
         x.ui_mezok = Ui_Mezok_Szerk()
-        x.ui_mezok.setupUi(x.window)
+        x.ui_mezok.setupUi(x.window,x)
         x.window.setWindowTitle("Új rekord mezőinek a kiválaszása")
         x.window.show()    
 
-    def save_record(self):
-        mezok=self.get_mezok(self.ui_mezok.mezok)
+    def save_record(x):
+        global mutatok, nomenklaturak
+        x.db.newRekord(x.lineEdit_rekordnev.text(), x.lineEdit_cimke.text(), x.lineEdit_leiras.text(),x.comboBox_tipus.currentText(),
+                       x.dateEdit_kezdet.date().toPyDate(), x.dateEdit_veg.date().toPyDate())
+        x.db.newRekordMezok(x.lineEdit_rekordnev.text())
 
     def get_mezok(self, ablak):
         pass
 
 
 class Ui_Mezok(object):
-    def setupUi(x, Ui_Mezok):
-        Ui_Mezok.setObjectName("Ui_Mezok")
-        Ui_Mezok.resize(687, 515)
-        x.centralwidget = QtWidgets.QWidget(Ui_Mezok)
+    def setupUi(x, Ui_Mezok, rekord=None):
+        x.ablak=Ui_Mezok
+        x.ablak.setObjectName("Ui_Mezok")
+        x.ablak.resize(687, 515)
+        x.db=DbConnectRekord()
+        x.centralwidget = QtWidgets.QWidget(x.ablak)
         x.centralwidget.setObjectName("centralwidget")
         x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 0, 671, 471))
+        x.frame.setGeometry(QtCore.QRect(10, 0, 671, 500))
         font = QtGui.QFont()
         font.setPointSize(11)
         x.frame.setFont(font)
@@ -322,43 +318,17 @@ class Ui_Mezok(object):
         x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         x.frame.setObjectName("frame")
         x.pushButton_szerk = QtWidgets.QPushButton(x.frame)
-        x.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 260, 31))
+        x.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 300, 31))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         x.pushButton_szerk.setIcon(icon)
         x.pushButton_szerk.setIconSize(QtCore.QSize(20, 20))
         x.pushButton_szerk.setDefault(True)
         x.pushButton_szerk.setObjectName("pushButton_szerk")
-      #  x.pushButton_modosit = QtWidgets.QPushButton(x.frame)
-      #  x.pushButton_modosit.setGeometry(QtCore.QRect(170, 20, 111, 31))
-      #  icon1 = QtGui.QIcon()
-      #  icon1.addPixmap(QtGui.QPixmap("edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        #x.pushButton_modosit.setIcon(icon1)
-        #x.pushButton_modosit.setIconSize(QtCore.QSize(20, 20))
-        #x.pushButton_modosit.setObjectName("pushButton_modosit")
-        #x.pushButton_metatrendel = QtWidgets.QPushButton(x.frame)
-        #x.pushButton_metatrendel.setGeometry(QtCore.QRect(300, 20, 151, 31))
-        #x.pushButton_metatrendel.setObjectName("pushButton_metatrendel")
-        x.pushButton_torol = QtWidgets.QPushButton(x.frame)
-        x.pushButton_torol.setGeometry(QtCore.QRect(320, 20, 131, 31))
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        x.pushButton_torol.setIcon(icon2)
-        x.pushButton_torol.setIconSize(QtCore.QSize(20, 20))
-        x.pushButton_torol.setObjectName("pushButton_torol")
-        x.pushButton_frissit = QtWidgets.QPushButton(x.frame)
-        x.pushButton_frissit.setGeometry(QtCore.QRect(620, 20, 41, 31))
-        x.pushButton_frissit.setText("")
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("update.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        x.pushButton_frissit.setIcon(icon3)
-        x.pushButton_frissit.setIconSize(QtCore.QSize(30, 30))
-        x.pushButton_frissit.setFlat(True)
-        x.pushButton_frissit.setObjectName("pushButton_frissit")
+
         x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setGeometry(QtCore.QRect(30, 100, 601, 341))
         x.tableWidget.setShowGrid(True)
-        x.tableWidget.setRowCount(10)
+        x.tableWidgetSetUp(x.tableWidget,[30, 100, 601, 341], rekord=rekord)
         x.tableWidget.setColumnCount(3)
         x.tableWidget.setObjectName("tableWidget")
         item = QtWidgets.QTableWidgetItem()
@@ -373,49 +343,75 @@ class Ui_Mezok(object):
         x.tableWidget.verticalHeader().setVisible(True)
         x.tableWidget.verticalHeader().setSortIndicatorShown(False)
         x.tableWidget.verticalHeader().setStretchLastSection(False)
-        Ui_Mezok.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(Ui_Mezok)
+        x.ablak.setCentralWidget(x.centralwidget)
+        x.menubar = QtWidgets.QMenuBar(x.ablak)
         x.menubar.setGeometry(QtCore.QRect(0, 0, 687, 21))
         x.menubar.setObjectName("menubar")
-        Ui_Mezok.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(Ui_Mezok)
+        x.ablak.setMenuBar(x.menubar)
+        x.statusbar = QtWidgets.QStatusBar(x.ablak)
         x.statusbar.setObjectName("statusbar")
-        Ui_Mezok.setStatusBar(x.statusbar)
+        x.ablak.setStatusBar(x.statusbar)
         
-        x.pushButton_szerk.clicked.connect(x.open_Ui_Mezok_Szerk)
+        x.pushButton_szerk.clicked.connect(lambda: x.open_Ui_Mezok_Szerk(modosit=True, rekord=rekord))
         #x.pushButton_modosit.clicked.connect(x.open_Ui_Mezok_Modosit)
         
-        x.retranslateUi(Ui_Mezok)
-        QtCore.QMetaObject.connectSlotsByName(Ui_Mezok)
+        x.retranslateUi(x.ablak)
+        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+
+    def tableWidgetSetUp(x, tableWidget, lista : list, rekord=None):
+        tableWidget.horizontalHeader().setStretchLastSection(True)
+        tableWidget.setGeometry(QtCore.QRect(lista[0], lista[1], lista[2], lista[3]))
+        tableWidget.setAlternatingRowColors(True)
+        tableWidget.setObjectName("tableWidget")
+
+        k=3
+        tableWidget.setColumnCount(k)
+        tableWidget.setRowCount(0)
+        for i in range(k):
+            item = QtWidgets.QTableWidgetItem()
+            tableWidget.setHorizontalHeaderItem(i, item)
+        sorok=x.db.listMezok_all(rekord)
+        sorok.sort(key=lambda y: y[2])
+        sorszamlalo=0
+        for sor in sorok:
+            tableWidget.setRowCount(tableWidget.rowCount()+1)
+            for i in range(3):
+                if i==1:
+                    item = QtWidgets.QTableWidgetItem(x.intToMezo(sor[1]))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(sor[i])) # kell még hogy ha elmentem a változásokat akkor bezáródjon mindkét ablak és úgy mentődjön el
+                tableWidget.setItem(sorszamlalo,i,item)
+            sorszamlalo+=1
 
     def retranslateUi(x, Ui_Mezok):
         _translate = QtCore.QCoreApplication.translate
         Ui_Mezok.setWindowTitle(_translate("Ui_Mezok", "Mezők"))
         x.pushButton_szerk.setText(_translate("Ui_Mezok", "Rekordhoz tartozó mezők kezelése"))
-      #  x.pushButton_modosit.setText(_translate("Ui_Mezok", "Módosít"))
-      #  x.pushButton_metatrendel.setText(_translate("Ui_Mezok", "Meta hozzárendelés"))
-     #   x.pushButton_torol.setText(_translate("Ui_Mezok", "Törlés"))
         x.tableWidget.setSortingEnabled(True)
         item = x.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Ui_Mezok", "Mező neve"))
         item = x.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Ui_Mezok", "Típus"))
         item = x.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("Ui_Mezok", "Hossz"))
+        item.setText(_translate("Ui_Mezok", "Sorrend"))
         
     
+    def intToMezo(self, szam):
+        if szam == 0:
+            return "Mutató"
+        return "Nómenklatúra"
     
-    
-    def open_Ui_Mezok_Szerk(x):
+    def open_Ui_Mezok_Szerk(x, modosit=False, rekord=None):
         x.window = QtWidgets.QMainWindow()
         x.ui_mezok_szerkeztese = Ui_Mezok_Szerk()
-        x.ui_mezok_szerkeztese.setupUi(x.window)
+        x.ui_mezok_szerkeztese.setupUi(x.window,x, modosit=modosit, rekord=rekord)
         x.window.show()    
         
 
 class Ui_Mezok_Szerk(object):
-    def setupUi(x, Ui_Mezok_Szerk):
+    def setupUi(x, Ui_Mezok_Szerk,parent, modosit=False, rekord=None):
         x.ablak=Ui_Mezok_Szerk
+        x.parent=parent
         x.ablak.setObjectName("Ui_Mezok_Szerk")
         x.ablak.resize(800, 815)
         x.mezok=None
@@ -432,6 +428,10 @@ class Ui_Mezok_Szerk(object):
         x.pushButton_mentes = QtWidgets.QPushButton(x.frame)
         x.pushButton_mentes.setGeometry(QtCore.QRect(580, 700, 91, 41))
         x.pushButton_mentes.setObjectName("pushButton_mentes")
+        x.pushButton_mentes.clicked.connect(lambda : x.save_mezok_es_sorrend(modosit=modosit, rekord=rekord))
+        x.pushButton_mentes.clicked.connect(lambda : x.ablak.close())
+        if modosit:
+            x.pushButton_mentes.clicked.connect(lambda : x.parent.ablak.close())
         x.pushButton_megse = QtWidgets.QPushButton(x.frame)
         x.pushButton_megse.setGeometry(QtCore.QRect(690, 700, 91, 41))
         x.pushButton_megse.setDefault(True)
@@ -448,41 +448,7 @@ class Ui_Mezok_Szerk(object):
         x.tableWidgetSetUp(x.tableWidget_mutato,[60, 30, 700, 300])
         # x.tableWidget_mutato.setRowCount(4)
         x.tableWidget_mutato.setObjectName("tableWidget_mutato")
-        # x.tableWidget_mutato.setColumnCount(5)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setHorizontalHeaderItem(0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setHorizontalHeaderItem(1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setHorizontalHeaderItem(2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setHorizontalHeaderItem(3, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setHorizontalHeaderItem(4, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(0, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(0, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(0, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(1, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(1, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(1, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(2, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(2, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(2, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(3, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(3, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_mutato.setItem(3, 2, item)
+
         x.tableWidget_mutato.horizontalHeader().setSortIndicatorShown(False)
         x.tableWidget_mutato.horizontalHeader().setStretchLastSection(True)
         x.tableWidget_mutato.verticalHeader().setStretchLastSection(False)
@@ -491,74 +457,11 @@ class Ui_Mezok_Szerk(object):
         x.tableWidgetSetUp(x.tableWidget_nomen,[60,370,700,300], nomen=True)
         # x.tableWidget_nomen.setRowCount(4)
         x.tableWidget_nomen.setObjectName("tableWidget_nomen")
-        # x.tableWidget_nomen.setColumnCount(4)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setHorizontalHeaderItem(0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setHorizontalHeaderItem(1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setHorizontalHeaderItem(2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setHorizontalHeaderItem(3, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(0, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(0, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(0, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(1, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(1, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(1, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(2, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(2, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(2, 2, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(3, 0, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(3, 1, item)
-        # item = QtWidgets.QTableWidgetItem()
-        # x.tableWidget_nomen.setItem(3, 2, item)
+
         x.tableWidget_nomen.horizontalHeader().setSortIndicatorShown(False)
         x.tableWidget_nomen.horizontalHeader().setStretchLastSection(True)
         x.tableWidget_nomen.verticalHeader().setStretchLastSection(False)
-        # x.checkBox = QtWidgets.QCheckBox(x.tableWidget_mutato)
-        # x.checkBox.setGeometry(QtCore.QRect(520, 80, 21, 21))
-        # x.checkBox.setText("")
-        # x.checkBox.setObjectName("checkBox")
-        # x.checkBox_2 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_2.setGeometry(QtCore.QRect(520, 110, 21, 21))
-        # x.checkBox_2.setText("")
-        # x.checkBox_2.setObjectName("checkBox_2")
-        # x.checkBox_3 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_3.setGeometry(QtCore.QRect(520, 140, 21, 21))
-        # x.checkBox_3.setText("")
-        # x.checkBox_3.setObjectName("checkBox_3")
-        # x.checkBox_4 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_4.setGeometry(QtCore.QRect(520, 170, 21, 21))
-        # x.checkBox_4.setText("")
-        # x.checkBox_4.setObjectName("checkBox_4")
-        # x.checkBox_5 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_5.setGeometry(QtCore.QRect(410, 340, 21, 21))
-        # x.checkBox_5.setText("")
-        # x.checkBox_5.setObjectName("checkBox_5")
-        # x.checkBox_6 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_6.setGeometry(QtCore.QRect(410, 370, 21, 21))
-        # x.checkBox_6.setText("")
-        # x.checkBox_6.setObjectName("checkBox_6")
-        # x.checkBox_7 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_7.setGeometry(QtCore.QRect(410, 400, 21, 21))
-        # x.checkBox_7.setText("")
-        # x.checkBox_7.setObjectName("checkBox_7")
-        # x.checkBox_8 = QtWidgets.QCheckBox(x.frame)
-        # x.checkBox_8.setGeometry(QtCore.QRect(410, 430, 21, 21))
-        # x.checkBox_8.setText("")
-        # x.checkBox_8.setObjectName("checkBox_8")
+
         x.ablak.setCentralWidget(x.centralwidget)
         x.menubar = QtWidgets.QMenuBar(x.ablak)
         x.menubar.setGeometry(QtCore.QRect(0, 0, 665, 21))
@@ -568,90 +471,32 @@ class Ui_Mezok_Szerk(object):
         x.statusbar.setObjectName("statusbar")
         x.ablak.setStatusBar(x.statusbar)
 
-        x.retranslateUi()
+        x.retranslateUi(modosit=modosit, rekord=rekord)
         QtCore.QMetaObject.connectSlotsByName(x.ablak)
 
-    def retranslateUi(x):
+    def save_mezok_es_sorrend(x, modosit=False, rekord=None):
+        global mutatok
+        global nomenklaturak
+        k=x.tableWidget_mutato.rowCount()
+        for sor in range(k):
+            if x.tableWidget_mutato.cellWidget(sor,4).currentText() is not '' and int(x.tableWidget_mutato.cellWidget(sor,4).currentText())>0:
+                mutatok[x.tableWidget_mutato.item(sor,0).text()]=int(x.tableWidget_mutato.cellWidget(sor,4).currentText())
+        k = x.tableWidget_nomen.rowCount()
+        for sor in range(k):
+            if x.tableWidget_nomen.cellWidget(sor, 3).currentText() is not '' and int(x.tableWidget_nomen.cellWidget(sor, 3).currentText()) > 0:
+                nomenklaturak[x.tableWidget_nomen.item(sor, 0).text()] = int(x.tableWidget_nomen.cellWidget(sor, 3).currentText())
+        if modosit:
+            x.db.refreshDb(rekord,mutatok,nomenklaturak)
+
+
+    def retranslateUi(x, modosit=False, rekord=None):
         _translate = QtCore.QCoreApplication.translate
         x.ablak.setWindowTitle(_translate("Ui_Mezok_Szerk", "Kiválasztott rekord mezőinek a kezelése"))
         x.pushButton_mentes.setText(_translate("Ui_Mezok_Szerk", "Mentés"))
         x.pushButton_megse.setText(_translate("Ui_Mezok_Szerk", "Mégse"))
         x.label.setText(_translate("Ui_Mezok_Szerk", "Mutatók kiválasztása:"))
         x.label_2.setText(_translate("Ui_Mezok_Szerk", "Nómenklatúrák kiválasztása:"))
-        # item = x.tableWidget_mutato.horizontalHeaderItem(0)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Változó neve"))
-        # item = x.tableWidget_mutato.horizontalHeaderItem(1)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Hossz"))
-        # item = x.tableWidget_mutato.horizontalHeaderItem(2)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Típus"))
-        # item = x.tableWidget_mutato.horizontalHeaderItem(3)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Mutató csoport"))
-        # item = x.tableWidget_mutato.horizontalHeaderItem(4)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Rekordhoz ad"))
-        # __sortingEnabled = x.tableWidget_mutato.isSortingEnabled()
-        # x.tableWidget_mutato.setSortingEnabled(False)
-        # # item = x.tableWidget_mutato.item(0, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Testsuly"))
-        # # item = x.tableWidget_mutato.item(0, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "3"))
-        # # item = x.tableWidget_mutato.item(0, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Egész szám"))
-        # # item = x.tableWidget_mutato.item(1, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Datum"))
-        # # item = x.tableWidget_mutato.item(1, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "8"))
-        # # item = x.tableWidget_mutato.item(1, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Dátum"))
-        # # item = x.tableWidget_mutato.item(2, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "sum_bevetel"))
-        # # item = x.tableWidget_mutato.item(2, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "15"))
-        # # item = x.tableWidget_mutato.item(2, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Egész szám"))
-        # # item = x.tableWidget_mutato.item(3, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Adokedvezmeny"))
-        # # item = x.tableWidget_mutato.item(3, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "8"))
-        # # item = x.tableWidget_mutato.item(3, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Lebegőpontos szám"))
-        # # x.tableWidget_mutato.setSortingEnabled(__sortingEnabled)
-        # item = x.tableWidget_nomen.horizontalHeaderItem(0)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Változó neve"))
-        # item = x.tableWidget_nomen.horizontalHeaderItem(1)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Hossz"))
-        # item = x.tableWidget_nomen.horizontalHeaderItem(2)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Típus"))
-        # item = x.tableWidget_nomen.horizontalHeaderItem(3)
-        # item.setText(_translate("Ui_Mezok_Szerk", "Rekordhoz ad"))
-        # __sortingEnabled = x.tableWidget_nomen.isSortingEnabled()
-        # x.tableWidget_nomen.setSortingEnabled(False)
-        # # item = x.tableWidget_nomen.item(0, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "phone"))
-        # # item = x.tableWidget_nomen.item(0, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "1"))
-        # # item = x.tableWidget_nomen.item(0, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Karakteres"))
-        # # item = x.tableWidget_nomen.item(1, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "address"))
-        # # item = x.tableWidget_nomen.item(1, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "18"))
-        # # item = x.tableWidget_nomen.item(1, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Karakteres"))
-        # # item = x.tableWidget_nomen.item(2, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "telepules_id"))
-        # # item = x.tableWidget_nomen.item(2, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "9"))
-        # # item = x.tableWidget_nomen.item(2, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Egész szám"))
-        # # item = x.tableWidget_nomen.item(3, 0)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "postcode"))
-        # # item = x.tableWidget_nomen.item(3, 1)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "8"))
-        # # item = x.tableWidget_nomen.item(3, 2)
-        # # item.setText(_translate("Ui_Mezok_Szerk", "Egész szám"))
-        # x.tableWidget_nomen.setSortingEnabled(__sortingEnabled)
-        #
-        # _translate = QtCore.QCoreApplication.translate
+
 
         x.db=DbConnectRekord()
         oszlopnevek=["Változó neve","Hossz","Típus","Mutató csoport", "Rekordhoz ad"]
@@ -667,6 +512,16 @@ class Ui_Mezok_Szerk(object):
             comboBox.addItem("")
             for i in range(1,21):
                 comboBox.addItem(str(i))
+        if modosit and rekord:
+            mutatok=x.db.listMezok_mutatok(rekord)
+            i=0
+            query = x.db.listMutat()
+            for sor in query:
+                for my_tuple in mutatok:
+                    if sor[0] == my_tuple[0]:
+                        x.tableWidget_mutato.cellWidget(i,4).setCurrentIndex(my_tuple[1])
+                i+=1
+
         x.oszlopNevBeallitas(oszlopnevek)
 
         oszlopnevek = ["Változó neve", "Hossz", "Típus", "Rekordhoz ad"]
@@ -683,7 +538,15 @@ class Ui_Mezok_Szerk(object):
             for i in range(1, 21):
                 comboBox.addItem(str(i))
             x.tableWidget_nomen.setCellWidget(rows, k, comboBox)
-
+        if modosit and rekord:
+            nomenklaturak=x.db.listMezok_nomenklaturak(rekord)
+            i=0
+            query = x.db.listMutat(nomen=True)
+            for sor in query:
+                for my_tuple in nomenklaturak:
+                    if sor[0] == my_tuple[0]:
+                        x.tableWidget_nomen.cellWidget(i,3).setCurrentIndex(my_tuple[1])
+                i+=1
         x.oszlopNevBeallitas(oszlopnevek, nomen=True)
 
     def oszlopNevBeallitas(self, oszlopnevek, nomen=False):
@@ -744,5 +607,103 @@ class DbConnectRekord():
             query = c.execute('''select nev, hossz, tipus from nomenklaturak;''')
         conn.commit()
         return query
+
+    def newRekordMezok(self, rekord):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        global mutatok, nomenklaturak
+        for key, value in mutatok.items():
+            c.execute('insert into rekord_mutato_nomen_kapcsolo (record_nev, nomen_vagy_mutato_nev, nomen_vagy_mutato, sorrend) values(?,?,0,?);',(rekord,key,int(value)))
+        for key, value in nomenklaturak.items():
+            c.execute('insert into rekord_mutato_nomen_kapcsolo (record_nev, nomen_vagy_mutato_nev, nomen_vagy_mutato, sorrend) values(?,?,1,?);',(rekord,key,int(value)))
+        conn.commit()
+        conn.close()
+
+    def newRekord(self,nev,cimke,leiras,tipus,kezdoidopont,vegidopont):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        date1=date.today()
+        c.execute("insert into rekordleirasok (nev, cimke, leiras, tipus, utolso_modositas, kezdoidopont, vegidopont) values (?,?,?,?,?,?,?);",(nev,cimke,leiras,tipus,date.today(),kezdoidopont,vegidopont))
+        conn.commit()
+        conn.close()
+
+    def listMezok_mutatok(self,rekord):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        query=c.execute('select nomen_vagy_mutato_nev, sorrend from rekord_mutato_nomen_kapcsolo where record_nev=? and nomen_vagy_mutato=?;',(rekord,0))
+        eredmeny=[]
+        for sor in query:
+            eredmeny.append(sor)
+        conn.commit()
+        conn.close()
+        return eredmeny
+
+    def listMezok_nomenklaturak(self, rekord):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        query = c.execute(
+            'select nomen_vagy_mutato_nev, sorrend from rekord_mutato_nomen_kapcsolo where record_nev=? and nomen_vagy_mutato=?;',
+            (rekord, 1))
+        eredmeny = []
+        for sor in query:
+            eredmeny.append(sor)
+        conn.commit()
+        conn.close()
+        return eredmeny
+
+    def listMezok_all(self, rekord):
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        my_tuple=tuple([rekord])
+        query = c.execute(
+            'select nomen_vagy_mutato_nev,nomen_vagy_mutato, sorrend from rekord_mutato_nomen_kapcsolo where record_nev=?;',my_tuple)
+        eredmeny = []
+        for sor in query:
+            eredmeny.append(sor)
+        conn.commit()
+        conn.close()
+        return eredmeny
+
+    def refreshDb(self, rekord, mutatok, nomenklaturak):
+        global mainTableWidget
+        conn = sqlite3.connect('datagov.db')
+        conn.isolation_level = None
+        c = conn.cursor()
+        my_tuple = tuple([rekord])
+        c.execute(
+            'delete from rekord_mutato_nomen_kapcsolo where record_nev=?;',my_tuple)
+        for key, value in mutatok.items():
+            c.execute('insert into rekord_mutato_nomen_kapcsolo values(?,?,?,?)',(rekord,key,0,value))
+        for key, value in nomenklaturak.items():
+            c.execute('insert into rekord_mutato_nomen_kapcsolo values(?,?,?,?)', (rekord, key, 1, value))
+        c.execute(
+            'update rekordleirasok set utolso_modositas=? where nev=?;', (date.today(), rekord))
+        conn.commit()
+        conn.close()
+
+        for row in range(mainTableWidget.rowCount()):
+            if mainTableWidget.item(row,0).text() == rekord:
+                mainTableWidget.item(row,4).setText(str(date.today()))
+
+    def delete_rekord(self,x):
+            conn = sqlite3.connect('datagov.db')
+            conn.isolation_level = None
+            c = conn.cursor()
+            sorok=x.tableWidget.selectionModel().selectedRows()
+            rekordok = []
+            for sor in sorok:
+                rekordok.append(x.tableWidget.item(sor.row(), 0).text())
+            for rekord in rekordok:
+                c.execute(
+                    'delete from rekordleirasok where nev=?;', tuple([rekord]))
+            x.deleteCurrentRow()
+            conn.commit()
+            conn.close()
+
 
 
