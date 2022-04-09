@@ -266,6 +266,7 @@ class Ui_Rekord_Uj(object):
         x.pushButton_Mentes.clicked.connect(lambda: x.save_record())
         x.pushButton_Mentes.clicked.connect(lambda: x.ablak.close())
         x.pushButton_Mentes.clicked.connect(lambda: x.parent.tableWidgetSetUp(x.parent.tableWidget))
+        x.pushButton_Mentes.clicked.connect(lambda: x.parent.valtoztatUi(x.parent.ablak))
 
 
     def retranslateUi(x, Ui_Rekord_Uj):
@@ -702,6 +703,7 @@ class DbConnectRekord():
                 c.execute(
                     'delete from rekordleirasok where nev=?;', tuple([rekord]))
             x.deleteCurrentRow()
+            x.valtoztatUi(x.ablak)
             conn.commit()
             conn.close()
 
