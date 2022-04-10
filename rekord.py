@@ -159,8 +159,115 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
         x.ui_rekord_uj = Ui_Rekord_Uj()
         x.ui_rekord_uj.setupUi(x.window, x)
         x.window.show()     
-      
-      
+
+
+class Ui_Mezok(object):
+    def setupUi(x, Ui_Mezok, rekord=None):
+        x.ablak=Ui_Mezok
+        x.ablak.setObjectName("Ui_Mezok")
+        x.ablak.resize(687, 515)
+        x.db=DbConnectRekord()
+        x.centralwidget = QtWidgets.QWidget(x.ablak)
+        x.centralwidget.setObjectName("centralwidget")
+        x.frame = QtWidgets.QFrame(x.centralwidget)
+        x.frame.setGeometry(QtCore.QRect(10, 0, 671, 500))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        x.frame.setFont(font)
+        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        x.frame.setObjectName("frame")
+        x.pushButton_szerk = QtWidgets.QPushButton(x.frame)
+        x.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 300, 31))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        x.pushButton_szerk.setIcon(icon)
+        x.pushButton_szerk.setIconSize(QtCore.QSize(20, 20))
+        x.pushButton_szerk.setDefault(True)
+        x.pushButton_szerk.setObjectName("pushButton_szerk")
+
+        x.tableWidget = QtWidgets.QTableWidget(x.frame)
+        x.tableWidget.setShowGrid(True)
+        x.tableWidgetSetUp(x.tableWidget,[30, 100, 601, 341], rekord=rekord)
+        x.tableWidget.setColumnCount(3)
+        x.tableWidget.setObjectName("tableWidget")
+        item = QtWidgets.QTableWidgetItem()
+        x.tableWidget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        x.tableWidget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        x.tableWidget.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        x.tableWidget.setHorizontalHeaderItem(3, item)
+        x.tableWidget.horizontalHeader().setStretchLastSection(True)
+        x.tableWidget.verticalHeader().setVisible(True)
+        x.tableWidget.verticalHeader().setSortIndicatorShown(False)
+        x.tableWidget.verticalHeader().setStretchLastSection(False)
+        x.ablak.setCentralWidget(x.centralwidget)
+        x.menubar = QtWidgets.QMenuBar(x.ablak)
+        x.menubar.setGeometry(QtCore.QRect(0, 0, 687, 21))
+        x.menubar.setObjectName("menubar")
+        x.ablak.setMenuBar(x.menubar)
+        x.statusbar = QtWidgets.QStatusBar(x.ablak)
+        x.statusbar.setObjectName("statusbar")
+        x.ablak.setStatusBar(x.statusbar)
+
+        x.pushButton_szerk.clicked.connect(lambda: x.open_Ui_Mezok_Szerk(modosit=True, rekord=rekord))
+        #x.pushButton_modosit.clicked.connect(x.open_Ui_Mezok_Modosit)
+
+        x.retranslateUi(x.ablak)
+        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+
+    def tableWidgetSetUp(x, tableWidget, lista : list, rekord=None):
+        tableWidget.horizontalHeader().setStretchLastSection(True)
+        tableWidget.setGeometry(QtCore.QRect(lista[0], lista[1], lista[2], lista[3]))
+        tableWidget.setAlternatingRowColors(True)
+        tableWidget.setObjectName("tableWidget")
+
+        k=3
+        tableWidget.setColumnCount(k)
+        tableWidget.setRowCount(0)
+        for i in range(k):
+            item = QtWidgets.QTableWidgetItem()
+            tableWidget.setHorizontalHeaderItem(i, item)
+        sorok=x.db.listMezok_all(rekord)
+        sorok.sort(key=lambda y: y[2])
+        sorszamlalo=0
+        for sor in sorok:
+            tableWidget.setRowCount(tableWidget.rowCount()+1)
+            for i in range(3):
+                if i==1:
+                    item = QtWidgets.QTableWidgetItem(x.intToMezo(sor[1]))
+                else:
+                    item = QtWidgets.QTableWidgetItem(str(sor[i])) # kell még hogy ha elmentem a változásokat akkor bezáródjon mindkét ablak és úgy mentődjön el
+                tableWidget.setItem(sorszamlalo,i,item)
+            sorszamlalo+=1
+
+    def retranslateUi(x, Ui_Mezok):
+        _translate = QtCore.QCoreApplication.translate
+        Ui_Mezok.setWindowTitle(_translate("Ui_Mezok", "Mezők"))
+        x.pushButton_szerk.setText(_translate("Ui_Mezok", "Rekordhoz tartozó mezők kezelése"))
+        x.tableWidget.setSortingEnabled(True)
+        item = x.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("Ui_Mezok", "Mező neve"))
+        item = x.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("Ui_Mezok", "Típus"))
+        item = x.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("Ui_Mezok", "Sorrend"))
+
+
+    def intToMezo(self, szam):
+        if szam == 0:
+            return "Mutató"
+        return "Nómenklatúra"
+
+    def open_Ui_Mezok_Szerk(x, modosit=False, rekord=None):
+        x.window = QtWidgets.QMainWindow()
+        x.ui_mezok_szerkeztese = Ui_Mezok_Szerk()
+        x.ui_mezok_szerkeztese.setupUi(x.window,x, modosit=modosit, rekord=rekord)
+        x.window.show()
+
+
 class Ui_Rekord_Uj(object):
     def setupUi(x, Ui_Rekord_Uj, parent):
         x.ablak=Ui_Rekord_Uj
@@ -284,13 +391,13 @@ class Ui_Rekord_Uj(object):
         x.pushButton_Megse.setText(_translate("Ui_Rekord_Uj", "Mégse"))
         x.pushButton_Mentes.setText(_translate("Ui_Rekord_Uj", "Mentés"))
         x.pushButton_Kezeles.setText(_translate("Ui_Rekord_Uj", "Mezők kezelése"))
-        
+
     def open_Ui_Mezok_Szerk(x):
         x.window = QtWidgets.QMainWindow()
         x.ui_mezok = Ui_Mezok_Szerk()
         x.ui_mezok.setupUi(x.window,x)
         x.window.setWindowTitle("Új rekord mezőinek a kiválaszása")
-        x.window.show()    
+        x.window.show()
 
     def save_record(x):
         global mutatok, nomenklaturak
@@ -300,113 +407,6 @@ class Ui_Rekord_Uj(object):
 
     def get_mezok(self, ablak):
         pass
-
-
-class Ui_Mezok(object):
-    def setupUi(x, Ui_Mezok, rekord=None):
-        x.ablak=Ui_Mezok
-        x.ablak.setObjectName("Ui_Mezok")
-        x.ablak.resize(687, 515)
-        x.db=DbConnectRekord()
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 0, 671, 500))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.pushButton_szerk = QtWidgets.QPushButton(x.frame)
-        x.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 300, 31))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        x.pushButton_szerk.setIcon(icon)
-        x.pushButton_szerk.setIconSize(QtCore.QSize(20, 20))
-        x.pushButton_szerk.setDefault(True)
-        x.pushButton_szerk.setObjectName("pushButton_szerk")
-
-        x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setShowGrid(True)
-        x.tableWidgetSetUp(x.tableWidget,[30, 100, 601, 341], rekord=rekord)
-        x.tableWidget.setColumnCount(3)
-        x.tableWidget.setObjectName("tableWidget")
-        item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(3, item)
-        x.tableWidget.horizontalHeader().setStretchLastSection(True)
-        x.tableWidget.verticalHeader().setVisible(True)
-        x.tableWidget.verticalHeader().setSortIndicatorShown(False)
-        x.tableWidget.verticalHeader().setStretchLastSection(False)
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 687, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
-        
-        x.pushButton_szerk.clicked.connect(lambda: x.open_Ui_Mezok_Szerk(modosit=True, rekord=rekord))
-        #x.pushButton_modosit.clicked.connect(x.open_Ui_Mezok_Modosit)
-        
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
-
-    def tableWidgetSetUp(x, tableWidget, lista : list, rekord=None):
-        tableWidget.horizontalHeader().setStretchLastSection(True)
-        tableWidget.setGeometry(QtCore.QRect(lista[0], lista[1], lista[2], lista[3]))
-        tableWidget.setAlternatingRowColors(True)
-        tableWidget.setObjectName("tableWidget")
-
-        k=3
-        tableWidget.setColumnCount(k)
-        tableWidget.setRowCount(0)
-        for i in range(k):
-            item = QtWidgets.QTableWidgetItem()
-            tableWidget.setHorizontalHeaderItem(i, item)
-        sorok=x.db.listMezok_all(rekord)
-        sorok.sort(key=lambda y: y[2])
-        sorszamlalo=0
-        for sor in sorok:
-            tableWidget.setRowCount(tableWidget.rowCount()+1)
-            for i in range(3):
-                if i==1:
-                    item = QtWidgets.QTableWidgetItem(x.intToMezo(sor[1]))
-                else:
-                    item = QtWidgets.QTableWidgetItem(str(sor[i])) # kell még hogy ha elmentem a változásokat akkor bezáródjon mindkét ablak és úgy mentődjön el
-                tableWidget.setItem(sorszamlalo,i,item)
-            sorszamlalo+=1
-
-    def retranslateUi(x, Ui_Mezok):
-        _translate = QtCore.QCoreApplication.translate
-        Ui_Mezok.setWindowTitle(_translate("Ui_Mezok", "Mezők"))
-        x.pushButton_szerk.setText(_translate("Ui_Mezok", "Rekordhoz tartozó mezők kezelése"))
-        x.tableWidget.setSortingEnabled(True)
-        item = x.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("Ui_Mezok", "Mező neve"))
-        item = x.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("Ui_Mezok", "Típus"))
-        item = x.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("Ui_Mezok", "Sorrend"))
-        
-    
-    def intToMezo(self, szam):
-        if szam == 0:
-            return "Mutató"
-        return "Nómenklatúra"
-    
-    def open_Ui_Mezok_Szerk(x, modosit=False, rekord=None):
-        x.window = QtWidgets.QMainWindow()
-        x.ui_mezok_szerkeztese = Ui_Mezok_Szerk()
-        x.ui_mezok_szerkeztese.setupUi(x.window,x, modosit=modosit, rekord=rekord)
-        x.window.show()    
         
 
 class Ui_Mezok_Szerk(object):
