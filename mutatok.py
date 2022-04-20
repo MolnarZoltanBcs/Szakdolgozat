@@ -24,52 +24,52 @@ vegidopont = QtCore.QDate
 query = ()
 class Ui_Mutatok(QtWidgets.QMainWindow):
 
-    def setupUi(x,  Ui_Mutatok, nomen=False):
-         x.ablak=Ui_Mutatok
-         x.ablak.setObjectName("Ui_Mutatok")
-         x.ablak.resize(1175, 500)
+    def setupUi(self,  Ui_Mutatok, nomen=False):
+         self.ablak=Ui_Mutatok
+         self.ablak.setObjectName("Ui_Mutatok")
+         self.ablak.resize(1175, 500)
 
          if not nomen:
-            x.ablak.setWindowTitle("Mutatók kezelése")
+            self.ablak.setWindowTitle("Mutatók kezelése")
          else:
-             x.ablak.setWindowTitle("Nómenklatúrák kezelése")
-         x.newmutatdb = newMutatDB()
-         newMutatDB.listMutat(x.newmutatdb, nomen=nomen)
+             self.ablak.setWindowTitle("Nómenklatúrák kezelése")
+         self.newmutatdb = newMutatDB()
+         newMutatDB.listMutat(self.newmutatdb, nomen=nomen)
          
-         x.tableWidget = QtWidgets.QTableWidget(x.ablak)
-         x.tableWidgetSetUp(x.tableWidget, nomen=nomen)
+         self.tableWidget = QtWidgets.QTableWidget(self.ablak)
+         self.tableWidgetSetUp(self.tableWidget, nomen=nomen)
 
-         QtCore.QMetaObject.connectSlotsByName(x.ablak)
+         QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-         x.pushButton_uj = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_modosit = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_torol = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_export = QtWidgets.QPushButton(x.ablak)
-         x.pushButtonSetUp(x.pushButton_uj,x.pushButton_modosit,x.pushButton_torol,x.pushButton_export)
+         self.pushButton_uj = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_modosit = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_torol = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_export = QtWidgets.QPushButton(self.ablak)
+         self.pushButtonSetUp(self.pushButton_uj,self.pushButton_modosit,self.pushButton_torol,self.pushButton_export)
 
-         x.valtoztatUi(x.ablak, nomen=nomen)
+         self.valtoztatUi(self.ablak, nomen=nomen)
 
-         x.pushButton_uj.clicked.connect(lambda: x.openUjMutato(nomen=nomen)) #ez fogja megnyitni azt az ablakot amelyikkel uj sort vehetunk fel
+         self.pushButton_uj.clicked.connect(lambda: self.openUjMutato(nomen=nomen)) #ez fogja megnyitni azt az ablakot amelyikkel uj sort vehetunk fel
 
-         x.pushButton_modosit.clicked.connect(lambda: x.openModositMutato(nomen=nomen))#ez fogja megnyitni azt az ablakot amelyikkel modosithatunk a felvett adatokon
+         self.pushButton_modosit.clicked.connect(lambda: self.openModositMutato(nomen=nomen))#ez fogja megnyitni azt az ablakot amelyikkel modosithatunk a felvett adatokon
 
-         x.pushButton_torol.clicked.connect(lambda: x.deleteCurrentRow(nomen=nomen))#ez fogja törölni a kiválasztott sort
+         self.pushButton_torol.clicked.connect(lambda: self.deleteCurrentRow(nomen=nomen))#ez fogja törölni a kiválasztott sort
 
-         x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)#modosit torol gomb allapot valtozasahoz
+         self.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)#modosit torol gomb allapot valtozasahoz
 
-         x.tableWidget.selectionModel().selectionChanged.connect(lambda: x.on_selection_changed())
+         self.tableWidget.selectionModel().selectionChanged.connect(lambda: self.on_selection_changed())
 
-         x.radioButton_export_csv = QtWidgets.QRadioButton(x.ablak)
-         x.radioButton_export_csv.setGeometry(QtCore.QRect(550, 26, 110, 23))
-         x.radioButtonSetUp(x.radioButton_export_csv, "RadioButtonCsv", "Csv", checked=True)
+         self.radioButton_export_csv = QtWidgets.QRadioButton(self.ablak)
+         self.radioButton_export_csv.setGeometry(QtCore.QRect(550, 26, 110, 23))
+         self.radioButtonSetUp(self.radioButton_export_csv, "RadioButtonCsv", "Csv", checked=True)
 
-         x.radioButton_export_excel = QtWidgets.QRadioButton(x.ablak)
-         x.radioButtonSetUp(x.radioButton_export_excel, "RadioButtonExcel", "Excel")
-         x.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
+         self.radioButton_export_excel = QtWidgets.QRadioButton(self.ablak)
+         self.radioButtonSetUp(self.radioButton_export_excel, "RadioButtonExcel", "Excel")
+         self.radioButton_export_excel.setGeometry(QtCore.QRect(600, 26, 110, 23))
 
-         x.pushButton_export.clicked.connect(lambda: x.radio_button_checked(nomen=nomen))
+         self.pushButton_export.clicked.connect(lambda: self.radio_button_checked(nomen=nomen))
 
-         x.on_selection_changed()
+         self.on_selection_changed()
 
     def tableWidgetSetUp(self, tableWidget, nomen=False):
         tableWidget.horizontalHeader().setStretchLastSection(True)
@@ -119,13 +119,13 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
             bool(self.tableWidget.selectionModel().selectedRows())
        )
 
-    def valtoztatUi(x, Ui_Mutatok, nomen=False):
+    def valtoztatUi(self, Ui_Mutatok, nomen=False):
          _translate = QtCore.QCoreApplication.translate
          if not nomen:
             Ui_Mutatok.setWindowTitle(_translate("Ui_Mutatok", "Mutatók"))
          else:
              Ui_Mutatok.setWindowTitle(_translate("Ui_Mutatok", "Nómenklatúrák"))
-         x.newMutatDB = newMutatDB()
+         self.newMutatDB = newMutatDB()
          k=9
          oszlopnevek=["Változó neve","Nyomtatási cimke","Leírás","Hossz","Típus","Mutató csoport","Utolsó módosítás","Érvényesség kezdete","Érvényesség vége"]
          if nomen:
@@ -133,26 +133,26 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
                             "Utolsó módosítás", "Érvényesség kezdete", "Érvényesség vége"]
 
          for row in query:
-            rows = x.tableWidget.rowCount()
-            x.tableWidget.setRowCount(rows + 1)
+            rows = self.tableWidget.rowCount()
+            self.tableWidget.setRowCount(rows + 1)
             for oszlop in range(k):
-                x.tableWidget.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
+                self.tableWidget.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
                 if row[oszlop] == 0:
-                    x.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Nem"))
+                    self.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Nem"))
                 if row[oszlop] == 1:
-                    x.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Igen"))
+                    self.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Igen"))
 
-         x.oszlopNevBeallitas(oszlopnevek)
-         #x.tableWidget.resizeColumnsToContents()
+         self.oszlopNevBeallitas(oszlopnevek)
+         #self.tableWidget.resizeColumnsToContents()
 
-         __sortingEnabled = x.tableWidget.isSortingEnabled()#ezt a két sort még nem értem miért kellett belerakni, nem én csináltam de nem tudom mi a változás szóval meghagyom
-         x.tableWidget.setSortingEnabled(False)
+         __sortingEnabled = self.tableWidget.isSortingEnabled()#ezt a két sort még nem értem miért kellett belerakni, nem én csináltam de nem tudom mi a változás szóval meghagyom
+         self.tableWidget.setSortingEnabled(False)
 
-         x.tableWidget.setSortingEnabled(__sortingEnabled)
-         x.pushButton_uj.setText(_translate("Ui_Mutatok", "Új létrehozása"))
-         x.pushButton_modosit.setText(_translate("Ui_Mutatok", "Módosítás"))
-         x.pushButton_torol.setText(_translate("Ui_Mutatok", "Törlés"))
-         x.pushButton_export.setText(_translate("Ui_Mutatok", "Kijelöltek exportja"))
+         self.tableWidget.setSortingEnabled(__sortingEnabled)
+         self.pushButton_uj.setText(_translate("Ui_Mutatok", "Új létrehozása"))
+         self.pushButton_modosit.setText(_translate("Ui_Mutatok", "Módosítás"))
+         self.pushButton_torol.setText(_translate("Ui_Mutatok", "Törlés"))
+         self.pushButton_export.setText(_translate("Ui_Mutatok", "Kijelöltek exportja"))
 
     def oszlopNevBeallitas(self, oszlopnevek):
         oszlopszam = 0
@@ -161,16 +161,16 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
             item.setText(oszlopnev)
             oszlopszam+=1
 
-    def openUjMutato(x, nomen=False):#definialjuk az uj mutato letrehozasa ablakot #ez nyitja meg
-         x.window = QtWidgets.QMainWindow()
-         x.ui =  Ui_Mutatok_UJ()
-         x.ui.setupUi(x.window, x, nomen=nomen)
-         x.window.show()
+    def openUjMutato(self, nomen=False):#definialjuk az uj mutato letrehozasa ablakot #ez nyitja meg
+         self.window = QtWidgets.QMainWindow()
+         self.ui =  Ui_Mutatok_UJ()
+         self.ui.setupUi(self.window, self, nomen=nomen)
+         self.window.show()
 
-    def openModositMutato(x, nomen=False):#es definialjuk a modosit mutato ablakot
-         x.window = QtWidgets.QMainWindow()
-         x.ui =  Ui_Mutatok_UJ()
-         x.ui.setupModositUi(x.window, x, nomen=nomen)
+    def openModositMutato(self, nomen=False):#es definialjuk a modosit mutato ablakot
+         self.window = QtWidgets.QMainWindow()
+         self.ui =  Ui_Mutatok_UJ()
+         self.ui.setupModositUi(self.window, self, nomen=nomen)
     
     def deleteCurrentRow(self, nomen=False):
         result = QtWidgets.QMessageBox.question(self,
@@ -221,175 +221,175 @@ class Ui_Mutatok_UJ(object):
         else:
             self.setupUi(Ui_Mutatok_UJ,parentAblak, modosit=True, nomen=nomen)
 
-    def setupUi(x, Ui_Mutatok_UJ, parentAblak, modosit=False, nomen=False):
+    def setupUi(self, Ui_Mutatok_UJ, parentAblak, modosit=False, nomen=False):
 
-        x.parentAblak=parentAblak
-        x.ablak=Ui_Mutatok_UJ
+        self.parentAblak=parentAblak
+        self.ablak=Ui_Mutatok_UJ
         if not nomen:
-            x.ablak.setObjectName("Uj mutatok ablak")
+            self.ablak.setObjectName("Uj mutatok ablak")
         else:
-            x.ablak.setObjectName("Uj nomenklatura letrehozasa")
-        x.ablak.resize(484, 466)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.pushButton_Mentes = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_Mentes.setGeometry(QtCore.QRect(270, 400, 91, 41))
+            self.ablak.setObjectName("Uj nomenklatura letrehozasa")
+        self.ablak.resize(484, 466)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.pushButton_Mentes = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_Mentes.setGeometry(QtCore.QRect(270, 400, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
 
         #mentés logika
-        x.newMutatDB = newMutatDB()
-        x.pushButton_Mentes.clicked.connect(lambda: x.save_text(modosit=modosit))
-        x.pushButton_Mentes.setFont(font)
-        x.pushButton_Mentes.setObjectName("pushButton_Mentes")
-        x.pushButton_Mentes.clicked.connect(lambda: x.newMutatDB.newMutat(parentAblak,modosit=modosit, nomen=nomen))
+        self.newMutatDB = newMutatDB()
+        self.pushButton_Mentes.clicked.connect(lambda: self.save_text(modosit=modosit))
+        self.pushButton_Mentes.setFont(font)
+        self.pushButton_Mentes.setObjectName("pushButton_Mentes")
+        self.pushButton_Mentes.clicked.connect(lambda: self.newMutatDB.newMutat(parentAblak,modosit=modosit, nomen=nomen))
 
-        x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
+        self.pushButton_Megse = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_Megse.setGeometry(QtCore.QRect(370, 400, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_Megse.setFont(font)
-        x.pushButton_Megse.setDefault(True)
-        x.pushButton_Megse.setObjectName("pushButton_Megse")
-        x.pushButton_Megse.clicked.connect(lambda: x.ablak.close())
+        self.pushButton_Megse.setFont(font)
+        self.pushButton_Megse.setDefault(True)
+        self.pushButton_Megse.setObjectName("pushButton_Megse")
+        self.pushButton_Megse.clicked.connect(lambda: self.ablak.close())
 
-        x.tabWidget = QtWidgets.QTabWidget(x.centralwidget)
-        x.tabWidget.setGeometry(QtCore.QRect(10, 10, 451, 371))
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 451, 371))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.tabWidget.setFont(font)
-        x.tabWidget.setObjectName("tabWidget")
-        x.tab = QtWidgets.QWidget()
-        x.tab.setObjectName("tab")
+        self.tabWidget.setFont(font)
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab = QtWidgets.QWidget()
+        self.tab.setObjectName("tab")
 
 
-        x.valtozonevLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.valtozonevLabel, 40, 10, 161, 31, "valtozonevLabel")
+        self.valtozonevLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.valtozonevLabel, 40, 10, 161, 31, "valtozonevLabel")
 
-        x.cimkeLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.cimkeLabel, 40, 50, 161, 31, "cimkeLabel")
+        self.cimkeLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.cimkeLabel, 40, 50, 161, 31, "cimkeLabel")
 
-        x.leirasLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.leirasLabel,40, 90, 161, 31, "leirasLabel")
+        self.leirasLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.leirasLabel,40, 90, 161, 31, "leirasLabel")
 
-        x.hosszLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.hosszLabel, 40, 130, 161, 31, "hosszLabel")
+        self.hosszLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.hosszLabel, 40, 130, 161, 31, "hosszLabel")
 
-        x.tipusLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.tipusLabel, 40, 170, 161, 31, "tipusLabel")
+        self.tipusLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.tipusLabel, 40, 170, 161, 31, "tipusLabel")
         if not nomen:
-            x.csoportLabel = QtWidgets.QLabel(x.tab)
-            x.labelSetUp(x.csoportLabel, 40, 200, 161, 51, "csoportLabel")
+            self.csoportLabel = QtWidgets.QLabel(self.tab)
+            self.labelSetUp(self.csoportLabel, 40, 200, 161, 51, "csoportLabel")
 
-        x.ervenyessegKezdetLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.ervenyessegKezdetLabel, 40, 250, 161, 31, "ervenyessegKezdetLabel")
+        self.ervenyessegKezdetLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.ervenyessegKezdetLabel, 40, 250, 161, 31, "ervenyessegKezdetLabel")
 
-        x.ervenyessegVegeLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.ervenyessegVegeLabel, 40, 280, 161, 41, "ervenyessegVegeLabel")
+        self.ervenyessegVegeLabel = QtWidgets.QLabel(self.tab)
+        self.labelSetUp(self.ervenyessegVegeLabel, 40, 280, 161, 41, "ervenyessegVegeLabel")
 
-        x.dateEdit_veg = QtWidgets.QDateEdit(x.tab)
-        x.dateEdit_veg.setGeometry(QtCore.QRect(220, 290, 151, 31))
-        x.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
-        x.dateEdit_veg.setCalendarPopup(True)
-        x.dateEdit_veg.setObjectName("dateEdit_veg")
+        self.dateEdit_veg = QtWidgets.QDateEdit(self.tab)
+        self.dateEdit_veg.setGeometry(QtCore.QRect(220, 290, 151, 31))
+        self.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.dateEdit_veg.setCalendarPopup(True)
+        self.dateEdit_veg.setObjectName("dateEdit_veg")
         if not nomen:
-            x.lineEdit_csoport = QtWidgets.QLineEdit(x.tab)
-            x.lineEdit_csoport.setGeometry(QtCore.QRect(220, 210, 201, 31))
-            x.lineEdit_csoport.setObjectName("lineEdit_csoport")
-        x.dateEdit_kezdet = QtWidgets.QDateEdit(x.tab)
-        x.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 250, 151, 31))
-        x.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
-        x.dateEdit_kezdet.setCalendarPopup(True)
-        x.dateEdit_kezdet.setObjectName("dateEdit_kezdet")
-        x.lineEdit_leiras = QtWidgets.QLineEdit(x.tab)
-        x.lineEdit_leiras.setGeometry(QtCore.QRect(220, 90, 201, 31))
-        x.lineEdit_leiras.setObjectName("lineEdit_leiras")
-        x.lineEdit_valtozonev = QtWidgets.QLineEdit(x.tab)
-        x.lineEdit_valtozonev.setGeometry(QtCore.QRect(220, 10, 201, 31))
-        x.lineEdit_valtozonev.setObjectName("lineEdit_valtozonev")
+            self.lineEdit_csoport = QtWidgets.QLineEdit(self.tab)
+            self.lineEdit_csoport.setGeometry(QtCore.QRect(220, 210, 201, 31))
+            self.lineEdit_csoport.setObjectName("lineEdit_csoport")
+        self.dateEdit_kezdet = QtWidgets.QDateEdit(self.tab)
+        self.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 250, 151, 31))
+        self.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.dateEdit_kezdet.setCalendarPopup(True)
+        self.dateEdit_kezdet.setObjectName("dateEdit_kezdet")
+        self.lineEdit_leiras = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_leiras.setGeometry(QtCore.QRect(220, 90, 201, 31))
+        self.lineEdit_leiras.setObjectName("lineEdit_leiras")
+        self.lineEdit_valtozonev = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_valtozonev.setGeometry(QtCore.QRect(220, 10, 201, 31))
+        self.lineEdit_valtozonev.setObjectName("lineEdit_valtozonev")
 
         if modosit:
-            x.lineEdit_valtozonev.setReadOnly(True)
-            x.lineEdit_valtozonev.setStyleSheet("QLineEdit"
+            self.lineEdit_valtozonev.setReadOnly(True)
+            self.lineEdit_valtozonev.setStyleSheet("QLineEdit"
                                     "{"
                                     "background : lightgray;"
                                     "}")
-        x.lineEdit_cimke = QtWidgets.QLineEdit(x.tab)
-        x.lineEdit_cimke.setGeometry(QtCore.QRect(220, 50, 201, 31))
-        x.lineEdit_cimke.setObjectName("lineEdit_cimke")
-        x.lineEdit_hossz = QtWidgets.QLineEdit(x.tab)
-        x.lineEdit_hossz.setGeometry(QtCore.QRect(220, 130, 201, 31))
-        x.lineEdit_hossz.setObjectName("lineEdit_hossz")
-        x.comboBox = QtWidgets.QComboBox(x.tab)
-        x.comboBox.setGeometry(QtCore.QRect(220, 170, 201, 31))
-        x.comboBox.setObjectName("comboBox")
-        x.comboBox.addItem("")
-        x.comboBox.addItem("")
-        x.comboBox.addItem("")
-        x.comboBox.addItem("")
-        x.tabWidget.addTab(x.tab, "")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.lineEdit_cimke = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_cimke.setGeometry(QtCore.QRect(220, 50, 201, 31))
+        self.lineEdit_cimke.setObjectName("lineEdit_cimke")
+        self.lineEdit_hossz = QtWidgets.QLineEdit(self.tab)
+        self.lineEdit_hossz.setGeometry(QtCore.QRect(220, 130, 201, 31))
+        self.lineEdit_hossz.setObjectName("lineEdit_hossz")
+        self.comboBox = QtWidgets.QComboBox(self.tab)
+        self.comboBox.setGeometry(QtCore.QRect(220, 170, 201, 31))
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.tabWidget.addTab(self.tab, "")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.ablak, modosit, parentAblak=parentAblak, nomen=nomen)
-        x.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak, modosit, parentAblak=parentAblak, nomen=nomen)
+        self.tabWidget.setCurrentIndex(0)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
         # parentAblak.window.setWindowTitle("Kiválasztott mutató módosítása")
         parentAblak.window.show()
 
-    def labelSetUp(x, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
+    def labelSetUp(self, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
         label.setGeometry(QtCore.QRect(kezdopont_x, kezdopont_y, hossz_x, hossz_y))
         label.setLayoutDirection(QtCore.Qt.LeftToRight)
         label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         label.setObjectName(nev)
 
-    def save_text(x, modosit=False):
+    def save_text(self, modosit=False):
         global valtnev, cimke, leiras, hossz, tipus, csoport, kepzett_e, kezdoidopont, vegidopont
-        valtnev = x.lineEdit_valtozonev.text()
-        cimke = x.lineEdit_cimke.text()
-        leiras = x.lineEdit_leiras.text()
-        hossz= x.lineEdit_hossz.text()
-        tipus=x.comboBox.currentText()
+        valtnev = self.lineEdit_valtozonev.text()
+        cimke = self.lineEdit_cimke.text()
+        leiras = self.lineEdit_leiras.text()
+        hossz= self.lineEdit_hossz.text()
+        tipus=self.comboBox.currentText()
         try:
-            csoport = x.lineEdit_csoport.text()
+            csoport = self.lineEdit_csoport.text()
         except Exception:
             pass # nomen
-        kezdoidopont=x.dateEdit_kezdet.date().toPyDate()
-        vegidopont=x.dateEdit_veg.date().toPyDate()
+        kezdoidopont=self.dateEdit_kezdet.date().toPyDate()
+        vegidopont=self.dateEdit_veg.date().toPyDate()
         if not modosit:
             kepzett_e="Nem"
         try:
-            x.ablak.close()
+            self.ablak.close()
         except Exception as e:
             print(e)
 
-    def retranslateUi(x, Ui_Mutatok_UJ, modosit, parentAblak=None, nomen=False):
+    def retranslateUi(self, Ui_Mutatok_UJ, modosit, parentAblak=None, nomen=False):
         # a translate-nek most még nem igazán van értelme, majd ha angolra vagy németre is akarnánk fordítani az oldalt akkor kellhet, most egyelőre így hagyom
         _translate = QtCore.QCoreApplication.translate
         if not modosit and not nomen:
             Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Mutató létrehozása"))
         if not modosit and nomen:
             Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(),"Nómenklatúra létrehozása"))
-        x.pushButton_Mentes.setText(_translate(x.pushButton_Mentes.objectName(), "Mentés"))
-        x.pushButton_Megse.setText(_translate(x.pushButton_Megse.objectName(), "Mégse"))
+        self.pushButton_Mentes.setText(_translate(self.pushButton_Mentes.objectName(), "Mentés"))
+        self.pushButton_Megse.setText(_translate(self.pushButton_Megse.objectName(), "Mégse"))
 
-        x.valtozonevLabel.setText(_translate(x.valtozonevLabel.objectName(), "Változó neve:"))
-        x.cimkeLabel.setText(_translate(x.cimkeLabel.objectName(), "Nyomtatási címkéje:"))
-        x.leirasLabel.setText(_translate(x.leirasLabel.objectName(), "Leírása:"))
-        x.hosszLabel.setText(_translate(x.hosszLabel.objectName(), "Hossz:"))
-        x.tipusLabel.setText(_translate(x.tipusLabel.objectName(), "Típus:"))
+        self.valtozonevLabel.setText(_translate(self.valtozonevLabel.objectName(), "Változó neve:"))
+        self.cimkeLabel.setText(_translate(self.cimkeLabel.objectName(), "Nyomtatási címkéje:"))
+        self.leirasLabel.setText(_translate(self.leirasLabel.objectName(), "Leírása:"))
+        self.hosszLabel.setText(_translate(self.hosszLabel.objectName(), "Hossz:"))
+        self.tipusLabel.setText(_translate(self.tipusLabel.objectName(), "Típus:"))
         if not nomen:
-            x.csoportLabel.setText(_translate(x.csoportLabel.objectName(), "Mutató csoport:"))
-        x.ervenyessegKezdetLabel.setText(_translate(x.ervenyessegKezdetLabel.objectName(), "Érvényesség kezdete:"))
-        x.ervenyessegVegeLabel.setText(_translate(x.ervenyessegVegeLabel.objectName(), "Érvényesség vége:"))
+            self.csoportLabel.setText(_translate(self.csoportLabel.objectName(), "Mutató csoport:"))
+        self.ervenyessegKezdetLabel.setText(_translate(self.ervenyessegKezdetLabel.objectName(), "Érvényesség kezdete:"))
+        self.ervenyessegVegeLabel.setText(_translate(self.ervenyessegVegeLabel.objectName(), "Érvényesség vége:"))
 
-        x.comboBox.setItemText(0, _translate(x.comboBox.itemText(0), "Egész szám"))
-        x.comboBox.setItemText(1, _translate(x.comboBox.itemText(1), "Lebegőpontos szám"))
-        x.comboBox.setItemText(2, _translate(x.comboBox.itemText(2), "Dátum"))
-        x.comboBox.setItemText(3, _translate(x.comboBox.itemText(3), "Szöveg"))
-        x.tabWidget.setTabText(x.tabWidget.indexOf(x.tab), _translate(x.tabWidget.objectName(), "Attribútumok"))
+        self.comboBox.setItemText(0, _translate(self.comboBox.itemText(0), "Egész szám"))
+        self.comboBox.setItemText(1, _translate(self.comboBox.itemText(1), "Lebegőpontos szám"))
+        self.comboBox.setItemText(2, _translate(self.comboBox.itemText(2), "Dátum"))
+        self.comboBox.setItemText(3, _translate(self.comboBox.itemText(3), "Szöveg"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate(self.tabWidget.objectName(), "Attribútumok"))
 
         if modosit and parentAblak is not None:
             indexes = parentAblak.tableWidget.selectionModel().selectedRows()
@@ -405,16 +405,16 @@ class Ui_Mutatok_UJ(object):
                 tipus=parentAblak.tableWidget.item(index.row(),4).text()
                 if not nomen:
                     csoport=parentAblak.tableWidget.item(index.row(),5).text()
-                    x.lineEdit_csoport.setText(csoport)
+                    self.lineEdit_csoport.setText(csoport)
                 kezdoidopont=parentAblak.tableWidget.item(index.row(),7).text()
                 vegidopont=parentAblak.tableWidget.item(index.row(),8).text()
-                x.lineEdit_valtozonev.setText(valtnev)
-                x.lineEdit_cimke.setText(cimke)
-                x.lineEdit_leiras.setText(leiras)
-                x.lineEdit_hossz.setText(hossz)
-                x.comboBox.setCurrentText(tipus)
-                x.dateEdit_kezdet.setDate(datetime.datetime.strptime(kezdoidopont,'%Y-%m-%d'))
-                x.dateEdit_veg.setDate(datetime.datetime.strptime(vegidopont,'%Y-%m-%d'))
+                self.lineEdit_valtozonev.setText(valtnev)
+                self.lineEdit_cimke.setText(cimke)
+                self.lineEdit_leiras.setText(leiras)
+                self.lineEdit_hossz.setText(hossz)
+                self.comboBox.setCurrentText(tipus)
+                self.dateEdit_kezdet.setDate(datetime.datetime.strptime(kezdoidopont,'%Y-%m-%d'))
+                self.dateEdit_veg.setDate(datetime.datetime.strptime(vegidopont,'%Y-%m-%d'))
 
 class newMutatDB(object):
 
