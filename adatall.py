@@ -6,64 +6,64 @@ import sqlite3
 
 
 class Ui_Adatallomanyok(QtWidgets.QMainWindow):
-    def setupUi(x, Ui_Adatallomanyok):
-        x.ablak=Ui_Adatallomanyok
-        x.ablak.setObjectName("Ui_Adatallomanyok")
-        x.ablak.resize(1150, 586)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.db=DbConnectAdatAll()
+    def setupUi(self, Ui_Adatallomanyok):
+        self.ablak=Ui_Adatallomanyok
+        self.ablak.setObjectName("Ui_Adatallomanyok")
+        self.ablak.resize(1150, 586)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.db=DbConnectAdatAll()
        
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 10, 1090, 521))
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 10, 1090, 521))
         font = QtGui.QFont()
         font.setPointSize(8)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setGeometry(QtCore.QRect(15, 121, 881, 381))
-        x.tableWidget.setObjectName("tableWidget")
-        x.tableWidget.horizontalHeader().setStretchLastSection(True)
-        x.pushButton_elonezet = QtWidgets.QPushButton(x.frame)
-        x.pushButton_elonezet.setGeometry(QtCore.QRect(60, 40, 101, 25))
-        x.pushButton_elonezet.setObjectName("pushButton_elonezet")
-        x.pushButton__kodfuttatas = QtWidgets.QPushButton(x.frame)
-        x.pushButton__kodfuttatas.setGeometry(QtCore.QRect(200, 40, 111, 25))
-        x.pushButton__kodfuttatas.setObjectName("pushButton__kodfuttatas")
-        # x.pushButton_torles = QtWidgets.QPushButton(x.frame)
-        # x.pushButton_torles.setGeometry(QtCore.QRect(350, 40, 101, 25))
-        # x.pushButton_torles.setObjectName("pushButton_torles")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 937, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.tableWidget = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget.setGeometry(QtCore.QRect(15, 121, 881, 381))
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.pushButton_elonezet = QtWidgets.QPushButton(self.frame)
+        self.pushButton_elonezet.setGeometry(QtCore.QRect(60, 40, 101, 25))
+        self.pushButton_elonezet.setObjectName("pushButton_elonezet")
+        self.pushButton__kodfuttatas = QtWidgets.QPushButton(self.frame)
+        self.pushButton__kodfuttatas.setGeometry(QtCore.QRect(200, 40, 111, 25))
+        self.pushButton__kodfuttatas.setObjectName("pushButton__kodfuttatas")
+        # self.pushButton_torles = QtWidgets.QPushButton(self.frame)
+        # self.pushButton_torles.setGeometry(QtCore.QRect(350, 40, 101, 25))
+        # self.pushButton_torles.setObjectName("pushButton_torles")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 937, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
 
-        x.tableWidgetSetUp(x.tableWidget)
+        self.tableWidgetSetUp(self.tableWidget)
         
         
-        x.pushButton_elonezet.clicked.connect(x.open_tabla)
-        x.pushButton__kodfuttatas.clicked.connect(x.open_kod)
+        self.pushButton_elonezet.clicked.connect(self.open_tabla)
+        self.pushButton__kodfuttatas.clicked.connect(self.open_kod)
                  #ez fogja törölni a kiválasztott sort 
-        # x.pushButton_torles.clicked.connect(x.deleteCurrentRow)
+        # self.pushButton_torles.clicked.connect(self.deleteCurrentRow)
         
 
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
         #modosit torol gomb allapot valtozasahoz 
-        x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-        x.tableWidget.selectionModel().selectionChanged.connect(
-            x.on_selection_changed
+        self.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
+        self.tableWidget.selectionModel().selectionChanged.connect(
+            self.on_selection_changed
         )
  
-        x.on_selection_changed()
+        self.on_selection_changed()
                   
         
     def on_selection_changed(self):
@@ -111,126 +111,126 @@ class Ui_Adatallomanyok(QtWidgets.QMainWindow):
                 self.tableWidget.setItem(i, j, QTableWidgetItem(str(sor[j])))
             i += 1
 
-    def retranslateUi(x, Ui_Adatallomanyok):
+    def retranslateUi(self, Ui_Adatallomanyok):
         _translate = QtCore.QCoreApplication.translate
         Ui_Adatallomanyok.setWindowTitle(_translate("Ui_Adatallomanyok", "Adatállományok"))
 
-        item = x.tableWidget.horizontalHeaderItem(0)
+        item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Ui_Nomenklatura", "Adatállomány neve"))
-        item = x.tableWidget.horizontalHeaderItem(1)
+        item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Ui_Nomenklatura", "Állomány rekordszáma"))
-        item = x.tableWidget.horizontalHeaderItem(2)
+        item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("Ui_Nomenklatura", "Rekordleírása"))
-        item = x.tableWidget.horizontalHeaderItem(3)
+        item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("Ui_Nomenklatura", "Verziószáma"))
-        item = x.tableWidget.horizontalHeaderItem(4)
+        item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("Ui_Nomenklatura", "Projekt"))
-        item = x.tableWidget.horizontalHeaderItem(5)
+        item = self.tableWidget.horizontalHeaderItem(5)
         item.setText(_translate("Ui_Nomenklatura", "Tulajdonos"))
-        item = x.tableWidget.horizontalHeaderItem(6)
+        item = self.tableWidget.horizontalHeaderItem(6)
         item.setText(_translate("Ui_Nomenklatura", "Állomány titkosítási kódja"))
-        item = x.tableWidget.horizontalHeaderItem(7)
+        item = self.tableWidget.horizontalHeaderItem(7)
         item.setText(_translate("Ui_Nomenklatura", "Létrehozva"))
         
 
-        x.pushButton_elonezet.setText(_translate("Ui_Adatallomanyok", "Előnézet"))
-        x.pushButton__kodfuttatas.setText(_translate("Ui_Adatallomanyok", "Kód végrehajtása"))
-        # x.pushButton_torles.setText(_translate("Ui_Adatallomanyok", "Törlés"))
+        self.pushButton_elonezet.setText(_translate("Ui_Adatallomanyok", "Előnézet"))
+        self.pushButton__kodfuttatas.setText(_translate("Ui_Adatallomanyok", "Kód végrehajtása"))
+        # self.pushButton_torles.setText(_translate("Ui_Adatallomanyok", "Törlés"))
     
-    def open_tabla(x):#TODO: check if this len() check is enough
-        if len(x.tableWidget.selectionModel().selectedRows()) !=1:
-            QtWidgets.QMessageBox.question(x,
+    def open_tabla(self):
+        if len(self.tableWidget.selectionModel().selectedRows()) !=1:
+            QtWidgets.QMessageBox.question(self,
                                                 "Helytelen sorkiválasztás",
                                                 "Kérlek pontosan egy sort jelölj ki!",
                                                 QtWidgets.QMessageBox.Ok)
             return
-        x.window = QtWidgets.QMainWindow()
-        x.ui = Ui_Tablatartalom()
-        sorok=x.tableWidget.selectionModel().selectedRows()
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Tablatartalom()
+        sorok=self.tableWidget.selectionModel().selectedRows()
         rekordleiras_nev=""
         adatallomany_nev=""
         for sor in sorok:
-            rekordleiras_nev=str(x.tableWidget.item(sor.row(),2).text())
-            adatallomany_nev=str(x.tableWidget.item(sor.row(),0).text())
-        x.ui.setupUi(x.window,adatallomany_nev, rekordleiras_nev)
-        x.window.show()
+            rekordleiras_nev=str(self.tableWidget.item(sor.row(),2).text())
+            adatallomany_nev=str(self.tableWidget.item(sor.row(),0).text())
+        self.ui.setupUi(self.window,adatallomany_nev, rekordleiras_nev)
+        self.window.show()
         
-    def open_kod(x):
-        if len(x.tableWidget.selectionModel().selectedRows()) !=1:
-            QtWidgets.QMessageBox.question(x,
+    def open_kod(self):
+        if len(self.tableWidget.selectionModel().selectedRows()) !=1:
+            QtWidgets.QMessageBox.question(self,
                                                 "Helytelen sorkiválasztás",
                                                 "Kérlek pontosan egy sort jelölj ki!",
                                                 QtWidgets.QMessageBox.Ok)
             return
-        x.window = QtWidgets.QMainWindow()
-        x.ui = Ui_Kod()
-        x.ui.setupUi(x.window, x.tableWidget, parent=x)
-        x.window.show()
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Kod()
+        self.ui.setupUi(self.window, self.tableWidget, parent=self)
+        self.window.show()
 
 
 class Ui_Tablatartalom(object):
-    def setupUi(x, Ui_Tablatartalom,adatallomany_nev, rekordleiras_nev):
-        x.ablak=Ui_Tablatartalom
-        x.ablak.setObjectName("Ui_Tablatartalom")
-        x.ablak.resize(622, 449)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.db=DbConnectAdatAll()
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 10, 601, 391))
+    def setupUi(self, Ui_Tablatartalom,adatallomany_nev, rekordleiras_nev):
+        self.ablak=Ui_Tablatartalom
+        self.ablak.setObjectName("Ui_Tablatartalom")
+        self.ablak.resize(622, 449)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.db=DbConnectAdatAll()
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 10, 601, 391))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setGeometry(QtCore.QRect(10, 70, 581, 311))
-        x.tableWidget.setColumnCount(5)
-        x.tableWidget.setObjectName("tableWidget")
-        x.tableWidget.setRowCount(0)
-        x.tableWidget.horizontalHeader().setStretchLastSection(True)
-        # x.pushButton_modosit = QtWidgets.QPushButton(x.frame)
-        # x.pushButton_modosit.setGeometry(QtCore.QRect(10, 10, 101, 31))
-        # x.pushButton_modosit.setObjectName("pushButton_modosit")
-        # x.pushButton_aktualizal = QtWidgets.QPushButton(x.frame)
-        # x.pushButton_aktualizal.setGeometry(QtCore.QRect(130, 10, 101, 31))
-        # x.pushButton_aktualizal.setObjectName("pushButton_aktualizal")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 622, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.tableWidget = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget.setGeometry(QtCore.QRect(10, 70, 581, 311))
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setRowCount(0)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        # self.pushButton_modosit = QtWidgets.QPushButton(self.frame)
+        # self.pushButton_modosit.setGeometry(QtCore.QRect(10, 10, 101, 31))
+        # self.pushButton_modosit.setObjectName("pushButton_modosit")
+        # self.pushButton_aktualizal = QtWidgets.QPushButton(self.frame)
+        # self.pushButton_aktualizal.setGeometry(QtCore.QRect(130, 10, 101, 31))
+        # self.pushButton_aktualizal.setObjectName("pushButton_aktualizal")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 622, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(adatallomany_nev,rekordleiras_nev)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(adatallomany_nev,rekordleiras_nev)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-    def retranslateUi(x,adatallomany_nev, rekordleiras_nev):
+    def retranslateUi(self,adatallomany_nev, rekordleiras_nev):
         _translate = QtCore.QCoreApplication.translate
-        x.ablak.setWindowTitle(_translate("Ui_Tablatartalom", "Tábla tartalma"))
-        # x.pushButton_modosit.setText(_translate("Ui_Tablatartalom", "Módosít"))
-        # x.pushButton_aktualizal.setText(_translate("Ui_Tablatartalom", "Aktualizál"))
+        self.ablak.setWindowTitle(_translate("Ui_Tablatartalom", "Tábla tartalma"))
+        # self.pushButton_modosit.setText(_translate("Ui_Tablatartalom", "Módosít"))
+        # self.pushButton_aktualizal.setText(_translate("Ui_Tablatartalom", "Aktualizál"))
 
         szamlalo=0
         mezoLista=[]
-        query=x.db.listMezokForRekordleiras(rekordleiras_nev)
+        query=self.db.listMezokForRekordleiras(rekordleiras_nev)
         for sor in query:
-            mezoLista.append(str(sor[1])+f" ({x.intToMezo(int(sor[2]))})")
+            mezoLista.append(str(sor[1])+f" ({self.intToMezo(int(sor[2]))})")
             szamlalo+=1
-        x.tableWidget.setColumnCount(szamlalo)
+        self.tableWidget.setColumnCount(szamlalo)
         for i in range(szamlalo):
             item = QtWidgets.QTableWidgetItem()
-            x.tableWidget.setHorizontalHeaderItem(i, item)
-            x.tableWidget.horizontalHeaderItem(i).setText(mezoLista[i])
-        sorok=x.db.listSpecififcTable(adatallomany_nev)
+            self.tableWidget.setHorizontalHeaderItem(i, item)
+            self.tableWidget.horizontalHeaderItem(i).setText(mezoLista[i])
+        sorok=self.db.listSpecififcTable(adatallomany_nev)
         k=0
         for sor in sorok:
-            x.tableWidget.setRowCount(k+1)
+            self.tableWidget.setRowCount(k+1)
             for i in range(szamlalo):
-                x.tableWidget.setItem(k,i,QTableWidgetItem(str(sor[i])))
+                self.tableWidget.setItem(k,i,QTableWidgetItem(str(sor[i])))
             k+=1
 
     def intToMezo(self, szam):
@@ -239,47 +239,47 @@ class Ui_Tablatartalom(object):
         return "Nómenklatúra"
 
 class Ui_Kod(object):
-    def setupUi(x, Ui_Kod, tableWidget, parent=None):
-        x.ablak=Ui_Kod
-        x.ablak.setObjectName("Ui_Kod")
-        x.ablak.resize(443, 396)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.db=DbConnectAdatAll()
-        x.pushButton_futtat = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_futtat.setGeometry(QtCore.QRect(200, 320, 101, 31))
+    def setupUi(self, Ui_Kod, tableWidget, parent=None):
+        self.ablak=Ui_Kod
+        self.ablak.setObjectName("Ui_Kod")
+        self.ablak.resize(443, 396)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.db=DbConnectAdatAll()
+        self.pushButton_futtat = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_futtat.setGeometry(QtCore.QRect(200, 320, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_futtat.setFont(font)
-        x.pushButton_futtat.setObjectName("pushButton_futtat")
-        x.pushButton_megse = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_megse.setGeometry(QtCore.QRect(310, 320, 101, 31))
+        self.pushButton_futtat.setFont(font)
+        self.pushButton_futtat.setObjectName("pushButton_futtat")
+        self.pushButton_megse = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_megse.setGeometry(QtCore.QRect(310, 320, 101, 31))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_megse.setFont(font)
-        x.pushButton_megse.setDefault(True)
-        x.pushButton_megse.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse.setObjectName("pushButton_megse")
-        x.groupBox = QtWidgets.QGroupBox(x.centralwidget)
-        x.groupBox.setGeometry(QtCore.QRect(20, 10, 401, 301))
+        self.pushButton_megse.setFont(font)
+        self.pushButton_megse.setDefault(True)
+        self.pushButton_megse.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse.setObjectName("pushButton_megse")
+        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox.setGeometry(QtCore.QRect(20, 10, 401, 301))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.groupBox.setFont(font)
-        x.groupBox.setObjectName("groupBox")
-        x.textEdit = QtWidgets.QTextEdit(x.groupBox)
-        x.textEdit.setGeometry(QtCore.QRect(10, 20, 381, 271))
-        x.textEdit.setObjectName("textEdit")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 443, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
-        x.pushButton_futtat.clicked.connect(lambda: x.runQuery(tableWidget, parent))
-        x.retranslateUi()
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.groupBox.setFont(font)
+        self.groupBox.setObjectName("groupBox")
+        self.textEdit = QtWidgets.QTextEdit(self.groupBox)
+        self.textEdit.setGeometry(QtCore.QRect(10, 20, 381, 271))
+        self.textEdit.setObjectName("textEdit")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 443, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
+        self.pushButton_futtat.clicked.connect(lambda: self.runQuery(tableWidget, parent))
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
     def runQuery(self, tableWidget, parent):
         indexes=tableWidget.selectionModel().selectedRows()
@@ -310,12 +310,12 @@ class Ui_Kod(object):
             return
 
 
-    def retranslateUi(x):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        x.ablak.setWindowTitle(_translate("Ui_Kod", "Kód végrehajtása"))
-        x.pushButton_futtat.setText(_translate("Ui_Kod", "Futtatás"))
-        x.pushButton_megse.setText(_translate("Ui_Kod", "Mégse"))
-        x.groupBox.setTitle(_translate("Ui_Kod", "Futtatandó utasítás"))
+        self.ablak.setWindowTitle(_translate("Ui_Kod", "Kód végrehajtása"))
+        self.pushButton_futtat.setText(_translate("Ui_Kod", "Futtatás"))
+        self.pushButton_megse.setText(_translate("Ui_Kod", "Mégse"))
+        self.groupBox.setTitle(_translate("Ui_Kod", "Futtatandó utasítás"))
 
 
 class DbConnectAdatAll():
