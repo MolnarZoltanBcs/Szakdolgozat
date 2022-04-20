@@ -80,8 +80,6 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
         tableWidget.setObjectName("tableWidget")
 
         k=9
-        if nomen:
-            k=10
         tableWidget.setColumnCount(k)
         tableWidget.setRowCount(0)
         for i in range(k):
@@ -131,8 +129,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          k=9
          oszlopnevek=["Változó neve","Nyomtatási cimke","Leírás","Hossz","Típus","Mutató csoport","Utolsó módosítás","Érvényesség kezdete","Érvényesség vége"]
          if nomen:
-             k=10
-             oszlopnevek = ["Változó neve", "Nyomtatási cimke", "Leírás", "Hossz", "Típus", "Mutató csoport", "Képzett",
+             oszlopnevek = ["Változó neve", "Nyomtatási cimke", "Leírás", "Hossz", "Típus", "Képzett",
                             "Utolsó módosítás", "Érvényesség kezdete", "Érvényesség vége"]
 
          for row in query:
@@ -280,9 +277,9 @@ class Ui_Mutatok_UJ(object):
 
         x.tipusLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.tipusLabel, 40, 170, 161, 31, "tipusLabel")
-
-        x.csoportLabel = QtWidgets.QLabel(x.tab)
-        x.labelSetUp(x.csoportLabel, 40, 200, 161, 51, "csoportLabel")
+        if not nomen:
+            x.csoportLabel = QtWidgets.QLabel(x.tab)
+            x.labelSetUp(x.csoportLabel, 40, 200, 161, 51, "csoportLabel")
 
         x.ervenyessegKezdetLabel = QtWidgets.QLabel(x.tab)
         x.labelSetUp(x.ervenyessegKezdetLabel, 40, 250, 161, 31, "ervenyessegKezdetLabel")
@@ -295,9 +292,10 @@ class Ui_Mutatok_UJ(object):
         x.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
         x.dateEdit_veg.setCalendarPopup(True)
         x.dateEdit_veg.setObjectName("dateEdit_veg")
-        x.lineEdit_csoport = QtWidgets.QLineEdit(x.tab)
-        x.lineEdit_csoport.setGeometry(QtCore.QRect(220, 210, 201, 31))
-        x.lineEdit_csoport.setObjectName("lineEdit_csoport")
+        if not nomen:
+            x.lineEdit_csoport = QtWidgets.QLineEdit(x.tab)
+            x.lineEdit_csoport.setGeometry(QtCore.QRect(220, 210, 201, 31))
+            x.lineEdit_csoport.setObjectName("lineEdit_csoport")
         x.dateEdit_kezdet = QtWidgets.QDateEdit(x.tab)
         x.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 250, 151, 31))
         x.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
@@ -316,7 +314,6 @@ class Ui_Mutatok_UJ(object):
                                     "{"
                                     "background : lightgray;"
                                     "}")
-            x.ablak.setWindowTitle("Kiválasztott mutató módosítása")
         x.lineEdit_cimke = QtWidgets.QLineEdit(x.tab)
         x.lineEdit_cimke.setGeometry(QtCore.QRect(220, 50, 201, 31))
         x.lineEdit_cimke.setObjectName("lineEdit_cimke")
@@ -355,17 +352,18 @@ class Ui_Mutatok_UJ(object):
         leiras = x.lineEdit_leiras.text()
         hossz= x.lineEdit_hossz.text()
         tipus=x.comboBox.currentText()
-        csoport = x.lineEdit_csoport.text()
+        try:
+            csoport = x.lineEdit_csoport.text()
+        except Exception:
+            pass # nomen
         kezdoidopont=x.dateEdit_kezdet.date().toPyDate()
         vegidopont=x.dateEdit_veg.date().toPyDate()
         if not modosit:
             kepzett_e="Nem"
-        print(valtnev, cimke, leiras, hossz, tipus, csoport, str(kezdoidopont), str(vegidopont))
         try:
             x.ablak.close()
         except Exception as e:
             print(e)
-            print("save_text hiba")
 
     def retranslateUi(x, Ui_Mutatok_UJ, modosit, parentAblak=None, nomen=False):
         # a translate-nek most még nem igazán van értelme, majd ha angolra vagy németre is akarnánk fordítani az oldalt akkor kellhet, most egyelőre így hagyom
@@ -382,7 +380,8 @@ class Ui_Mutatok_UJ(object):
         x.leirasLabel.setText(_translate(x.leirasLabel.objectName(), "Leírása:"))
         x.hosszLabel.setText(_translate(x.hosszLabel.objectName(), "Hossz:"))
         x.tipusLabel.setText(_translate(x.tipusLabel.objectName(), "Típus:"))
-        x.csoportLabel.setText(_translate(x.csoportLabel.objectName(), "Mutató csoport:"))
+        if not nomen:
+            x.csoportLabel.setText(_translate(x.csoportLabel.objectName(), "Mutató csoport:"))
         x.ervenyessegKezdetLabel.setText(_translate(x.ervenyessegKezdetLabel.objectName(), "Érvényesség kezdete:"))
         x.ervenyessegVegeLabel.setText(_translate(x.ervenyessegVegeLabel.objectName(), "Érvényesség vége:"))
 
@@ -394,21 +393,25 @@ class Ui_Mutatok_UJ(object):
 
         if modosit and parentAblak is not None:
             indexes = parentAblak.tableWidget.selectionModel().selectedRows()
-            Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Kiválasztott mutató módosítása"))
+            if not nomen:
+                Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Kiválasztott mutató módosítása"))
+            else:
+                Ui_Mutatok_UJ.setWindowTitle(_translate(Ui_Mutatok_UJ.objectName(), "Kiválasztott nómenklatúra módosítása"))
             for index in sorted(indexes):
                 valtnev=parentAblak.tableWidget.item(index.row(),0).text()
                 cimke=parentAblak.tableWidget.item(index.row(),1).text()
                 leiras=parentAblak.tableWidget.item(index.row(),2).text()
                 hossz=parentAblak.tableWidget.item(index.row(),3).text()
                 tipus=parentAblak.tableWidget.item(index.row(),4).text()
-                csoport=parentAblak.tableWidget.item(index.row(),5).text()
+                if not nomen:
+                    csoport=parentAblak.tableWidget.item(index.row(),5).text()
+                    x.lineEdit_csoport.setText(csoport)
                 kezdoidopont=parentAblak.tableWidget.item(index.row(),7).text()
                 vegidopont=parentAblak.tableWidget.item(index.row(),8).text()
                 x.lineEdit_valtozonev.setText(valtnev)
                 x.lineEdit_cimke.setText(cimke)
                 x.lineEdit_leiras.setText(leiras)
                 x.lineEdit_hossz.setText(hossz)
-                x.lineEdit_csoport.setText(csoport)
                 x.comboBox.setCurrentText(tipus)
                 x.dateEdit_kezdet.setDate(datetime.datetime.strptime(kezdoidopont,'%Y-%m-%d'))
                 x.dateEdit_veg.setDate(datetime.datetime.strptime(vegidopont,'%Y-%m-%d'))
@@ -429,7 +432,7 @@ class newMutatDB(object):
                          'kezdoidopont':[],
                          'vegidopont':[]})
             if nomen:
-                exportalando_dataframe = pd.DataFrame({'nev': [],'cimke': [],'leiras': [],'hossz': [],'tipus': [],'csoport': [],
+                exportalando_dataframe = pd.DataFrame({'nev': [],'cimke': [],'leiras': [],'hossz': [],'tipus': [],
                                                        'kepzett_e':[],
                                                        'utolso_modositas': [],'kezdoidopont': [],'vegidopont': []})
 
@@ -451,11 +454,10 @@ class newMutatDB(object):
                          'leiras': self.parentAblak.tableWidget.item(elem.row(), 2).text(),
                          'hossz': self.parentAblak.tableWidget.item(elem.row(), 3).text(),
                          'tipus': self.parentAblak.tableWidget.item(elem.row(), 4).text(),
-                         'csoport': self.parentAblak.tableWidget.item(elem.row(), 5).text(),
-                         'kepzett_e': self.parentAblak.tableWidget.item(elem.row(), 6).text(),
-                         'utolso_modositas': self.parentAblak.tableWidget.item(elem.row(), 7).text(),
-                         'kezdoidopont': self.parentAblak.tableWidget.item(elem.row(), 8).text(),
-                         'vegidopont': self.parentAblak.tableWidget.item(elem.row(), 9).text()}, ignore_index=True)
+                         'kepzett_e': self.parentAblak.tableWidget.item(elem.row(), 5).text(),
+                         'utolso_modositas': self.parentAblak.tableWidget.item(elem.row(), 6).text(),
+                         'kezdoidopont': self.parentAblak.tableWidget.item(elem.row(), 7).text(),
+                         'vegidopont': self.parentAblak.tableWidget.item(elem.row(), 8).text()}, ignore_index=True)
 
             exportalando_dataframe.index +=1
         else:
@@ -463,7 +465,7 @@ class newMutatDB(object):
             if not nomen:
                 exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT * FROM mutatok", conn))
             else:
-                exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT nev, cimke, leiras, hossz, tipus, csoport,kepzett_e,utolso_modositas, kezdoidopont, vegidopont FROM nomenklaturak", conn))
+                exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT nev, cimke, leiras, hossz, tipus, kepzett_e,utolso_modositas, kezdoidopont, vegidopont FROM nomenklaturak", conn))
             exportalando_dataframe.index += 1
 
         fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption="Fájl mentése "+kiterjesztes+"-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
@@ -497,7 +499,7 @@ class newMutatDB(object):
                         c.execute("UPDATE mutatok SET cimke='"+cimke+"', leiras='"+leiras+"', hossz='"+hossz+"', tipus='"+tipus+"', csoport='"+csoport+"', utolso_modositas='"+str(date.today())+"', kezdoidopont='"+str(kezdoidopont)+"', vegidopont='"+str(vegidopont)+"' WHERE nev='"+valtnev+"';")
                      else:
                          c.execute(
-                             "UPDATE nomenklaturak SET cimke='" + cimke + "', leiras='" + leiras + "', hossz='" + hossz + "', tipus='" + tipus + "', csoport='" + csoport + "', utolso_modositas='" + str(
+                             "UPDATE nomenklaturak SET cimke='" + cimke + "', leiras='" + leiras + "', hossz='" + hossz + "', tipus='" + tipus + "', utolso_modositas='" + str(
                                  date.today()) + "', kezdoidopont='" + str(kezdoidopont) + "', vegidopont='" + str(
                                  vegidopont) + "' WHERE nev='" + valtnev + "';")
 
@@ -507,7 +509,6 @@ class newMutatDB(object):
                          self.parentAblak.tableWidget.setItem(index.row(), 2, QTableWidgetItem(leiras))
                          self.parentAblak.tableWidget.setItem(index.row(), 3, QTableWidgetItem(hossz))
                          self.parentAblak.tableWidget.setItem(index.row(), 4, QTableWidgetItem(tipus))
-                         self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(csoport))
 
                          str_kepzett_e = c.execute("select kepzett_e from nomenklaturak where nev='"+valtnev+"'")
                          global kepzett_e
@@ -515,24 +516,24 @@ class newMutatDB(object):
                              kepzett_e="Nem"
                              if elem[0]==1:
                                  kepzett_e="Igen"
-                         self.parentAblak.tableWidget.setItem(index.row(), 6, QTableWidgetItem(kepzett_e))
-                         self.parentAblak.tableWidget.setItem(index.row(), 7, QTableWidgetItem(str(date.today())))
-                         self.parentAblak.tableWidget.setItem(index.row(), 8, QTableWidgetItem(str(kezdoidopont)))
-                         self.parentAblak.tableWidget.setItem(index.row(), 9, QTableWidgetItem(str(vegidopont)))
+                         self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(kepzett_e))
+                         self.parentAblak.tableWidget.setItem(index.row(), 6, QTableWidgetItem(str(date.today())))
+                         self.parentAblak.tableWidget.setItem(index.row(), 7, QTableWidgetItem(str(kezdoidopont)))
+                         self.parentAblak.tableWidget.setItem(index.row(), 8, QTableWidgetItem(str(vegidopont)))
 
             if not modosit:
                 if not nomen:
                     script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, tipus, csoport, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
                 else:
-                    script = "INSERT INTO nomenklaturak (nev, cimke, leiras, hossz, tipus, csoport, kepzett_e, bal_kepzett_nev, jobb_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, 0, '', '', ?, ?, ?);"
+                    script = "INSERT INTO nomenklaturak (nev, cimke, leiras, hossz, tipus, kepzett_e, elsodleges_kepzett_nev, masodlagos_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, 0, '', '', ?, ?, ?);"
 
-                c.execute(script, (valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), kezdoidopont, vegidopont))
+                c.execute(script, (valtnev, cimke, leiras, hossz, tipus, str(date.today()), kezdoidopont, vegidopont))
                 conn.commit()
                 conn.close()
 
                 # ez a frissítéshez van
                 if nomen:
-                    addNewRow(self.parentAblak, [valtnev, cimke, leiras, hossz, tipus, csoport, kepzett_e, str(date.today()), str(kezdoidopont),str(vegidopont)])
+                    addNewRow(self.parentAblak, [valtnev, cimke, leiras, hossz, tipus, kepzett_e, str(date.today()), str(kezdoidopont),str(vegidopont)])
                 else:
                     addNewRow(self.parentAblak, [valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), str(kezdoidopont),str(vegidopont)])
         except Exception as e:
@@ -550,7 +551,7 @@ class newMutatDB(object):
         if not nomen:
             query = c.execute('''SELECT * FROM mutatok''')
         else:
-            query = c.execute('''select nev, cimke, leiras, hossz, tipus, csoport,kepzett_e,utolso_modositas, kezdoidopont, vegidopont  from nomenklaturak''')
+            query = c.execute('''select nev, cimke, leiras, hossz, tipus,kepzett_e,utolso_modositas, kezdoidopont, vegidopont  from nomenklaturak''')
         conn.commit()
 
         # conn.close() #Closing the database, valamiért ezzel kifagy az egész

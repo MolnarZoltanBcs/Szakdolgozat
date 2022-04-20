@@ -348,8 +348,11 @@ class Ui_Nomen_Elemek_Ujfelvetel(object):
             x.lineEdit.setReadOnly(True)
             indexes=x.parentablak.tableWidget.selectionModel().selectedRows()
             for index in sorted(indexes):
-                x.lineEdit.setText(x.parentablak.tableWidget.item(index.row(), 0).text())
-                x.lineEdit_2.setText(x.parentablak.tableWidget.item(index.row(), 1).text())
+                try:
+                    x.lineEdit.setText(x.parentablak.tableWidget.item(index.row(), 0).text())
+                    x.lineEdit_2.setText(x.parentablak.tableWidget.item(index.row(), 1).text())
+                except Exception:
+                    pass
             x.lineEdit.setStyleSheet("QLineEdit"
                                                 "{"
                                                 "background : lightgray;"
@@ -569,8 +572,8 @@ class Ui_Nomen_Elemek_Kepzes(object):
         _translate = QtCore.QCoreApplication.translate
         Ui_Nomen_Elemek_Kepzes.setWindowTitle(_translate("Ui_Nomen_Elemek_Kepzes", "Nómenklatúra képzési szabályok"))
         x.groupBox.setTitle(_translate("Ui_Nomen_Elemek_Kepzes", "Paraméterek"))
-        x.label.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Baloldal:"))
-        x.label_2.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Jobboldal:"))
+        x.label.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Elsődleges:"))
+        x.label_2.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Másodlagos:"))
         x.label_3.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Változónév:"))
         x.label_4.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Nyomtatási címke:"))
         x.label_bal.setText(_translate("Ui_Nomen_Elemek_Kepzes", x.bal))
@@ -617,10 +620,10 @@ class DbConnect(object):
                                                     "Kérlek adj meg egy új értéket!",
                                                     QtWidgets.QMessageBox.Ok)
             return
-        c.execute('insert into nomenklaturak (nev, cimke, leiras, hossz, tipus, csoport, kepzett_e, bal_kepzett_nev, jobb_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) '
-                  'values(?,?,?,?,?,?,?,?,?,?,?,?);',(nev,cimke,"","","Szöveg","",1,bal,jobb,str(date.today()),str(date.today()),str(date.today())))
+        c.execute('insert into nomenklaturak (nev, cimke, leiras, hossz, tipus,  kepzett_e, elsodleges_kepzett_nev, masodlagos_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) '
+                  'values(?,?,?,?,?,?,?,?,?,?,?);',(nev,cimke,"","","Szöveg",1,bal,jobb,str(date.today()),str(date.today()),str(date.today())))
         if parentablak is not None:
-            addNewRow(parentablak, [nev, cimke,"","","Szöveg","","Igen",str(date.today()),str(date.today()),str(date.today())])
+            addNewRow(parentablak, [nev, cimke,"","","Szöveg","Igen",str(date.today()),str(date.today()),str(date.today())])
         ablak.close()
         conn.commit()
         conn.close()
@@ -676,8 +679,11 @@ class DbConnect(object):
         c = conn.cursor()
         indexes = ablak.tableWidget.selectionModel().selectedRows()
         for index in indexes:
-            valtnev=ablak.tableWidget.item(index.row(),0).text()
-            c.execute('delete from nomenklatura_elemek where ertek="'+valtnev+'";')
+            try:
+                valtnev=ablak.tableWidget.item(index.row(),0).text()
+                c.execute('delete from nomenklatura_elemek where ertek="'+valtnev+'";')
+            except Exception:
+                pass
         deleteRows(ablak)
         conn.commit()
         conn.close()
