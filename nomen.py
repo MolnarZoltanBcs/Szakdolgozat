@@ -9,40 +9,40 @@ from mutatok import Ui_Mutatok_UJ, Ui_Mutatok
 
 
 class Ui_Nomenklatura(QtWidgets.QMainWindow):
-    def setupUi(x,  Ui_Nomenklatura):
-         x.ablak=Ui_Nomenklatura
-         x.ui=Ui_Mutatok()
-         x.db=DbConnect()
-         x.ui.setupUi(x.ablak, nomen=True)
-         x.ui.ablak.setWindowTitle("Nomenklaturák kezelése")
-         x.ui.pushButton_elemek = QtWidgets.QPushButton(x.ui.ablak)
-         x.ui.pushButton_elemek.setGeometry(QtCore.QRect(302, 26, 130, 23))
-         x.ui.pushButton_elemek.setObjectName("pushButton_elemek") #nomeklatura elemek
-         x.ui.pushButton_elemek.setText("Nomenklatúra Elemek") #nomeklatura elemek
-         x.ui.pushButton_kepzes = QtWidgets.QPushButton(x.ui.ablak)
-         x.ui.pushButton_kepzes.setGeometry(QtCore.QRect(462, 26, 91, 23))
-         x.ui.pushButton_kepzes.setObjectName("pushButton_kepzes")  # kepzes
-         x.ui.pushButton_kepzes.setText("Képzés")  # kepzes
-         x.ui.pushButton_torol.setGeometry(QtCore.QRect(583, 26, 91, 23))
-         x.ui.pushButton_export.setGeometry(QtCore.QRect(704, 26, 110, 23))
-         x.ui.radioButton_export_csv.setGeometry(QtCore.QRect(845, 26, 110, 23))
-         x.ui.radioButton_export_excel.setGeometry(QtCore.QRect(895, 26, 110, 23))
+    def setupUi(self,  Ui_Nomenklatura):
+         self.ablak=Ui_Nomenklatura
+         self.ui=Ui_Mutatok()
+         self.db=DbConnect()
+         self.ui.setupUi(self.ablak, nomen=True)
+         self.ui.ablak.setWindowTitle("Nomenklaturák kezelése")
+         self.ui.pushButton_elemek = QtWidgets.QPushButton(self.ui.ablak)
+         self.ui.pushButton_elemek.setGeometry(QtCore.QRect(302, 26, 130, 23))
+         self.ui.pushButton_elemek.setObjectName("pushButton_elemek") #nomeklatura elemek
+         self.ui.pushButton_elemek.setText("Nomenklatúra Elemek") #nomeklatura elemek
+         self.ui.pushButton_kepzes = QtWidgets.QPushButton(self.ui.ablak)
+         self.ui.pushButton_kepzes.setGeometry(QtCore.QRect(462, 26, 91, 23))
+         self.ui.pushButton_kepzes.setObjectName("pushButton_kepzes")  # kepzes
+         self.ui.pushButton_kepzes.setText("Képzés")  # kepzes
+         self.ui.pushButton_torol.setGeometry(QtCore.QRect(583, 26, 91, 23))
+         self.ui.pushButton_export.setGeometry(QtCore.QRect(704, 26, 110, 23))
+         self.ui.radioButton_export_csv.setGeometry(QtCore.QRect(845, 26, 110, 23))
+         self.ui.radioButton_export_excel.setGeometry(QtCore.QRect(895, 26, 110, 23))
 
 
 
          #
-         # x.valtoztatUi(x.ui.ablak)
-         # QtCore.QMetaObject.connectSlotsByName(x.ui.ablak)
+         # self.valtoztatUi(self.ui.ablak)
+         # QtCore.QMetaObject.connectSlotsByName(self.ui.ablak)
 
          #ez fogja megnyitni az nomenklatura elemek ablakot ablakot
-         x.ui.pushButton_elemek.clicked.connect(x.open_Nomen_Elemek)
+         self.ui.pushButton_elemek.clicked.connect(self.open_Nomen_Elemek)
          #
          #     #ez nyitja meg a kepzest
-         x.ui.pushButton_kepzes.clicked.connect(lambda: x.open_Nomen_Elemek_Kepzes(x.ui))
+         self.ui.pushButton_kepzes.clicked.connect(lambda: self.open_Nomen_Elemek_Kepzes(self.ui))
          #
-         # x.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-         # x.ui.tableWidget.selectionModel().selectionChanged.connect(lambda: x.on_selection_changed())
-         # x.on_selection_changed()
+         # self.ui.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
+         # self.ui.tableWidget.selectionModel().selectionChanged.connect(lambda: self.on_selection_changed())
+         # self.on_selection_changed()
                   
         
     def on_selection_changed(self):
@@ -71,377 +71,377 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
             for index in sorted(indexes):
                 self.tableWidget.removeRow(index.row())
 
-    def valtoztatUi(x, Ui_Nomenklatura):
+    def valtoztatUi(self, Ui_Nomenklatura):
          _translate = QtCore.QCoreApplication.translate
          Ui_Nomenklatura.setWindowTitle(_translate("Ui_Nomenklatura", "Nómenklatúrák kezelése"))
          
          cimkek = ["Változó neve", "Nyomtatási cimke", "Leírás", "Hossz", "Típus", "Utolsó módosítás", "Érvényesség kezdete", "Érvényesség vége"]
          i=0
          for elem in cimkek:
-            item = x.tableWidget.horizontalHeaderItem(i)
+            item = self.tableWidget.horizontalHeaderItem(i)
             item.setText(_translate("Ui_Nomenklatura", elem))
             i+=1
          
          
-         __sortingEnabled = x.tableWidget.isSortingEnabled()
-         x.tableWidget.setSortingEnabled(False)
+         __sortingEnabled = self.tableWidget.isSortingEnabled()
+         self.tableWidget.setSortingEnabled(False)
  
-         x.tableWidget.setSortingEnabled(__sortingEnabled)
-         x.pushButton_uj.setText(_translate("Ui_Nomenklatura", "Új létrehozása"))
-         x.pushButton_modosit.setText(_translate("Ui_Nomenklatura", "Módosítás"))
-         x.pushButton_torol.setText(_translate("Ui_Nomenklatura", "Törlés"))
-         x.pushButton_export.setText(_translate("Ui_Nomenklatura", "Kijelöltek exportja"))
-         x.pushButton_elemek.setText(_translate("Ui_Nomenklatura", "Nómenklatúra Elemek"))
-         x.pushButton_kepzes.setText(_translate("Ui_Nomenklatura", "Képzés"))
+         self.tableWidget.setSortingEnabled(__sortingEnabled)
+         self.pushButton_uj.setText(_translate("Ui_Nomenklatura", "Új létrehozása"))
+         self.pushButton_modosit.setText(_translate("Ui_Nomenklatura", "Módosítás"))
+         self.pushButton_torol.setText(_translate("Ui_Nomenklatura", "Törlés"))
+         self.pushButton_export.setText(_translate("Ui_Nomenklatura", "Kijelöltek exportja"))
+         self.pushButton_elemek.setText(_translate("Ui_Nomenklatura", "Nómenklatúra Elemek"))
+         self.pushButton_kepzes.setText(_translate("Ui_Nomenklatura", "Képzés"))
 
     #definialjuk az uj mutato letrehozasa ablakot
     #ez nyitja meg
-    def openUjNomeklatura(x):
-         x.window = QtWidgets.QMainWindow()
-         x.ui2 =  Ui_Mutatok_UJ()
-         x.ui2.setupUi(x.window, x.ablak, nomen=True) #az ablak a parentje az új windownak
-         x.ui2.comboBox.addItem("Karakteres")
-         x.ui2.csoportLabel.deleteLater()
-         x.ui2.lineEdit_csoport.deleteLater()
-         x.ui2.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 200, 161, 51))
-         x.ui2.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
-         x.ui2.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 250, 161, 31))
-         x.ui2.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
-         x.window.show()
+    def openUjNomeklatura(self):
+         self.window = QtWidgets.QMainWindow()
+         self.ui2 =  Ui_Mutatok_UJ()
+         self.ui2.setupUi(self.window, self.ablak, nomen=True) #az ablak a parentje az új windownak
+         self.ui2.comboBox.addItem("Karakteres")
+         self.ui2.csoportLabel.deleteLater()
+         self.ui2.lineEdit_csoport.deleteLater()
+         self.ui2.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 200, 161, 51))
+         self.ui2.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
+         self.ui2.ervenyessegVegeLabel.setGeometry(QtCore.QRect(40, 250, 161, 31))
+         self.ui2.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
+         self.window.show()
     #es definialjuk a modosit mutato ablakot
-    def openModositNomenklatura(x):
-         x.window = QtWidgets.QMainWindow()
-         x.ui_uj_nomen =  Ui_Mutatok_UJ()
-         x.ui_uj_nomen.setupModositUi(x.window, x.ablak)
-         x.window.setWindowTitle("Kiválasztott nómenklatúra módosítása")
-         x.ui_uj_nomen.comboBox.addItem("Karakteres")
-         # x.ui.label_6.deleteLater()
-         x.ui_uj_nomen.lineEdit_csoport.deleteLater()
-         # x.ui.label_7.setGeometry(QtCore.QRect(40, 200, 161, 51))
-         x.ui_uj_nomen.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
-         # x.ui.label_8.setGeometry(QtCore.QRect(40, 250, 161, 31))
-         x.ui_uj_nomen.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
+    def openModositNomenklatura(self):
+         self.window = QtWidgets.QMainWindow()
+         self.ui_uj_nomen =  Ui_Mutatok_UJ()
+         self.ui_uj_nomen.setupModositUi(self.window, self.ablak)
+         self.window.setWindowTitle("Kiválasztott nómenklatúra módosítása")
+         self.ui_uj_nomen.comboBox.addItem("Karakteres")
+         # self.ui.label_6.deleteLater()
+         self.ui_uj_nomen.lineEdit_csoport.deleteLater()
+         # self.ui.label_7.setGeometry(QtCore.QRect(40, 200, 161, 51))
+         self.ui_uj_nomen.dateEdit_kezdet.setGeometry(QtCore.QRect(220, 210, 201, 31))
+         # self.ui.label_8.setGeometry(QtCore.QRect(40, 250, 161, 31))
+         self.ui_uj_nomen.dateEdit_veg.setGeometry(QtCore.QRect(220, 250, 151, 31))
          
-         x.window.show()
+         self.window.show()
          
     # itt definialjuk a nomen_elemek megnyitasa ablakot     
-    def open_Nomen_Elemek(x):
+    def open_Nomen_Elemek(self):
 
-         indexes = x.ui.tableWidget.selectionModel().selectedRows()
-         x.ui.tableWidget.clearSelection()
-         # x.ui.tableWidget.selectionModel()
+         indexes = self.ui.tableWidget.selectionModel().selectedRows()
+         self.ui.tableWidget.clearSelection()
+         # self.ui.tableWidget.selectionModel()
          if len(indexes) != 1:
-             result = QtWidgets.QMessageBox.question(x,
+             result = QtWidgets.QMessageBox.question(self,
                                                      "Hibás kijelölés",
                                                      "Egyszerre csak egy sor elemeit tekintheted meg, kérlek pontosan egy sort jelölj ki!",
                                                      QtWidgets.QMessageBox.Ok)
              return
          for elem in sorted(indexes):
-             kepzett = x.db.getKepzettE(x.ui.tableWidget.item(elem.row(),0).text())
+             kepzett = self.db.getKepzettE(self.ui.tableWidget.item(elem.row(),0).text())
              if kepzett:
-                 result = QtWidgets.QMessageBox.question(x,
+                 result = QtWidgets.QMessageBox.question(self,
                                                          "Hibás kijelölés",
                                                          "A kijelölt elem egy képzett nomenklatúra, tehát nincsenek elemei. Kérlek válassz újra!",
                                                          QtWidgets.QMessageBox.Ok)
                  return
          for elem in sorted(indexes):
-             nev=x.ui.tableWidget.item(elem.row(),0).text()
-         x.window = QtWidgets.QMainWindow()
-         x.ui_uj =  Ui_Nomen_Elemek()
-         x.ui_uj.setupUi(x.window, nev)
-         x.window.show()
+             nev=self.ui.tableWidget.item(elem.row(),0).text()
+         self.window = QtWidgets.QMainWindow()
+         self.ui_uj =  Ui_Nomen_Elemek()
+         self.ui_uj.setupUi(self.window, nev)
+         self.window.show()
     
-    def open_Nomen_Elemek_Kepzes(x, ablak):
+    def open_Nomen_Elemek_Kepzes(self, ablak):
         indexes = ablak.tableWidget.selectionModel().selectedRows()
         ablak.tableWidget.selectionModel().clearSelection()
         lista = []
         for index in indexes:
             lista.append(ablak.tableWidget.item(index.row(), 0).text())
         if len(lista)<2:
-            result = QtWidgets.QMessageBox.question(x,
+            result = QtWidgets.QMessageBox.question(self,
                                                     "Hibás kijelölés",
                                                     "Kérlek kettő nomenklatúrát jelölj ki a képzéshez!",
                                                     QtWidgets.QMessageBox.Ok)
             return
-        x.window = QtWidgets.QMainWindow()
-        x.ui_uj_kepzes =  Ui_Nomen_Elemek_Kepzes()
-        x.ui_uj_kepzes.setupUi(x.window,x.ui, lista[0], lista[1])
-        x.window.show()
+        self.window = QtWidgets.QMainWindow()
+        self.ui_uj_kepzes =  Ui_Nomen_Elemek_Kepzes()
+        self.ui_uj_kepzes.setupUi(self.window,self.ui, lista[0], lista[1])
+        self.window.show()
     
 
 
 
 
 class Ui_Nomen_Elemek(object):
-    def setupUi(x, Ui_Nomen_Elemek, nev):
-        x.ablak=Ui_Nomen_Elemek
-        x.nev=nev
-        x.db=DbConnect()
-        x.ablak.setObjectName("Ui_Nomen_Elemek")
-        x.ablak.resize(786, 516)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 0, 771, 491))
+    def setupUi(self, Ui_Nomen_Elemek, nev):
+        self.ablak=Ui_Nomen_Elemek
+        self.nev=nev
+        self.db=DbConnect()
+        self.ablak.setObjectName("Ui_Nomen_Elemek")
+        self.ablak.resize(786, 516)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 0, 771, 491))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.pushButton_uj = QtWidgets.QPushButton(x.frame)
-        x.pushButton_uj.setGeometry(QtCore.QRect(10, 20, 121, 41))
-        x.pushButton_uj.setAutoFillBackground(False)
-        x.pushButton_uj.setObjectName("pushButton_uj")
-        x.pushButton_modosit = QtWidgets.QPushButton(x.frame)
-        x.pushButton_modosit.setGeometry(QtCore.QRect(160, 20, 121, 41))
-        x.pushButton_modosit.setObjectName("pushButton_modosit")
-        x.pushButton_aktualizal = QtWidgets.QPushButton(x.frame)
-        x.pushButton_aktualizal.setGeometry(QtCore.QRect(310, 20, 171, 41))
-        x.pushButton_aktualizal.setObjectName("pushButton_aktualizal")
-        x.pushButton_torol = QtWidgets.QPushButton(x.frame)
-        x.pushButton_torol.setGeometry(QtCore.QRect(510, 20, 121, 41))
-        x.pushButton_torol.setObjectName("pushButton_torol")
-        # x.pushButton_frissit = QtWidgets.QPushButton(x.frame)
-        # x.pushButton_frissit.setGeometry(QtCore.QRect(640, 20, 121, 41))
-        # x.pushButton_frissit.setObjectName("pushButton_frissit")
-        x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setGeometry(QtCore.QRect(50, 100, 650, 311))
-        x.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
-        x.tableWidget.setDragEnabled(False)
-        x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-        x.tableWidget.setAlternatingRowColors(True)
-        x.tableWidget.setRowCount(1)
-        x.tableWidget.setColumnCount(2)
-        sorok=x.db.list_nomen_elemek(nev)
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.pushButton_uj = QtWidgets.QPushButton(self.frame)
+        self.pushButton_uj.setGeometry(QtCore.QRect(10, 20, 121, 41))
+        self.pushButton_uj.setAutoFillBackground(False)
+        self.pushButton_uj.setObjectName("pushButton_uj")
+        self.pushButton_modosit = QtWidgets.QPushButton(self.frame)
+        self.pushButton_modosit.setGeometry(QtCore.QRect(160, 20, 121, 41))
+        self.pushButton_modosit.setObjectName("pushButton_modosit")
+        self.pushButton_aktualizal = QtWidgets.QPushButton(self.frame)
+        self.pushButton_aktualizal.setGeometry(QtCore.QRect(310, 20, 171, 41))
+        self.pushButton_aktualizal.setObjectName("pushButton_aktualizal")
+        self.pushButton_torol = QtWidgets.QPushButton(self.frame)
+        self.pushButton_torol.setGeometry(QtCore.QRect(510, 20, 121, 41))
+        self.pushButton_torol.setObjectName("pushButton_torol")
+        # self.pushButton_frissit = QtWidgets.QPushButton(self.frame)
+        # self.pushButton_frissit.setGeometry(QtCore.QRect(640, 20, 121, 41))
+        # self.pushButton_frissit.setObjectName("pushButton_frissit")
+        self.tableWidget = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget.setGeometry(QtCore.QRect(50, 100, 650, 311))
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        self.tableWidget.setDragEnabled(False)
+        self.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
+        self.tableWidget.setAlternatingRowColors(True)
+        self.tableWidget.setRowCount(1)
+        self.tableWidget.setColumnCount(2)
+        sorok=self.db.list_nomen_elemek(nev)
         i=0
         for sor in sorok:
-            x.tableWidget.setRowCount(i+1)
-            x.tableWidget.setItem(i, 0, QTableWidgetItem(sor[1]))
-            x.tableWidget.setItem(i, 1, QTableWidgetItem(sor[2]))
+            self.tableWidget.setRowCount(i+1)
+            self.tableWidget.setItem(i, 0, QTableWidgetItem(sor[1]))
+            self.tableWidget.setItem(i, 1, QTableWidgetItem(sor[2]))
             i+=1
 
-        x.tableWidget.setObjectName("tableWidget")
+        self.tableWidget.setObjectName("tableWidget")
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        x.tableWidget.setHorizontalHeaderItem(0, item)
+        self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
-        x.tableWidget.setHorizontalHeaderItem(1, item)
-        x.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
-        x.tableWidget.horizontalHeader().setDefaultSectionSize(100)
-        x.tableWidget.horizontalHeader().setHighlightSections(True)
-        x.tableWidget.horizontalHeader().setSortIndicatorShown(True)
-        x.tableWidget.horizontalHeader().setStretchLastSection(True)
-        x.tableWidget.verticalHeader().setCascadingSectionResizes(False)
-        x.tableWidget.verticalHeader().setSortIndicatorShown(False)
-        x.tableWidget.verticalHeader().setStretchLastSection(False)
+        self.tableWidget.setHorizontalHeaderItem(1, item)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(100)
+        self.tableWidget.horizontalHeader().setHighlightSections(True)
+        self.tableWidget.horizontalHeader().setSortIndicatorShown(True)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.verticalHeader().setSortIndicatorShown(False)
+        self.tableWidget.verticalHeader().setStretchLastSection(False)
 
-        x.nevButton = QLabel(x.frame)
-        x.nevButton.setGeometry(QtCore.QRect(20, 450, 121, 41))
-        x.nevButton.setAutoFillBackground(False)
-        x.nevButton.setObjectName("pushButton_uj")
+        self.nevButton = QLabel(self.frame)
+        self.nevButton.setGeometry(QtCore.QRect(20, 450, 121, 41))
+        self.nevButton.setAutoFillBackground(False)
+        self.nevButton.setObjectName("pushButton_uj")
 
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 786, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 786, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.nev)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.nev)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
         
         #ez nyitja meg az uj elemek ablakot
-        x.pushButton_uj.clicked.connect(lambda: x.open_Nomen_Elemek_Uj(nev))
+        self.pushButton_uj.clicked.connect(lambda: self.open_Nomen_Elemek_Uj(nev))
          
         #ez nyitja meg a modosit elemek ablakot
-        x.pushButton_modosit.clicked.connect(lambda: x.open_Nomen_Elemek_Modosit(nev))
+        self.pushButton_modosit.clicked.connect(lambda: self.open_Nomen_Elemek_Modosit(nev))
         
         #ez nyitja meg az aktualizal ablakot
-        x.pushButton_aktualizal.clicked.connect(x.open_Nomen_Elemek_Akt)
+        self.pushButton_aktualizal.clicked.connect(self.open_Nomen_Elemek_Akt)
 
-        x.pushButton_torol.clicked.connect(lambda: x.db.delete_nomen_elem(x))
+        self.pushButton_torol.clicked.connect(lambda: self.db.delete_nomen_elem(self))
         
-    def labelSetUp(x, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
+    def labelSetUp(self, label, kezdopont_x, kezdopont_y, hossz_x, hossz_y, nev):
         label.setGeometry(QtCore.QRect(kezdopont_x, kezdopont_y, hossz_x, hossz_y))
         label.setLayoutDirection(QtCore.Qt.LeftToRight)
         label.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         label.setObjectName(nev)
 
-    def retranslateUi(x, nev):
+    def retranslateUi(self, nev):
         _translate = QtCore.QCoreApplication.translate
-        x.ablak.setWindowTitle(_translate("Ui_Nomen_Elemek", "Nómenklatúra elemek - "+nev))
-        x.pushButton_uj.setText(_translate("Ui_Nomen_Elemek", "Új létrehozása"))
-        x.pushButton_modosit.setText(_translate("Ui_Nomen_Elemek", "Módosítás"))
-        x.pushButton_aktualizal.setText(_translate("Ui_Nomen_Elemek", "Értékek aktualizálása"))
-        x.pushButton_torol.setText(_translate("Ui_Nomen_Elemek", "Törlés"))
-        # x.pushButton_frissit.setText(_translate("Ui_Nomen_Elemek", "Frissítés"))
-        x.nevButton.setText(_translate(x.nevButton.objectName(), nev))
-        item = x.tableWidget.horizontalHeaderItem(0)
+        self.ablak.setWindowTitle(_translate("Ui_Nomen_Elemek", "Nómenklatúra elemek - "+nev))
+        self.pushButton_uj.setText(_translate("Ui_Nomen_Elemek", "Új létrehozása"))
+        self.pushButton_modosit.setText(_translate("Ui_Nomen_Elemek", "Módosítás"))
+        self.pushButton_aktualizal.setText(_translate("Ui_Nomen_Elemek", "Értékek aktualizálása"))
+        self.pushButton_torol.setText(_translate("Ui_Nomen_Elemek", "Törlés"))
+        # self.pushButton_frissit.setText(_translate("Ui_Nomen_Elemek", "Frissítés"))
+        self.nevButton.setText(_translate(self.nevButton.objectName(), nev))
+        item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Ui_Nomen_Elemek", "Érték"))
-        item = x.tableWidget.horizontalHeaderItem(1)
+        item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Ui_Nomen_Elemek", "Nyomtatási címke"))
 
-    def open_Nomen_Elemek_Uj(x, nev):
-         x.window = QtWidgets.QMainWindow()
-         x.ui =  Ui_Nomen_Elemek_Ujfelvetel()
-         x.window.setWindowTitle("Új nómenklatúra elem felvétele")
-         x.ui.setupUi(x.window, nev, parentablak=x)
-         x.window.show()
+    def open_Nomen_Elemek_Uj(self, nev):
+         self.window = QtWidgets.QMainWindow()
+         self.ui =  Ui_Nomen_Elemek_Ujfelvetel()
+         self.window.setWindowTitle("Új nómenklatúra elem felvétele")
+         self.ui.setupUi(self.window, nev, parentablak=self)
+         self.window.show()
          
-    def open_Nomen_Elemek_Modosit(x, nev):
-         x.window = QtWidgets.QMainWindow()
-         x.ui =  Ui_Nomen_Elemek_Ujfelvetel()
-         x.window.setWindowTitle("Nómenklatúra elem módosítása")
-         x.ui.setupUi(x.window, nev, parentablak=x, modosit=True)
-         x.window.show()
+    def open_Nomen_Elemek_Modosit(self, nev):
+         self.window = QtWidgets.QMainWindow()
+         self.ui =  Ui_Nomen_Elemek_Ujfelvetel()
+         self.window.setWindowTitle("Nómenklatúra elem módosítása")
+         self.ui.setupUi(self.window, nev, parentablak=self, modosit=True)
+         self.window.show()
     
-    def open_Nomen_Elemek_Akt(x):
-         x.window = QtWidgets.QMainWindow()
-         x.ui =  Ui_Nomen_Elemek_Akt()
-         x.ui.setupUi(x.window, x, x.db, x.nev)
-         x.window.show()
+    def open_Nomen_Elemek_Akt(self):
+         self.window = QtWidgets.QMainWindow()
+         self.ui =  Ui_Nomen_Elemek_Akt()
+         self.ui.setupUi(self.window, self, self.db, self.nev)
+         self.window.show()
          
    
 
 
 class Ui_Nomen_Elemek_Ujfelvetel(object):
-    def setupUi(x, Ui_Nomen_Elemek_Ujfelvetel, nev, parentablak=None, modosit=False):
-        x.ablak =  Ui_Nomen_Elemek_Ujfelvetel
-        x.ablak.setObjectName("Ui_Nomen_Elemek_Ujfelvetel")
-        x.ablak.resize(459, 267)
-        x.parentablak=parentablak
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(0, 0, 451, 231))
+    def setupUi(self, Ui_Nomen_Elemek_Ujfelvetel, nev, parentablak=None, modosit=False):
+        self.ablak =  Ui_Nomen_Elemek_Ujfelvetel
+        self.ablak.setObjectName("Ui_Nomen_Elemek_Ujfelvetel")
+        self.ablak.resize(459, 267)
+        self.parentablak=parentablak
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(0, 0, 451, 231))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.label = QtWidgets.QLabel(x.frame)
-        x.label.setGeometry(QtCore.QRect(70, 60, 81, 21))
-        x.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label.setObjectName("label")
-        x.label_2 = QtWidgets.QLabel(x.frame)
-        x.label_2.setGeometry(QtCore.QRect(10, 100, 141, 21))
-        x.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_2.setObjectName("label_2")
-        x.lineEdit = QtWidgets.QLineEdit(x.frame)
-        x.lineEdit.setGeometry(QtCore.QRect(160, 60, 191, 21))
-        x.lineEdit.setText("")
-        x.lineEdit.setObjectName("lineEdit")
-        x.lineEdit_2 = QtWidgets.QLineEdit(x.frame)
-        x.lineEdit_2.setGeometry(QtCore.QRect(160, 100, 191, 21))
-        x.lineEdit_2.setText("")
-        x.lineEdit_2.setObjectName("lineEdit_2")
-        x.db=DbConnect()
-        x.pushButton_mentes = QtWidgets.QPushButton(x.frame)
-        x.pushButton_mentes.setGeometry(QtCore.QRect(240, 170, 91, 41))
-        x.pushButton_mentes.setObjectName("pushButton_mentes")
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setGeometry(QtCore.QRect(70, 60, 81, 21))
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        self.label_2.setGeometry(QtCore.QRect(10, 100, 141, 21))
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setObjectName("label_2")
+        self.lineEdit = QtWidgets.QLineEdit(self.frame)
+        self.lineEdit.setGeometry(QtCore.QRect(160, 60, 191, 21))
+        self.lineEdit.setText("")
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit_2 = QtWidgets.QLineEdit(self.frame)
+        self.lineEdit_2.setGeometry(QtCore.QRect(160, 100, 191, 21))
+        self.lineEdit_2.setText("")
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.db=DbConnect()
+        self.pushButton_mentes = QtWidgets.QPushButton(self.frame)
+        self.pushButton_mentes.setGeometry(QtCore.QRect(240, 170, 91, 41))
+        self.pushButton_mentes.setObjectName("pushButton_mentes")
         if modosit:
-            x.lineEdit.setReadOnly(True)
-            indexes=x.parentablak.tableWidget.selectionModel().selectedRows()
+            self.lineEdit.setReadOnly(True)
+            indexes=self.parentablak.tableWidget.selectionModel().selectedRows()
             for index in sorted(indexes):
                 try:
-                    x.lineEdit.setText(x.parentablak.tableWidget.item(index.row(), 0).text())
-                    x.lineEdit_2.setText(x.parentablak.tableWidget.item(index.row(), 1).text())
+                    self.lineEdit.setText(self.parentablak.tableWidget.item(index.row(), 0).text())
+                    self.lineEdit_2.setText(self.parentablak.tableWidget.item(index.row(), 1).text())
                 except Exception:
                     pass
-            x.lineEdit.setStyleSheet("QLineEdit"
+            self.lineEdit.setStyleSheet("QLineEdit"
                                                 "{"
                                                 "background : lightgray;"
                                                 "}")
-            x.ablak.setWindowTitle("Kiválasztott érték módosítása")
-            x.pushButton_mentes.clicked.connect(lambda: x.db.update_nomen_elem(nev, str(x.lineEdit.text()), str(x.lineEdit_2.text()), x))
+            self.ablak.setWindowTitle("Kiválasztott érték módosítása")
+            self.pushButton_mentes.clicked.connect(lambda: self.db.update_nomen_elem(nev, str(self.lineEdit.text()), str(self.lineEdit_2.text()), self))
         else:
-            x.pushButton_mentes.clicked.connect(lambda: x.db.insert_nomen_elem(nev, str(x.lineEdit.text()), str(x.lineEdit_2.text()), x))
-        x.pushButton_mentes.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse = QtWidgets.QPushButton(x.frame)
-        x.pushButton_megse.setGeometry(QtCore.QRect(350, 170, 91, 41))
-        x.pushButton_megse.setDefault(True)
-        x.pushButton_megse.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse.setObjectName("pushButton_megse")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 459, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+            self.pushButton_mentes.clicked.connect(lambda: self.db.insert_nomen_elem(nev, str(self.lineEdit.text()), str(self.lineEdit_2.text()), self))
+        self.pushButton_mentes.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse = QtWidgets.QPushButton(self.frame)
+        self.pushButton_megse.setGeometry(QtCore.QRect(350, 170, 91, 41))
+        self.pushButton_megse.setDefault(True)
+        self.pushButton_megse.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse.setObjectName("pushButton_megse")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 459, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-    def retranslateUi(x, Ui_Nomen_Elemek_Ujfelvetel):
+    def retranslateUi(self, Ui_Nomen_Elemek_Ujfelvetel):
         _translate = QtCore.QCoreApplication.translate
         #Ui_Nomen_Elemek_Ujfelvetel.setWindowTitle(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Új felvétele"))
-        x.label.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Érték:"))
-        x.label_2.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Nyomtatási címke:"))
-        x.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Mentés"))
-        x.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Mégse"))
+        self.label.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Érték:"))
+        self.label_2.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Nyomtatási címke:"))
+        self.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Mentés"))
+        self.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Ujfelvetel", "Mégse"))
 
 class Ui_Nomen_Elemek_Akt(object):
-    def setupUi(x, Ui_Nomen_Elemek_Akt, parentAblak, parentDB, valtnev):
-        x.ablak=Ui_Nomen_Elemek_Akt
-        x.ablak.setObjectName("Ui_Nomen_Elemek_Akt")
-        x.ablak.resize(459, 267)
-        x.db=parentDB
-        x.parentablak=parentAblak
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.groupBox = QtWidgets.QGroupBox(x.centralwidget)
-        x.groupBox.setGeometry(QtCore.QRect(20, 10, 411, 141))
+    def setupUi(self, Ui_Nomen_Elemek_Akt, parentAblak, parentDB, valtnev):
+        self.ablak=Ui_Nomen_Elemek_Akt
+        self.ablak.setObjectName("Ui_Nomen_Elemek_Akt")
+        self.ablak.resize(459, 267)
+        self.db=parentDB
+        self.parentablak=parentAblak
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox.setGeometry(QtCore.QRect(20, 10, 411, 141))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.groupBox.setFont(font)
-        x.groupBox.setObjectName("groupBox")
-        x.label = QtWidgets.QLabel(x.groupBox)
-        x.label.setGeometry(QtCore.QRect(70, 40, 121, 51))
-        x.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label.setWordWrap(True)
-        x.label.setObjectName("label")
-        x.comboBox = QtWidgets.QComboBox(x.groupBox)
-        x.comboBox.setGeometry(QtCore.QRect(210, 60, 161, 21))
-        x.comboBox.setObjectName("comboBox")
-        x.importedFiles=x.listImported()
-        for file in x.importedFiles:
-            x.comboBox.addItem(file)
+        self.groupBox.setFont(font)
+        self.groupBox.setObjectName("groupBox")
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label.setGeometry(QtCore.QRect(70, 40, 121, 51))
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setWordWrap(True)
+        self.label.setObjectName("label")
+        self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        self.comboBox.setGeometry(QtCore.QRect(210, 60, 161, 21))
+        self.comboBox.setObjectName("comboBox")
+        self.importedFiles=self.listImported()
+        for file in self.importedFiles:
+            self.comboBox.addItem(file)
 
-        x.pushButton_mentes = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_mentes.setGeometry(QtCore.QRect(230, 170, 91, 41))
-        x.pushButton_mentes.setObjectName("pushButton_mentes")
-        x.pushButton_mentes.clicked.connect(lambda: x.aktualizal(valtnev))
-        x.pushButton_megse = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_megse.setGeometry(QtCore.QRect(340, 170, 91, 41))
-        x.pushButton_megse.setDefault(True)
-        x.pushButton_megse.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse.setObjectName("pushButton_megse")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 459, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.pushButton_mentes = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_mentes.setGeometry(QtCore.QRect(230, 170, 91, 41))
+        self.pushButton_mentes.setObjectName("pushButton_mentes")
+        self.pushButton_mentes.clicked.connect(lambda: self.aktualizal(valtnev))
+        self.pushButton_megse = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_megse.setGeometry(QtCore.QRect(340, 170, 91, 41))
+        self.pushButton_megse.setDefault(True)
+        self.pushButton_megse.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse.setObjectName("pushButton_megse")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 459, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-    def retranslateUi(x, Ui_Nomen_Elemek_Akt):
+    def retranslateUi(self, Ui_Nomen_Elemek_Akt):
         _translate = QtCore.QCoreApplication.translate
         Ui_Nomen_Elemek_Akt.setWindowTitle(_translate("Ui_Nomen_Elemek_Akt", "Adatállomány kiválasztása"))
-        x.groupBox.setTitle(_translate("Ui_Nomen_Elemek_Akt", "Input állomány"))
-        x.label.setText(_translate("Ui_Nomen_Elemek_Akt", "Rendelkezésre álló adatok:"))
-        x.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Akt", "Mentés"))
-        x.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Akt", "Mégse"))
+        self.groupBox.setTitle(_translate("Ui_Nomen_Elemek_Akt", "Input állomány"))
+        self.label.setText(_translate("Ui_Nomen_Elemek_Akt", "Rendelkezésre álló adatok:"))
+        self.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Akt", "Mentés"))
+        self.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Akt", "Mégse"))
 
     def aktualizal(self, valtnev):
         item=self.comboBox.itemText(self.comboBox.currentIndex())
@@ -473,114 +473,114 @@ class Ui_Nomen_Elemek_Akt(object):
         return lista
 
 class Ui_Nomen_Elemek_Kepzes(object):
-    def setupUi(x, Ui_Nomen_Elemek_Kepzes,parentablak, bal, jobb):
-        x.ablak=Ui_Nomen_Elemek_Kepzes
-        x.ablak.setObjectName("Ui_Nomen_Elemek_Kepzes")
-        x.ablak.resize(563, 379)
-        x.parentablak=parentablak
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.groupBox = QtWidgets.QGroupBox(x.centralwidget)
-        x.groupBox.setGeometry(QtCore.QRect(20, 10, 531, 271))
+    def setupUi(self, Ui_Nomen_Elemek_Kepzes,parentablak, bal, jobb):
+        self.ablak=Ui_Nomen_Elemek_Kepzes
+        self.ablak.setObjectName("Ui_Nomen_Elemek_Kepzes")
+        self.ablak.resize(563, 379)
+        self.parentablak=parentablak
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox.setGeometry(QtCore.QRect(20, 10, 531, 271))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.groupBox.setFont(font)
-        x.groupBox.setObjectName("groupBox")
+        self.groupBox.setFont(font)
+        self.groupBox.setObjectName("groupBox")
 
-        x.db=DbConnect()
-        x.bal=bal
-        x.jobb=jobb
+        self.db=DbConnect()
+        self.bal=bal
+        self.jobb=jobb
 
-        x.pushButton_csere = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_csere.setGeometry(QtCore.QRect(27, 70, 71, 21))
-        x.pushButton_csere.setObjectName("pushButton_csere")
+        self.pushButton_csere = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_csere.setGeometry(QtCore.QRect(27, 70, 71, 21))
+        self.pushButton_csere.setObjectName("pushButton_csere")
 
-        x.label_bal = QtWidgets.QLabel(x.groupBox)
-        x.label_bal.setGeometry(QtCore.QRect(261, 40, 121, 31))
-        x.label_bal.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        x.label_bal.setWordWrap(False)
-        x.label_bal.setObjectName("label")
-        x.label_jobb = QtWidgets.QLabel(x.groupBox)
-        x.label_jobb.setGeometry(QtCore.QRect(261, 80, 121, 31))
-        x.label_jobb.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        x.label_jobb.setWordWrap(False)
-        x.label_jobb.setObjectName("label")
-        x.label = QtWidgets.QLabel(x.groupBox)
-        x.label.setGeometry(QtCore.QRect(40, 40, 121, 31))
-        x.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label.setWordWrap(False)
-        x.label.setObjectName("label")
-        # x.comboBox = QtWidgets.QComboBox(x.groupBox)
-        # x.comboBox.setGeometry(QtCore.QRect(150, 50, 161, 21))
-        # x.comboBox.setObjectName("comboBox")
-        x.label_2 = QtWidgets.QLabel(x.groupBox)
-        x.label_2.setGeometry(QtCore.QRect(40, 80, 121, 31))
-        x.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_2.setWordWrap(False)
-        x.label_2.setObjectName("label_2")
-        x.label_3 = QtWidgets.QLabel(x.groupBox)
-        x.label_3.setGeometry(QtCore.QRect(40, 125, 121, 31))
-        x.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_3.setWordWrap(False)
-        x.label_3.setObjectName("label_3")
-        x.label_4 = QtWidgets.QLabel(x.groupBox)
-        x.label_4.setGeometry(QtCore.QRect(20, 160, 141, 21))
-        x.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_4.setObjectName("label_4")
-        # x.lineEdit_lekerdezes = QtWidgets.QLineEdit(x.groupBox)
-        # x.lineEdit_lekerdezes.setGeometry(QtCore.QRect(150, 80, 361, 31))
-        # x.lineEdit_lekerdezes.setText("")
-        # x.lineEdit_lekerdezes.setObjectName("lineEdit_lekerdezes")
-        x.lineEdit_nev = QtWidgets.QLineEdit(x.groupBox)
-        x.lineEdit_nev.setGeometry(QtCore.QRect(190, 130, 191, 21))
-        x.lineEdit_nev.setText("")
-        x.lineEdit_nev.setObjectName("lineEdit_nev")
-        x.lineEdit_ertek = QtWidgets.QLineEdit(x.groupBox)
-        x.lineEdit_ertek.setGeometry(QtCore.QRect(190, 160, 191, 21))
-        x.lineEdit_ertek.setText("")
-        x.lineEdit_ertek.setObjectName("lineEdit_ertek")
-        x.pushButton_mentes = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_mentes.setGeometry(QtCore.QRect(350, 290, 91, 41))
-        x.pushButton_mentes.setObjectName("pushButton_mentes")
-        x.pushButton_mentes.clicked.connect(lambda: x.db.nomen_kepzes(x.ablak,x.parentablak,x.lineEdit_nev.text(), x.lineEdit_ertek.text(),x.bal, x.jobb))
-        x.pushButton_megse = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_megse.setGeometry(QtCore.QRect(460, 290, 91, 41))
-        x.pushButton_megse.setDefault(True)
-        x.pushButton_megse.clicked.connect(lambda: x.ablak.close())
-        # x.pushButton_mentes.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse.setObjectName("pushButton_megse")
+        self.label_bal = QtWidgets.QLabel(self.groupBox)
+        self.label_bal.setGeometry(QtCore.QRect(261, 40, 121, 31))
+        self.label_bal.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_bal.setWordWrap(False)
+        self.label_bal.setObjectName("label")
+        self.label_jobb = QtWidgets.QLabel(self.groupBox)
+        self.label_jobb.setGeometry(QtCore.QRect(261, 80, 121, 31))
+        self.label_jobb.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_jobb.setWordWrap(False)
+        self.label_jobb.setObjectName("label")
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label.setGeometry(QtCore.QRect(40, 40, 121, 31))
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setWordWrap(False)
+        self.label.setObjectName("label")
+        # self.comboBox = QtWidgets.QComboBox(self.groupBox)
+        # self.comboBox.setGeometry(QtCore.QRect(150, 50, 161, 21))
+        # self.comboBox.setObjectName("comboBox")
+        self.label_2 = QtWidgets.QLabel(self.groupBox)
+        self.label_2.setGeometry(QtCore.QRect(40, 80, 121, 31))
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setWordWrap(False)
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.groupBox)
+        self.label_3.setGeometry(QtCore.QRect(40, 125, 121, 31))
+        self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_3.setWordWrap(False)
+        self.label_3.setObjectName("label_3")
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.label_4.setGeometry(QtCore.QRect(20, 160, 141, 21))
+        self.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_4.setObjectName("label_4")
+        # self.lineEdit_lekerdezes = QtWidgets.QLineEdit(self.groupBox)
+        # self.lineEdit_lekerdezes.setGeometry(QtCore.QRect(150, 80, 361, 31))
+        # self.lineEdit_lekerdezes.setText("")
+        # self.lineEdit_lekerdezes.setObjectName("lineEdit_lekerdezes")
+        self.lineEdit_nev = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_nev.setGeometry(QtCore.QRect(190, 130, 191, 21))
+        self.lineEdit_nev.setText("")
+        self.lineEdit_nev.setObjectName("lineEdit_nev")
+        self.lineEdit_ertek = QtWidgets.QLineEdit(self.groupBox)
+        self.lineEdit_ertek.setGeometry(QtCore.QRect(190, 160, 191, 21))
+        self.lineEdit_ertek.setText("")
+        self.lineEdit_ertek.setObjectName("lineEdit_ertek")
+        self.pushButton_mentes = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_mentes.setGeometry(QtCore.QRect(350, 290, 91, 41))
+        self.pushButton_mentes.setObjectName("pushButton_mentes")
+        self.pushButton_mentes.clicked.connect(lambda: self.db.nomen_kepzes(self.ablak,self.parentablak,self.lineEdit_nev.text(), self.lineEdit_ertek.text(),self.bal, self.jobb))
+        self.pushButton_megse = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_megse.setGeometry(QtCore.QRect(460, 290, 91, 41))
+        self.pushButton_megse.setDefault(True)
+        self.pushButton_megse.clicked.connect(lambda: self.ablak.close())
+        # self.pushButton_mentes.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse.setObjectName("pushButton_megse")
 
-        x.pushButton_csere.clicked.connect(lambda:x.csere())
+        self.pushButton_csere.clicked.connect(lambda:self.csere())
 
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 563, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 563, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
     def csere(self):
         self.jobb, self.bal = self.bal, self.jobb
         self.retranslateUi(self.ablak)
 
-    def retranslateUi(x, Ui_Nomen_Elemek_Kepzes):
+    def retranslateUi(self, Ui_Nomen_Elemek_Kepzes):
         _translate = QtCore.QCoreApplication.translate
         Ui_Nomen_Elemek_Kepzes.setWindowTitle(_translate("Ui_Nomen_Elemek_Kepzes", "Nómenklatúra képzési szabályok"))
-        x.groupBox.setTitle(_translate("Ui_Nomen_Elemek_Kepzes", "Paraméterek"))
-        x.label.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Elsődleges:"))
-        x.label_2.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Másodlagos:"))
-        x.label_3.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Változónév:"))
-        x.label_4.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Nyomtatási címke:"))
-        x.label_bal.setText(_translate("Ui_Nomen_Elemek_Kepzes", x.bal))
-        x.label_jobb.setText(_translate("Ui_Nomen_Elemek_Kepzes", x.jobb))
-        x.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Mentés"))
-        x.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Mégse"))
-        x.pushButton_csere.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Csere"))
+        self.groupBox.setTitle(_translate("Ui_Nomen_Elemek_Kepzes", "Paraméterek"))
+        self.label.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Elsődleges:"))
+        self.label_2.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Másodlagos:"))
+        self.label_3.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Változónév:"))
+        self.label_4.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Nyomtatási címke:"))
+        self.label_bal.setText(_translate("Ui_Nomen_Elemek_Kepzes", self.bal))
+        self.label_jobb.setText(_translate("Ui_Nomen_Elemek_Kepzes", self.jobb))
+        self.pushButton_mentes.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Mentés"))
+        self.pushButton_megse.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Mégse"))
+        self.pushButton_csere.setText(_translate("Ui_Nomen_Elemek_Kepzes", "Csere"))
 
 def addNewRow(ablak,lista):#tábla frissítése a beszúrás után
     pozicio=ablak.tableWidget.rowCount()
