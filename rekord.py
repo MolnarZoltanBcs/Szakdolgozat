@@ -7,52 +7,52 @@ mutatok={}
 nomenklaturak={}
 
 class Ui_Rekordleirasok(QtWidgets.QMainWindow):
-    def setupUi(x,  Ui_Rekordleirasok):
+    def setupUi(self,  Ui_Rekordleirasok):
          global mainTableWidget
-         x.ablak=Ui_Rekordleirasok
-         x.ablak.setObjectName("Ui_Rekordleirasok")
-         x.ablak.resize(1175, 500)
+         self.ablak=Ui_Rekordleirasok
+         self.ablak.setObjectName("Ui_Rekordleirasok")
+         self.ablak.resize(1175, 500)
          
-         x.ablak.setWindowTitle("Rekordleírások kezelése")
+         self.ablak.setWindowTitle("Rekordleírások kezelése")
          
-         x.tableWidget = QtWidgets.QTableWidget(x.ablak)
-         x.tableWidget.setGeometry(QtCore.QRect(60, 75, 650, 370))
-         x.tableWidget.setObjectName("tableWidget")
-         x.tableWidget.horizontalHeader().setStretchLastSection(True)
-         x.db=DbConnectRekord()
-         x.tableWidgetSetUp(x.tableWidget)
-         mainTableWidget=x.tableWidget
+         self.tableWidget = QtWidgets.QTableWidget(self.ablak)
+         self.tableWidget.setGeometry(QtCore.QRect(60, 75, 650, 370))
+         self.tableWidget.setObjectName("tableWidget")
+         self.tableWidget.horizontalHeader().setStretchLastSection(True)
+         self.db=DbConnectRekord()
+         self.tableWidgetSetUp(self.tableWidget)
+         mainTableWidget=self.tableWidget
 
-         x.pushButton_ujrekord = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_ujrekord.setGeometry(QtCore.QRect(60, 26, 180, 30))
-         x.pushButton_ujrekord.setObjectName("pushButton_ujrekord")    
-         x.pushButton_mezok = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_mezok.setGeometry(QtCore.QRect(260, 26, 110, 30))
-         x.pushButton_mezok.setObjectName("pushButton_mezok")
-         x.pushButton_torol = QtWidgets.QPushButton(x.ablak)
-         x.pushButton_torol.setGeometry(QtCore.QRect(390, 26, 110, 30))
-         x.pushButton_torol.setObjectName("pushButton_torol") 
+         self.pushButton_ujrekord = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_ujrekord.setGeometry(QtCore.QRect(60, 26, 180, 30))
+         self.pushButton_ujrekord.setObjectName("pushButton_ujrekord")
+         self.pushButton_mezok = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_mezok.setGeometry(QtCore.QRect(260, 26, 110, 30))
+         self.pushButton_mezok.setObjectName("pushButton_mezok")
+         self.pushButton_torol = QtWidgets.QPushButton(self.ablak)
+         self.pushButton_torol.setGeometry(QtCore.QRect(390, 26, 110, 30))
+         self.pushButton_torol.setObjectName("pushButton_torol")
 
 
-         x.valtoztatUi(x.ablak)
-         QtCore.QMetaObject.connectSlotsByName(x.ablak)
+         self.valtoztatUi(self.ablak)
+         QtCore.QMetaObject.connectSlotsByName(self.ablak)
          
           
-         x.pushButton_mezok.clicked.connect(x.rekord_mezok_window)
+         self.pushButton_mezok.clicked.connect(self.rekord_mezok_window)
          
-         x.pushButton_ujrekord.clicked.connect(x.rekord_uj_Window)
+         self.pushButton_ujrekord.clicked.connect(self.rekord_uj_Window)
          
          #ez fogja törölni a kiválasztott sort 
-         # x.pushButton_torol.clicked.connect(x.deleteCurrentRow)
+         # self.pushButton_torol.clicked.connect(self.deleteCurrentRow)
           #modosit torol gomb allapot valtozasahoz
-         x.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
-         x.tableWidget.selectionModel().selectionChanged.connect(
-             x.on_selection_changed
+         self.tableWidget.setSelectionBehavior(QtWidgets.QTableWidget.SelectRows)
+         self.tableWidget.selectionModel().selectionChanged.connect(
+             self.on_selection_changed
          )
  
-         x.on_selection_changed()
+         self.on_selection_changed()
 
-         x.pushButton_torol.clicked.connect(lambda: x.delete_rekord())
+         self.pushButton_torol.clicked.connect(lambda: self.delete_rekord())
 
     def delete_rekord(self):
         result = QtWidgets.QMessageBox.question(self,
@@ -106,119 +106,119 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
        #      bool(self.tableWidget.selectionModel().selectedRows())
        # )
 
-    def valtoztatUi(x, Ui_Rekordleirasok):
+    def valtoztatUi(self, Ui_Rekordleirasok):
          _translate = QtCore.QCoreApplication.translate
          Ui_Rekordleirasok.setWindowTitle(_translate("Ui_Rekordleirasok", "Rekordleírások kezelése"))
          
          
-         item = x.tableWidget.horizontalHeaderItem(0)
+         item = self.tableWidget.horizontalHeaderItem(0)
          item.setText(_translate("Ui_Rekordleirasok", "Rekord neve"))
-         item = x.tableWidget.horizontalHeaderItem(1)
+         item = self.tableWidget.horizontalHeaderItem(1)
          item.setText(_translate("Ui_Rekordleirasok", "Címke"))
-         item = x.tableWidget.horizontalHeaderItem(2)
+         item = self.tableWidget.horizontalHeaderItem(2)
          item.setText(_translate("Ui_Rekordleirasok", "Leírás"))
-         item = x.tableWidget.horizontalHeaderItem(3)
+         item = self.tableWidget.horizontalHeaderItem(3)
          item.setText(_translate("Ui_Rekordleirasok", "Típus"))
-         item = x.tableWidget.horizontalHeaderItem(4)
+         item = self.tableWidget.horizontalHeaderItem(4)
          item.setText(_translate("Ui_Rekordleirasok", "Utolsó módosítás"))
-         item = x.tableWidget.horizontalHeaderItem(5)
+         item = self.tableWidget.horizontalHeaderItem(5)
          item.setText(_translate("Ui_Rekordleirasok", "Érvényesség kezdete"))
-         item = x.tableWidget.horizontalHeaderItem(6)
+         item = self.tableWidget.horizontalHeaderItem(6)
          item.setText(_translate("Ui_Rekordleirasok", "Érvényesség vége"))
          
          
-         __sortingEnabled = x.tableWidget.isSortingEnabled()
-         x.tableWidget.setSortingEnabled(False)
+         __sortingEnabled = self.tableWidget.isSortingEnabled()
+         self.tableWidget.setSortingEnabled(False)
 
  
-         x.tableWidget.setSortingEnabled(__sortingEnabled)
+         self.tableWidget.setSortingEnabled(__sortingEnabled)
       
-         x.pushButton_torol.setText(_translate("Ui_Rekordleirasok", "Törlés"))
-         x.pushButton_mezok.setText(_translate("Ui_Rekordleirasok", "Mezők kezelése"))
-         x.pushButton_ujrekord.setText(_translate("Ui_Rekordleirasok", "Új rekordleírás létrehozása"))
+         self.pushButton_torol.setText(_translate("Ui_Rekordleirasok", "Törlés"))
+         self.pushButton_mezok.setText(_translate("Ui_Rekordleirasok", "Mezők kezelése"))
+         self.pushButton_ujrekord.setText(_translate("Ui_Rekordleirasok", "Új rekordleírás létrehozása"))
 
    
     
-    def rekord_mezok_window(x):
-         indexes = x.tableWidget.selectionModel().selectedRows()
+    def rekord_mezok_window(self):
+         indexes = self.tableWidget.selectionModel().selectedRows()
          if len(indexes) != 1:
-             QtWidgets.QMessageBox.question(x,
+             QtWidgets.QMessageBox.question(self,
                                              "Helytelen kiválasztás",
                                              "Kérlek pontosan egy sort jelölj ki!",
                                              QtWidgets.QMessageBox.Ok)
              return
          for index in indexes:
-             rekord=x.tableWidget.item(index.row(),0).text()
-         x.window = QtWidgets.QMainWindow()
-         x.ui_mezok = Ui_Mezok()
-         x.ui_mezok.setupUi(x.window, rekord=rekord)
-         x.window.show()     
+             rekord=self.tableWidget.item(index.row(),0).text()
+         self.window = QtWidgets.QMainWindow()
+         self.ui_mezok = Ui_Mezok()
+         self.ui_mezok.setupUi(self.window, rekord=rekord)
+         self.window.show()
             
-    def rekord_uj_Window(x):
-        x.window = QtWidgets.QMainWindow()
-        x.ui_rekord_uj = Ui_Rekord_Uj()
-        x.ui_rekord_uj.setupUi(x.window, x)
-        x.window.show()     
+    def rekord_uj_Window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui_rekord_uj = Ui_Rekord_Uj()
+        self.ui_rekord_uj.setupUi(self.window, self)
+        self.window.show()
 
 
 class Ui_Mezok(object):
-    def setupUi(x, Ui_Mezok, rekord=None):
-        x.ablak=Ui_Mezok
-        x.ablak.setObjectName("Ui_Mezok")
-        x.ablak.resize(687, 515)
-        x.db=DbConnectRekord()
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 0, 671, 500))
+    def setupUi(self, Ui_Mezok, rekord=None):
+        self.ablak=Ui_Mezok
+        self.ablak.setObjectName("Ui_Mezok")
+        self.ablak.resize(687, 515)
+        self.db=DbConnectRekord()
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 0, 671, 500))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.pushButton_szerk = QtWidgets.QPushButton(x.frame)
-        x.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 300, 31))
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.pushButton_szerk = QtWidgets.QPushButton(self.frame)
+        self.pushButton_szerk.setGeometry(QtCore.QRect(30, 20, 300, 31))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("edit.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        x.pushButton_szerk.setIcon(icon)
-        x.pushButton_szerk.setIconSize(QtCore.QSize(20, 20))
-        x.pushButton_szerk.setDefault(True)
-        x.pushButton_szerk.setObjectName("pushButton_szerk")
+        self.pushButton_szerk.setIcon(icon)
+        self.pushButton_szerk.setIconSize(QtCore.QSize(20, 20))
+        self.pushButton_szerk.setDefault(True)
+        self.pushButton_szerk.setObjectName("pushButton_szerk")
 
-        x.tableWidget = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget.setShowGrid(True)
-        x.tableWidgetSetUp(x.tableWidget,[30, 100, 601, 341], rekord=rekord)
-        x.tableWidget.setColumnCount(3)
-        x.tableWidget.setObjectName("tableWidget")
+        self.tableWidget = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget.setShowGrid(True)
+        self.tableWidgetSetUp(self.tableWidget,[30, 100, 601, 341], rekord=rekord)
+        self.tableWidget.setColumnCount(3)
+        self.tableWidget.setObjectName("tableWidget")
         item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(0, item)
+        self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(1, item)
+        self.tableWidget.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(2, item)
+        self.tableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        x.tableWidget.setHorizontalHeaderItem(3, item)
-        x.tableWidget.horizontalHeader().setStretchLastSection(True)
-        x.tableWidget.verticalHeader().setVisible(True)
-        x.tableWidget.verticalHeader().setSortIndicatorShown(False)
-        x.tableWidget.verticalHeader().setStretchLastSection(False)
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 687, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.tableWidget.setHorizontalHeaderItem(3, item)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.verticalHeader().setVisible(True)
+        self.tableWidget.verticalHeader().setSortIndicatorShown(False)
+        self.tableWidget.verticalHeader().setStretchLastSection(False)
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 687, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.pushButton_szerk.clicked.connect(lambda: x.open_Ui_Mezok_Szerk(modosit=True, rekord=rekord))
-        #x.pushButton_modosit.clicked.connect(x.open_Ui_Mezok_Modosit)
+        self.pushButton_szerk.clicked.connect(lambda: self.open_Ui_Mezok_Szerk(modosit=True, rekord=rekord))
+        #self.pushButton_modosit.clicked.connect(self.open_Ui_Mezok_Modosit)
 
-        x.retranslateUi(x.ablak)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-    def tableWidgetSetUp(x, tableWidget, lista : list, rekord=None):
+    def tableWidgetSetUp(self, tableWidget, lista : list, rekord=None):
         tableWidget.horizontalHeader().setStretchLastSection(True)
         tableWidget.setGeometry(QtCore.QRect(lista[0], lista[1], lista[2], lista[3]))
         tableWidget.setAlternatingRowColors(True)
@@ -230,29 +230,29 @@ class Ui_Mezok(object):
         for i in range(k):
             item = QtWidgets.QTableWidgetItem()
             tableWidget.setHorizontalHeaderItem(i, item)
-        sorok=x.db.listMezok_all(rekord)
+        sorok=self.db.listMezok_all(rekord)
         sorok.sort(key=lambda y: y[2])
         sorszamlalo=0
         for sor in sorok:
             tableWidget.setRowCount(tableWidget.rowCount()+1)
             for i in range(3):
                 if i==1:
-                    item = QtWidgets.QTableWidgetItem(x.intToMezo(sor[1]))
+                    item = QtWidgets.QTableWidgetItem(self.intToMezo(sor[1]))
                 else:
                     item = QtWidgets.QTableWidgetItem(str(sor[i])) # kell még hogy ha elmentem a változásokat akkor bezáródjon mindkét ablak és úgy mentődjön el
                 tableWidget.setItem(sorszamlalo,i,item)
             sorszamlalo+=1
 
-    def retranslateUi(x, Ui_Mezok):
+    def retranslateUi(self, Ui_Mezok):
         _translate = QtCore.QCoreApplication.translate
         Ui_Mezok.setWindowTitle(_translate("Ui_Mezok", "Mezők"))
-        x.pushButton_szerk.setText(_translate("Ui_Mezok", "Rekordhoz tartozó mezők kezelése"))
-        x.tableWidget.setSortingEnabled(True)
-        item = x.tableWidget.horizontalHeaderItem(0)
+        self.pushButton_szerk.setText(_translate("Ui_Mezok", "Rekordhoz tartozó mezők kezelése"))
+        self.tableWidget.setSortingEnabled(True)
+        item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("Ui_Mezok", "Mező neve"))
-        item = x.tableWidget.horizontalHeaderItem(1)
+        item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Ui_Mezok", "Típus"))
-        item = x.tableWidget.horizontalHeaderItem(2)
+        item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("Ui_Mezok", "Sorrend"))
 
 
@@ -261,294 +261,292 @@ class Ui_Mezok(object):
             return "Mutató"
         return "Nómenklatúra"
 
-    def open_Ui_Mezok_Szerk(x, modosit=False, rekord=None):
-        x.window = QtWidgets.QMainWindow()
-        x.ui_mezok_szerkeztese = Ui_Mezok_Szerk()
-        x.ui_mezok_szerkeztese.setupUi(x.window,x, modosit=modosit, rekord=rekord)
-        x.window.show()
+    def open_Ui_Mezok_Szerk(self, modosit=False, rekord=None):
+        self.window = QtWidgets.QMainWindow()
+        self.ui_mezok_szerkeztese = Ui_Mezok_Szerk()
+        self.ui_mezok_szerkeztese.setupUi(self.window,self, modosit=modosit, rekord=rekord)
+        self.window.show()
 
 
 class Ui_Rekord_Uj(object):
-    def setupUi(x, Ui_Rekord_Uj, parent):
-        x.ablak=Ui_Rekord_Uj
-        x.parent=parent
-        x.db=DbConnectRekord()
-        x.ablak.setObjectName("Ui_Rekord_Uj")
-        x.ablak.resize(429, 392)
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.tabWidget = QtWidgets.QTabWidget(x.centralwidget)
-        x.tabWidget.setGeometry(QtCore.QRect(10, 10, 391, 290))
+    def setupUi(self, Ui_Rekord_Uj, parent):
+        self.ablak=Ui_Rekord_Uj
+        self.parent=parent
+        self.db=DbConnectRekord()
+        self.ablak.setObjectName("Ui_Rekord_Uj")
+        self.ablak.resize(429, 392)
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
+        self.tabWidget.setGeometry(QtCore.QRect(10, 10, 391, 290))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.tabWidget.setFont(font)
-        x.tabWidget.setObjectName("tabWidget")
-        x.tab_attributum = QtWidgets.QWidget()
-        x.tab_attributum.setObjectName("tab_attributum")
-        x.comboBox_tipus = QtWidgets.QComboBox(x.tab_attributum)
-        x.comboBox_tipus.setGeometry(QtCore.QRect(150, 150, 111, 22))
-        x.comboBox_tipus.setObjectName("comboBox_tipus")
-        x.comboBox_tipus.addItem("")
-        x.comboBox_tipus.addItem("")
-        x.lineEdit_rekordnev = QtWidgets.QLineEdit(x.tab_attributum)
-        x.lineEdit_rekordnev.setGeometry(QtCore.QRect(150, 30, 171, 20))
-        x.lineEdit_rekordnev.setObjectName("lineEdit_rekordnev")
-        x.label = QtWidgets.QLabel(x.tab_attributum)
-        x.label.setGeometry(QtCore.QRect(30, 30, 111, 21))
-        x.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label.setObjectName("label")
-        x.label_2 = QtWidgets.QLabel(x.tab_attributum)
-        x.label_2.setGeometry(QtCore.QRect(30, 150, 111, 21))
-        x.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_2.setObjectName("label_2")
-        x.lineEdit_cimke = QtWidgets.QLineEdit(x.tab_attributum)
-        x.lineEdit_cimke.setGeometry(QtCore.QRect(150, 70, 171, 20))
-        x.lineEdit_cimke.setObjectName("lineEdit_cimke")
-        x.label_3 = QtWidgets.QLabel(x.tab_attributum)
-        x.label_3.setGeometry(QtCore.QRect(10, 70, 131, 21))
-        x.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_3.setObjectName("label_3")
-        x.lineEdit_leiras = QtWidgets.QLineEdit(x.tab_attributum)
-        x.lineEdit_leiras.setGeometry(QtCore.QRect(150, 110, 171, 20))
-        x.lineEdit_leiras.setObjectName("lineEdit_leiras")
-        x.label_4 = QtWidgets.QLabel(x.tab_attributum)
-        x.label_4.setGeometry(QtCore.QRect(10, 110, 131, 21))
-        x.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        x.label_4.setObjectName("label_4")
-        x.tabWidget.addTab(x.tab_attributum, "")
+        self.tabWidget.setFont(font)
+        self.tabWidget.setObjectName("tabWidget")
+        self.tab_attributum = QtWidgets.QWidget()
+        self.tab_attributum.setObjectName("tab_attributum")
+        self.comboBox_tipus = QtWidgets.QComboBox(self.tab_attributum)
+        self.comboBox_tipus.setGeometry(QtCore.QRect(150, 150, 111, 22))
+        self.comboBox_tipus.setObjectName("comboBox_tipus")
+        self.comboBox_tipus.addItem("")
+        self.comboBox_tipus.addItem("")
+        self.lineEdit_rekordnev = QtWidgets.QLineEdit(self.tab_attributum)
+        self.lineEdit_rekordnev.setGeometry(QtCore.QRect(150, 30, 171, 20))
+        self.lineEdit_rekordnev.setObjectName("lineEdit_rekordnev")
+        self.label = QtWidgets.QLabel(self.tab_attributum)
+        self.label.setGeometry(QtCore.QRect(30, 30, 111, 21))
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.tab_attributum)
+        self.label_2.setGeometry(QtCore.QRect(30, 150, 111, 21))
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setObjectName("label_2")
+        self.lineEdit_cimke = QtWidgets.QLineEdit(self.tab_attributum)
+        self.lineEdit_cimke.setGeometry(QtCore.QRect(150, 70, 171, 20))
+        self.lineEdit_cimke.setObjectName("lineEdit_cimke")
+        self.label_3 = QtWidgets.QLabel(self.tab_attributum)
+        self.label_3.setGeometry(QtCore.QRect(10, 70, 131, 21))
+        self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_3.setObjectName("label_3")
+        self.lineEdit_leiras = QtWidgets.QLineEdit(self.tab_attributum)
+        self.lineEdit_leiras.setGeometry(QtCore.QRect(150, 110, 171, 20))
+        self.lineEdit_leiras.setObjectName("lineEdit_leiras")
+        self.label_4 = QtWidgets.QLabel(self.tab_attributum)
+        self.label_4.setGeometry(QtCore.QRect(10, 110, 131, 21))
+        self.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_4.setObjectName("label_4")
+        self.tabWidget.addTab(self.tab_attributum, "")
 
-        x.label_kezdet = QtWidgets.QLabel(x.tab_attributum)
-        x.label_kezdet.setGeometry(QtCore.QRect(30, 190, 111, 21))
-        x.label_kezdet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        x.label_kezdet.setObjectName("label")
+        self.label_kezdet = QtWidgets.QLabel(self.tab_attributum)
+        self.label_kezdet.setGeometry(QtCore.QRect(30, 190, 111, 21))
+        self.label_kezdet.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_kezdet.setObjectName("label")
 
-        x.dateEdit_kezdet = QtWidgets.QDateEdit(x.tab_attributum)
-        x.dateEdit_kezdet.setGeometry(QtCore.QRect(150, 190, 131, 20))
-        x.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
-        x.dateEdit_kezdet.setCalendarPopup(True)
-        x.dateEdit_kezdet.setObjectName("dateEdit_kezdet")
+        self.dateEdit_kezdet = QtWidgets.QDateEdit(self.tab_attributum)
+        self.dateEdit_kezdet.setGeometry(QtCore.QRect(150, 190, 131, 20))
+        self.dateEdit_kezdet.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.dateEdit_kezdet.setCalendarPopup(True)
+        self.dateEdit_kezdet.setObjectName("dateEdit_kezdet")
 
-        x.label_veg = QtWidgets.QLabel(x.tab_attributum)
-        x.label_veg.setGeometry(QtCore.QRect(30, 230, 111, 21))
-        x.label_veg.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
-        x.label_veg.setObjectName("label")
+        self.label_veg = QtWidgets.QLabel(self.tab_attributum)
+        self.label_veg.setGeometry(QtCore.QRect(30, 230, 111, 21))
+        self.label_veg.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_veg.setObjectName("label")
 
-        x.dateEdit_veg = QtWidgets.QDateEdit(x.tab_attributum)
-        x.dateEdit_veg.setGeometry(QtCore.QRect(150, 230, 131, 20))
-        x.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
-        x.dateEdit_veg.setCalendarPopup(True)
-        x.dateEdit_veg.setObjectName("dateEdit_veg")
+        self.dateEdit_veg = QtWidgets.QDateEdit(self.tab_attributum)
+        self.dateEdit_veg.setGeometry(QtCore.QRect(150, 230, 131, 20))
+        self.dateEdit_veg.setDateTime(QtCore.QDateTime.currentDateTime())
+        self.dateEdit_veg.setCalendarPopup(True)
+        self.dateEdit_veg.setObjectName("dateEdit_veg")
 
-        x.pushButton_Megse = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_Megse.setGeometry(QtCore.QRect(310, 310, 91, 41))
+        self.pushButton_Megse = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_Megse.setGeometry(QtCore.QRect(310, 310, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_Megse.setFont(font)
-        x.pushButton_Megse.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_Megse.setDefault(True)
-        x.pushButton_Megse.setObjectName("pushButton_Megse")
-        x.pushButton_Mentes = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_Mentes.setGeometry(QtCore.QRect(210, 310, 91, 41))
+        self.pushButton_Megse.setFont(font)
+        self.pushButton_Megse.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_Megse.setDefault(True)
+        self.pushButton_Megse.setObjectName("pushButton_Megse")
+        self.pushButton_Mentes = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_Mentes.setGeometry(QtCore.QRect(210, 310, 91, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_Mentes.setFont(font)
-        x.pushButton_Mentes.setObjectName("pushButton_Mentes")
-        x.pushButton_Kezeles = QtWidgets.QPushButton(x.centralwidget)
-        x.pushButton_Kezeles.setGeometry(QtCore.QRect(70, 310, 131, 41))
+        self.pushButton_Mentes.setFont(font)
+        self.pushButton_Mentes.setObjectName("pushButton_Mentes")
+        self.pushButton_Kezeles = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_Kezeles.setGeometry(QtCore.QRect(70, 310, 131, 41))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.pushButton_Kezeles.setFont(font)
-        x.pushButton_Kezeles.setObjectName("pushButton_Kezeles")
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.pushButton_Kezeles.setFont(font)
+        self.pushButton_Kezeles.setObjectName("pushButton_Kezeles")
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(x.ablak)
-        x.tabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(self.ablak)
+        self.tabWidget.setCurrentIndex(0)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-        x.pushButton_Kezeles.clicked.connect(x.open_Ui_Mezok_Szerk)
+        self.pushButton_Kezeles.clicked.connect(self.open_Ui_Mezok_Szerk)
 
-        x.pushButton_Mentes.clicked.connect(lambda: x.save_record())
-        x.pushButton_Mentes.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_Mentes.clicked.connect(lambda: x.parent.tableWidgetSetUp(x.parent.tableWidget))
-        x.pushButton_Mentes.clicked.connect(lambda: x.parent.valtoztatUi(x.parent.ablak))
+        self.pushButton_Mentes.clicked.connect(lambda: self.save_record())
+        self.pushButton_Mentes.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_Mentes.clicked.connect(lambda: self.parent.tableWidgetSetUp(self.parent.tableWidget))
+        self.pushButton_Mentes.clicked.connect(lambda: self.parent.valtoztatUi(self.parent.ablak))
 
 
-    def retranslateUi(x, Ui_Rekord_Uj):
+    def retranslateUi(self, Ui_Rekord_Uj):
         _translate = QtCore.QCoreApplication.translate
         Ui_Rekord_Uj.setWindowTitle(_translate("Ui_Rekord_Uj", "Új rekord létrehozása"))
-        x.comboBox_tipus.setItemText(0, _translate("Ui_Rekord_Uj", "SAS"))
-        x.comboBox_tipus.setItemText(1, _translate("Ui_Rekord_Uj", "SQL"))
-        x.label.setText(_translate("Ui_Rekord_Uj", "Rekord neve:"))
-        x.label_2.setText(_translate("Ui_Rekord_Uj", "Típus:"))
-        x.label_3.setText(_translate("Ui_Rekord_Uj", "Nyomtatási címke:"))
-        x.label_4.setText(_translate("Ui_Rekord_Uj", "Leírás:"))
-        x.label_kezdet.setText(_translate("Ui_Rekord_Uj", "Kezdőidőpint:"))
-        x.label_veg.setText(_translate("Ui_Rekord_Uj", "Végidőpont:"))
-        x.tabWidget.setTabText(x.tabWidget.indexOf(x.tab_attributum), _translate("Ui_Rekord_Uj", "Attribútumok"))
-        x.pushButton_Megse.setText(_translate("Ui_Rekord_Uj", "Mégse"))
-        x.pushButton_Mentes.setText(_translate("Ui_Rekord_Uj", "Mentés"))
-        x.pushButton_Kezeles.setText(_translate("Ui_Rekord_Uj", "Mezők kezelése"))
+        self.comboBox_tipus.setItemText(0, _translate("Ui_Rekord_Uj", "SAS"))
+        self.comboBox_tipus.setItemText(1, _translate("Ui_Rekord_Uj", "SQL"))
+        self.label.setText(_translate("Ui_Rekord_Uj", "Rekord neve:"))
+        self.label_2.setText(_translate("Ui_Rekord_Uj", "Típus:"))
+        self.label_3.setText(_translate("Ui_Rekord_Uj", "Nyomtatási címke:"))
+        self.label_4.setText(_translate("Ui_Rekord_Uj", "Leírás:"))
+        self.label_kezdet.setText(_translate("Ui_Rekord_Uj", "Kezdőidőpint:"))
+        self.label_veg.setText(_translate("Ui_Rekord_Uj", "Végidőpont:"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_attributum), _translate("Ui_Rekord_Uj", "Attribútumok"))
+        self.pushButton_Megse.setText(_translate("Ui_Rekord_Uj", "Mégse"))
+        self.pushButton_Mentes.setText(_translate("Ui_Rekord_Uj", "Mentés"))
+        self.pushButton_Kezeles.setText(_translate("Ui_Rekord_Uj", "Mezők kezelése"))
 
-    def open_Ui_Mezok_Szerk(x):
-        x.window = QtWidgets.QMainWindow()
-        x.ui_mezok = Ui_Mezok_Szerk()
-        x.ui_mezok.setupUi(x.window,x)
-        x.window.setWindowTitle("Új rekord mezőinek a kiválaszása")
-        x.window.show()
+    def open_Ui_Mezok_Szerk(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui_mezok = Ui_Mezok_Szerk()
+        self.ui_mezok.setupUi(self.window,self)
+        self.window.setWindowTitle("Új rekord mezőinek a kiválaszása")
+        self.window.show()
 
-    def save_record(x):
+    def save_record(self):
         global mutatok, nomenklaturak
-        x.db.newRekord(x.lineEdit_rekordnev.text(), x.lineEdit_cimke.text(), x.lineEdit_leiras.text(),x.comboBox_tipus.currentText(),
-                       x.dateEdit_kezdet.date().toPyDate(), x.dateEdit_veg.date().toPyDate())
-        x.db.newRekordMezok(x.lineEdit_rekordnev.text())
+        self.db.newRekord(self.lineEdit_rekordnev.text(), self.lineEdit_cimke.text(), self.lineEdit_leiras.text(),self.comboBox_tipus.currentText(),
+                       self.dateEdit_kezdet.date().toPyDate(), self.dateEdit_veg.date().toPyDate())
+        self.db.newRekordMezok(self.lineEdit_rekordnev.text())
 
-    def get_mezok(self, ablak):
-        pass
         
 
 class Ui_Mezok_Szerk(object):
-    def setupUi(x, Ui_Mezok_Szerk,parent, modosit=False, rekord=None):
-        x.ablak=Ui_Mezok_Szerk
-        x.parent=parent
-        x.ablak.setObjectName("Ui_Mezok_Szerk")
-        x.ablak.resize(800, 815)
-        x.mezok=None
-        x.centralwidget = QtWidgets.QWidget(x.ablak)
-        x.centralwidget.setObjectName("centralwidget")
-        x.frame = QtWidgets.QFrame(x.centralwidget)
-        x.frame.setGeometry(QtCore.QRect(10, 10, 790, 805))
+    def setupUi(self, Ui_Mezok_Szerk,parent, modosit=False, rekord=None):
+        self.ablak=Ui_Mezok_Szerk
+        self.parent=parent
+        self.ablak.setObjectName("Ui_Mezok_Szerk")
+        self.ablak.resize(800, 815)
+        self.mezok=None
+        self.centralwidget = QtWidgets.QWidget(self.ablak)
+        self.centralwidget.setObjectName("centralwidget")
+        self.frame = QtWidgets.QFrame(self.centralwidget)
+        self.frame.setGeometry(QtCore.QRect(10, 10, 790, 805))
         font = QtGui.QFont()
         font.setPointSize(11)
-        x.frame.setFont(font)
-        x.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        x.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        x.frame.setObjectName("frame")
-        x.pushButton_mentes = QtWidgets.QPushButton(x.frame)
-        x.pushButton_mentes.setGeometry(QtCore.QRect(580, 700, 91, 41))
-        x.pushButton_mentes.setObjectName("pushButton_mentes")
-        x.pushButton_mentes.clicked.connect(lambda : x.save_mezok_es_sorrend(modosit=modosit, rekord=rekord))
-        x.pushButton_mentes.clicked.connect(lambda : x.ablak.close())
+        self.frame.setFont(font)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.pushButton_mentes = QtWidgets.QPushButton(self.frame)
+        self.pushButton_mentes.setGeometry(QtCore.QRect(580, 700, 91, 41))
+        self.pushButton_mentes.setObjectName("pushButton_mentes")
+        self.pushButton_mentes.clicked.connect(lambda : self.save_mezok_es_sorrend(modosit=modosit, rekord=rekord))
+        self.pushButton_mentes.clicked.connect(lambda : self.ablak.close())
         if modosit:
-            x.pushButton_mentes.clicked.connect(lambda : x.parent.ablak.close())
-        x.pushButton_megse = QtWidgets.QPushButton(x.frame)
-        x.pushButton_megse.setGeometry(QtCore.QRect(690, 700, 91, 41))
-        x.pushButton_megse.setDefault(True)
-        x.pushButton_megse.clicked.connect(lambda: x.ablak.close())
-        x.pushButton_megse.setObjectName("pushButton_megse")
-        x.label = QtWidgets.QLabel(x.frame)
-        x.label.setGeometry(QtCore.QRect(30, 10, 300, 21))
-        x.label.setObjectName("label")
-        x.label_2 = QtWidgets.QLabel(x.frame)
-        x.label_2.setGeometry(QtCore.QRect(20, 330, 300, 21))
-        x.label_2.setObjectName("label_2")
-        x.tableWidget_mutato = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget_mutato.setGeometry(QtCore.QRect(30, 40, 400, 211))
-        x.tableWidgetSetUp(x.tableWidget_mutato,[60, 30, 700, 300])
-        # x.tableWidget_mutato.setRowCount(4)
-        x.tableWidget_mutato.setObjectName("tableWidget_mutato")
+            self.pushButton_mentes.clicked.connect(lambda : self.parent.ablak.close())
+        self.pushButton_megse = QtWidgets.QPushButton(self.frame)
+        self.pushButton_megse.setGeometry(QtCore.QRect(690, 700, 91, 41))
+        self.pushButton_megse.setDefault(True)
+        self.pushButton_megse.clicked.connect(lambda: self.ablak.close())
+        self.pushButton_megse.setObjectName("pushButton_megse")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setGeometry(QtCore.QRect(30, 10, 300, 21))
+        self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        self.label_2.setGeometry(QtCore.QRect(20, 330, 300, 21))
+        self.label_2.setObjectName("label_2")
+        self.tableWidget_mutato = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget_mutato.setGeometry(QtCore.QRect(30, 40, 400, 211))
+        self.tableWidgetSetUp(self.tableWidget_mutato,[60, 30, 700, 300])
+        # self.tableWidget_mutato.setRowCount(4)
+        self.tableWidget_mutato.setObjectName("tableWidget_mutato")
 
-        x.tableWidget_mutato.horizontalHeader().setSortIndicatorShown(False)
-        x.tableWidget_mutato.horizontalHeader().setStretchLastSection(True)
-        x.tableWidget_mutato.verticalHeader().setStretchLastSection(False)
-        x.tableWidget_nomen = QtWidgets.QTableWidget(x.frame)
-        x.tableWidget_nomen.setGeometry(QtCore.QRect(30, 600, 461, 221))
-        x.tableWidgetSetUp(x.tableWidget_nomen,[60,370,700,300], nomen=True)
-        # x.tableWidget_nomen.setRowCount(4)
-        x.tableWidget_nomen.setObjectName("tableWidget_nomen")
+        self.tableWidget_mutato.horizontalHeader().setSortIndicatorShown(False)
+        self.tableWidget_mutato.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget_mutato.verticalHeader().setStretchLastSection(False)
+        self.tableWidget_nomen = QtWidgets.QTableWidget(self.frame)
+        self.tableWidget_nomen.setGeometry(QtCore.QRect(30, 600, 461, 221))
+        self.tableWidgetSetUp(self.tableWidget_nomen,[60,370,700,300], nomen=True)
+        # self.tableWidget_nomen.setRowCount(4)
+        self.tableWidget_nomen.setObjectName("tableWidget_nomen")
 
-        x.tableWidget_nomen.horizontalHeader().setSortIndicatorShown(False)
-        x.tableWidget_nomen.horizontalHeader().setStretchLastSection(True)
-        x.tableWidget_nomen.verticalHeader().setStretchLastSection(False)
+        self.tableWidget_nomen.horizontalHeader().setSortIndicatorShown(False)
+        self.tableWidget_nomen.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget_nomen.verticalHeader().setStretchLastSection(False)
 
-        x.ablak.setCentralWidget(x.centralwidget)
-        x.menubar = QtWidgets.QMenuBar(x.ablak)
-        x.menubar.setGeometry(QtCore.QRect(0, 0, 665, 21))
-        x.menubar.setObjectName("menubar")
-        x.ablak.setMenuBar(x.menubar)
-        x.statusbar = QtWidgets.QStatusBar(x.ablak)
-        x.statusbar.setObjectName("statusbar")
-        x.ablak.setStatusBar(x.statusbar)
+        self.ablak.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(self.ablak)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 665, 21))
+        self.menubar.setObjectName("menubar")
+        self.ablak.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(self.ablak)
+        self.statusbar.setObjectName("statusbar")
+        self.ablak.setStatusBar(self.statusbar)
 
-        x.retranslateUi(modosit=modosit, rekord=rekord)
-        QtCore.QMetaObject.connectSlotsByName(x.ablak)
+        self.retranslateUi(modosit=modosit, rekord=rekord)
+        QtCore.QMetaObject.connectSlotsByName(self.ablak)
 
-    def save_mezok_es_sorrend(x, modosit=False, rekord=None):
+    def save_mezok_es_sorrend(self, modosit=False, rekord=None):
         global mutatok
         global nomenklaturak
-        k=x.tableWidget_mutato.rowCount()
+        k=self.tableWidget_mutato.rowCount()
         for sor in range(k):
-            if x.tableWidget_mutato.cellWidget(sor,4).currentText() is not '' and int(x.tableWidget_mutato.cellWidget(sor,4).currentText())>0:
-                mutatok[x.tableWidget_mutato.item(sor,0).text()]=int(x.tableWidget_mutato.cellWidget(sor,4).currentText())
-        k = x.tableWidget_nomen.rowCount()
+            if self.tableWidget_mutato.cellWidget(sor,4).currentText() is not '' and int(self.tableWidget_mutato.cellWidget(sor,4).currentText())>0:
+                mutatok[self.tableWidget_mutato.item(sor,0).text()]=int(self.tableWidget_mutato.cellWidget(sor,4).currentText())
+        k = self.tableWidget_nomen.rowCount()
         for sor in range(k):
-            if x.tableWidget_nomen.cellWidget(sor, 3).currentText() is not '' and int(x.tableWidget_nomen.cellWidget(sor, 3).currentText()) > 0:
-                nomenklaturak[x.tableWidget_nomen.item(sor, 0).text()] = int(x.tableWidget_nomen.cellWidget(sor, 3).currentText())
+            if self.tableWidget_nomen.cellWidget(sor, 3).currentText() is not '' and int(self.tableWidget_nomen.cellWidget(sor, 3).currentText()) > 0:
+                nomenklaturak[self.tableWidget_nomen.item(sor, 0).text()] = int(self.tableWidget_nomen.cellWidget(sor, 3).currentText())
         if modosit:
-            x.db.refreshDb(rekord,mutatok,nomenklaturak)
+            self.db.refreshDb(rekord,mutatok,nomenklaturak)
 
 
-    def retranslateUi(x, modosit=False, rekord=None):
+    def retranslateUi(self, modosit=False, rekord=None):
         _translate = QtCore.QCoreApplication.translate
-        x.ablak.setWindowTitle(_translate("Ui_Mezok_Szerk", "Kiválasztott rekord mezőinek a kezelése"))
-        x.pushButton_mentes.setText(_translate("Ui_Mezok_Szerk", "Mentés"))
-        x.pushButton_megse.setText(_translate("Ui_Mezok_Szerk", "Mégse"))
-        x.label.setText(_translate("Ui_Mezok_Szerk", "Mutatók kiválasztása:"))
-        x.label_2.setText(_translate("Ui_Mezok_Szerk", "Nómenklatúrák kiválasztása:"))
+        self.ablak.setWindowTitle(_translate("Ui_Mezok_Szerk", "Kiválasztott rekord mezőinek a kezelése"))
+        self.pushButton_mentes.setText(_translate("Ui_Mezok_Szerk", "Mentés"))
+        self.pushButton_megse.setText(_translate("Ui_Mezok_Szerk", "Mégse"))
+        self.label.setText(_translate("Ui_Mezok_Szerk", "Mutatók kiválasztása:"))
+        self.label_2.setText(_translate("Ui_Mezok_Szerk", "Nómenklatúrák kiválasztása:"))
 
 
-        x.db=DbConnectRekord()
+        self.db=DbConnectRekord()
         oszlopnevek=["Változó neve","Hossz","Típus","Mutató csoport", "Rekordhoz ad"]
         k=4
-        query=x.db.listMutat()
+        query=self.db.listMutat()
         for row in query:
-            rows = x.tableWidget_mutato.rowCount()
-            x.tableWidget_mutato.setRowCount(rows + 1)
+            rows = self.tableWidget_mutato.rowCount()
+            self.tableWidget_mutato.setRowCount(rows + 1)
             for oszlop in range(k):
-                x.tableWidget_mutato.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
+                self.tableWidget_mutato.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
             comboBox = QtWidgets.QComboBox()
-            x.tableWidget_mutato.setCellWidget(rows, k, comboBox)
+            self.tableWidget_mutato.setCellWidget(rows, k, comboBox)
             comboBox.addItem("")
             for i in range(1,21):
                 comboBox.addItem(str(i))
         if modosit and rekord:
-            mutatok=x.db.listMezok_mutatok(rekord)
+            mutatok=self.db.listMezok_mutatok(rekord)
             i=0
-            query = x.db.listMutat()
+            query = self.db.listMutat()
             for sor in query:
                 for my_tuple in mutatok:
                     if sor[0] == my_tuple[0]:
-                        x.tableWidget_mutato.cellWidget(i,4).setCurrentIndex(my_tuple[1])
+                        self.tableWidget_mutato.cellWidget(i,4).setCurrentIndex(my_tuple[1])
                 i+=1
 
-        x.oszlopNevBeallitas(oszlopnevek)
+        self.oszlopNevBeallitas(oszlopnevek)
 
         oszlopnevek = ["Változó neve", "Hossz", "Típus", "Rekordhoz ad"]
         k = 3
-        query = x.db.listMutat(nomen=True)
+        query = self.db.listMutat(nomen=True)
         for row in query:
-            rows = x.tableWidget_nomen.rowCount()
-            x.tableWidget_nomen.setRowCount(rows + 1)
+            rows = self.tableWidget_nomen.rowCount()
+            self.tableWidget_nomen.setRowCount(rows + 1)
             for oszlop in range(k):
-                x.tableWidget_nomen.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
+                self.tableWidget_nomen.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
             comboBox = QtWidgets.QComboBox()
-            x.tableWidget_mutato.setCellWidget(rows, k, comboBox)
+            self.tableWidget_mutato.setCellWidget(rows, k, comboBox)
             comboBox.addItem("")
             for i in range(1, 21):
                 comboBox.addItem(str(i))
-            x.tableWidget_nomen.setCellWidget(rows, k, comboBox)
+            self.tableWidget_nomen.setCellWidget(rows, k, comboBox)
         if modosit and rekord:
-            nomenklaturak=x.db.listMezok_nomenklaturak(rekord)
+            nomenklaturak=self.db.listMezok_nomenklaturak(rekord)
             i=0
-            query = x.db.listMutat(nomen=True)
+            query = self.db.listMutat(nomen=True)
             for sor in query:
                 for my_tuple in nomenklaturak:
                     if sor[0] == my_tuple[0]:
-                        x.tableWidget_nomen.cellWidget(i,3).setCurrentIndex(my_tuple[1])
+                        self.tableWidget_nomen.cellWidget(i,3).setCurrentIndex(my_tuple[1])
                 i+=1
-        x.oszlopNevBeallitas(oszlopnevek, nomen=True)
+        self.oszlopNevBeallitas(oszlopnevek, nomen=True)
 
     def oszlopNevBeallitas(self, oszlopnevek, nomen=False):
         oszlopszam = 0
