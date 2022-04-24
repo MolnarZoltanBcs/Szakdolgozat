@@ -1,4 +1,6 @@
 import sys
+import traceback
+
 import sip
 sip.setapi('QString', 2)
 from PyQt5 import QtCore, QtGui, QtWidgets  
@@ -15,7 +17,7 @@ import numpy as np
 valtnev = ""
 cimke = ""
 leiras = ""
-hossz = 0.0
+hossz = 8
 tipus = ""
 csoport = ""
 kepzett_e="Nem"
@@ -26,15 +28,16 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
     def setupUi(self,  Ui_Mutatok, nomen=False):
          self.ablak=Ui_Mutatok
-         self.ablak.setObjectName("Ui_Mutatok")
+         self.ablak.setObjectName("Mutatok_Ablak")
          self.ablak.resize(1175, 500)
+         self.newMutatDB = DbConnectMutato()
 
          if not nomen:
             self.ablak.setWindowTitle("Mutatók kezelése")
          else:
              self.ablak.setWindowTitle("Nómenklatúrák kezelése")
-         self.newmutatdb = newMutatDB()
-         newMutatDB.listMutat(self.newmutatdb, nomen=nomen)
+         self.newmutatdb = DbConnectMutato()
+         DbConnectMutato.listMutat(self.newmutatdb, nomen=nomen)
          
          self.tableWidget = QtWidgets.QTableWidget(self.ablak)
          self.tableWidgetSetUp(self.tableWidget, nomen=nomen)
@@ -71,7 +74,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
 
          self.on_selection_changed()
 
-    def tableWidgetSetUp(self, tableWidget, nomen=False):
+    def tableWidgetSetUp(self, tableWidget, oszlopszam=9, nomen=False):
         tableWidget.horizontalHeader().setStretchLastSection(True)
         tableWidget.setGeometry(QtCore.QRect(60, 75, 1025, 370))
         tableWidget.setAlternatingRowColors(True)
@@ -79,10 +82,9 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
         tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         tableWidget.setObjectName("tableWidget")
 
-        k=9
-        tableWidget.setColumnCount(k)
+        tableWidget.setColumnCount(oszlopszam)
         tableWidget.setRowCount(0)
-        for i in range(k):
+        for i in range(oszlopszam):
             item = QtWidgets.QTableWidgetItem()
             tableWidget.setHorizontalHeaderItem(i, item)
 
@@ -120,13 +122,13 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
        )
 
     def valtoztatUi(self, Ui_Mutatok, nomen=False):
+         global query
          _translate = QtCore.QCoreApplication.translate
          if not nomen:
             Ui_Mutatok.setWindowTitle(_translate("Ui_Mutatok", "Mutatók"))
          else:
              Ui_Mutatok.setWindowTitle(_translate("Ui_Mutatok", "Nómenklatúrák"))
-         self.newMutatDB = newMutatDB()
-         k=9
+
          oszlopnevek=["Változó neve","Nyomtatási cimke","Leírás","Hossz","Típus","Mutató csoport","Utolsó módosítás","Érvényesség kezdete","Érvényesség vége"]
          if nomen:
              oszlopnevek = ["Változó neve", "Nyomtatási cimke", "Leírás", "Hossz", "Típus", "Képzett",
@@ -135,7 +137,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
          for row in query:
             rows = self.tableWidget.rowCount()
             self.tableWidget.setRowCount(rows + 1)
-            for oszlop in range(k):
+            for oszlop in range(len(oszlopnevek)):
                 self.tableWidget.setItem(rows, oszlop, QTableWidgetItem(str(row[oszlop])))
                 if row[oszlop] == 0:
                     self.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Nem"))
@@ -143,16 +145,16 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
                     self.tableWidget.setItem(rows, oszlop, QTableWidgetItem("Igen"))
 
          self.oszlopNevBeallitas(oszlopnevek)
-         #self.tableWidget.resizeColumnsToContents()
+         self.tableWidget.resizeColumnsToContents()
 
-         __sortingEnabled = self.tableWidget.isSortingEnabled()#ezt a két sort még nem értem miért kellett belerakni, nem én csináltam de nem tudom mi a változás szóval meghagyom
-         self.tableWidget.setSortingEnabled(False)
-
-         self.tableWidget.setSortingEnabled(__sortingEnabled)
-         self.pushButton_uj.setText(_translate("Ui_Mutatok", "Új létrehozása"))
-         self.pushButton_modosit.setText(_translate("Ui_Mutatok", "Módosítás"))
-         self.pushButton_torol.setText(_translate("Ui_Mutatok", "Törlés"))
-         self.pushButton_export.setText(_translate("Ui_Mutatok", "Kijelöltek exportja"))
+         # __sortingEnabled = self.tableWidget.isSortingEnabled()
+         # self.tableWidget.setSortingEnabled(False)
+         #
+         # self.tableWidget.setSortingEnabled(__sortingEnabled)
+         self.pushButton_uj.setText(_translate(self.pushButton_uj.objectName(), "Új létrehozása"))
+         self.pushButton_modosit.setText(_translate(self.pushButton_modosit.objectName(), "Módosítás"))
+         self.pushButton_torol.setText(_translate(self.pushButton_torol.objectName(), "Törlés"))
+         self.pushButton_export.setText(_translate(self.pushButton_export.objectName(), "Kijelöltek exportja"))
 
     def oszlopNevBeallitas(self, oszlopnevek):
         oszlopszam = 0
@@ -164,7 +166,7 @@ class Ui_Mutatok(QtWidgets.QMainWindow):
     def openUjMutato(self, nomen=False):#definialjuk az uj mutato letrehozasa ablakot #ez nyitja meg
          self.window = QtWidgets.QMainWindow()
          self.ui =  Ui_Mutatok_UJ()
-         self.ui.setupUi(self.window, self, nomen=nomen)
+         self.ui.setupUi(self, nomen=nomen)
          self.window.show()
 
     def openModositMutato(self, nomen=False):#es definialjuk a modosit mutato ablakot
@@ -214,17 +216,17 @@ class Ui_Mutatok_UJ(object):
     def setupModositUi(self, Ui_Mutatok_UJ, parentAblak, nomen=False):
         indexes = parentAblak.tableWidget.selectionModel().selectedRows()
         if (len(indexes) > 1):
-            result = QtWidgets.QMessageBox.question(parentAblak,
+            QtWidgets.QMessageBox.question(parentAblak,
                                                     "Kérlek csak egy sort jelölj ki!",
                                                     "Nem tudsz egyszerre több soron is változtatni!",
                                                     QtWidgets.QMessageBox.Ok)
         else:
-            self.setupUi(Ui_Mutatok_UJ,parentAblak, modosit=True, nomen=nomen)
+            self.setupUi(parentAblak, modosit=True, nomen=nomen)
 
-    def setupUi(self, Ui_Mutatok_UJ, parentAblak, modosit=False, nomen=False):
+    def setupUi(self, parentAblak, modosit=False, nomen=False):
 
         self.parentAblak=parentAblak
-        self.ablak=Ui_Mutatok_UJ
+        self.ablak=parentAblak.window
         if not nomen:
             self.ablak.setObjectName("Uj mutatok ablak")
         else:
@@ -238,7 +240,7 @@ class Ui_Mutatok_UJ(object):
         font.setPointSize(11)
 
         #mentés logika
-        self.newMutatDB = newMutatDB()
+        self.newMutatDB = DbConnectMutato()
         self.pushButton_Mentes.clicked.connect(lambda: self.save_text(modosit=modosit))
         self.pushButton_Mentes.setFont(font)
         self.pushButton_Mentes.setObjectName("pushButton_Mentes")
@@ -416,7 +418,7 @@ class Ui_Mutatok_UJ(object):
                 self.dateEdit_kezdet.setDate(datetime.datetime.strptime(kezdoidopont,'%Y-%m-%d'))
                 self.dateEdit_veg.setDate(datetime.datetime.strptime(vegidopont,'%Y-%m-%d'))
 
-class newMutatDB(object):
+class DbConnectMutato(object):
 
     def exportMutat(self, parentablak, kiterjesztes, nomen=False):
         self.parentAblak=parentablak
@@ -483,15 +485,12 @@ class newMutatDB(object):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
         c = conn.cursor()
-        # c.execute('''DROP TABLE nomenklaturak''')
-        # c.execute('''CREATE TABLE nomenklaturak
-        #             (nev text, cimke text, leiras text, hossz integer , tipus text, csoport text,kepzett_e integer,utolso_modositas date, kezdoidopont date, vegidopont date)''')
         try:
             if not nomen:
                 sor=c.execute("SELECT * FROM mutatok WHERE nev='"+valtnev+"'")
             else:
                 sor=c.execute("select * from nomenklaturak where nev='"+valtnev+"'")
-            for elem in sor: # lényegében ezzek csekkolom hogy van e már ilyen sor az adatbázisban
+            for elem in sor: # lényegében ezzek ellenőrzöm hogy van e már ilyen sor az adatbázisban
                  if not modosit:
                      raise Exception("Már van ilyen változónév")
                  else:
@@ -509,14 +508,16 @@ class newMutatDB(object):
                          self.parentAblak.tableWidget.setItem(index.row(), 2, QTableWidgetItem(leiras))
                          self.parentAblak.tableWidget.setItem(index.row(), 3, QTableWidgetItem(hossz))
                          self.parentAblak.tableWidget.setItem(index.row(), 4, QTableWidgetItem(tipus))
-
-                         str_kepzett_e = c.execute("select kepzett_e from nomenklaturak where nev='"+valtnev+"'")
-                         global kepzett_e
-                         for elem in str_kepzett_e:
-                             kepzett_e="Nem"
-                             if elem[0]==1:
-                                 kepzett_e="Igen"
-                         self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(kepzett_e))
+                         if nomen:
+                             str_kepzett_e = c.execute("select kepzett_e from nomenklaturak where nev='"+valtnev+"'")
+                             global kepzett_e
+                             for elem in str_kepzett_e:
+                                 kepzett_e="Nem"
+                                 if elem[0]==1:
+                                     kepzett_e="Igen"
+                             self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(kepzett_e))
+                         else:
+                             self.parentAblak.tableWidget.setItem(index.row(), 5, QTableWidgetItem(csoport))
                          self.parentAblak.tableWidget.setItem(index.row(), 6, QTableWidgetItem(str(date.today())))
                          self.parentAblak.tableWidget.setItem(index.row(), 7, QTableWidgetItem(str(kezdoidopont)))
                          self.parentAblak.tableWidget.setItem(index.row(), 8, QTableWidgetItem(str(vegidopont)))
@@ -524,10 +525,13 @@ class newMutatDB(object):
             if not modosit:
                 if not nomen:
                     script = "INSERT INTO mutatok (nev, cimke, leiras, hossz, tipus, csoport, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);"
+                    c.execute(script,
+                              (valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), kezdoidopont, vegidopont))
                 else:
                     script = "INSERT INTO nomenklaturak (nev, cimke, leiras, hossz, tipus, kepzett_e, elsodleges_kepzett_nev, masodlagos_kepzett_nev, utolso_modositas, kezdoidopont, vegidopont) VALUES (?, ?, ?, ?, ?, 0, '', '', ?, ?, ?);"
+                    c.execute(script,
+                              (valtnev, cimke, leiras, hossz, tipus, str(date.today()), kezdoidopont, vegidopont))
 
-                c.execute(script, (valtnev, cimke, leiras, hossz, tipus, str(date.today()), kezdoidopont, vegidopont))
                 conn.commit()
                 conn.close()
 
@@ -537,21 +541,22 @@ class newMutatDB(object):
                 else:
                     addNewRow(self.parentAblak, [valtnev, cimke, leiras, hossz, tipus, csoport, str(date.today()), str(kezdoidopont),str(vegidopont)])
         except Exception as e:
+            print(traceback.format_exc())
             QtWidgets.QMessageBox.question(parentAblak,"Ez a változónév már létezik", "Kérlek próbálkozz egy másik változónévvel", QtWidgets.QMessageBox.Ok)
 
 
     def listMutat(self, nomen=False):
         conn = sqlite3.connect('datagov.db')
         conn.isolation_level = None
-        c = conn.cursor()
+        cursor = conn.cursor()
         global query
         # c.execute('''CREATE TABLE nomenklaturak
         #                     (nev text, cimke text, leiras text, hossz integer , tipus text, csoport text,utolso_modositas date, kezdoidopont date, vegidopont date)''')
 
         if not nomen:
-            query = c.execute('''SELECT * FROM mutatok''')
+            query = cursor.execute('SELECT * FROM mutatok;')
         else:
-            query = c.execute('''select nev, cimke, leiras, hossz, tipus,kepzett_e,utolso_modositas, kezdoidopont, vegidopont  from nomenklaturak''')
+            query = cursor.execute('select nev, cimke, leiras, hossz, tipus,kepzett_e,utolso_modositas, kezdoidopont, vegidopont  from nomenklaturak;')
         conn.commit()
 
         # conn.close() #Closing the database, valamiért ezzel kifagy az egész

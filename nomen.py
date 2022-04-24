@@ -12,7 +12,7 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
     def setupUi(self,  Ui_Nomenklatura):
          self.ablak=Ui_Nomenklatura
          self.ui=Ui_Mutatok()
-         self.db=DbConnect()
+         self.db=DbConnectNomen()
          self.ui.setupUi(self.ablak, nomen=True)
          self.ui.ablak.setWindowTitle("Nomenklaturák kezelése")
          self.ui.pushButton_elemek = QtWidgets.QPushButton(self.ui.ablak)
@@ -85,6 +85,7 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
          
          __sortingEnabled = self.tableWidget.isSortingEnabled()
          self.tableWidget.setSortingEnabled(False)
+         self.tableWidget.resizeColumnsToContents()
  
          self.tableWidget.setSortingEnabled(__sortingEnabled)
          self.pushButton_uj.setText(_translate("Ui_Nomenklatura", "Új létrehozása"))
@@ -99,7 +100,7 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
     def openUjNomeklatura(self):
          self.window = QtWidgets.QMainWindow()
          self.ui2 =  Ui_Mutatok_UJ()
-         self.ui2.setupUi(self.window, self.ablak, nomen=True) #az ablak a parentje az új windownak
+         self.ui2.setupUi(self.ablak, nomen=True) #az ablak a parentje az új windownak
          self.ui2.comboBox.addItem("Karakteres")
          self.ui2.csoportLabel.deleteLater()
          self.ui2.lineEdit_csoport.deleteLater()
@@ -176,7 +177,7 @@ class Ui_Nomen_Elemek(object):
     def setupUi(self, Ui_Nomen_Elemek, nev):
         self.ablak=Ui_Nomen_Elemek
         self.nev=nev
-        self.db=DbConnect()
+        self.db=DbConnectNomen()
         self.ablak.setObjectName("Ui_Nomen_Elemek")
         self.ablak.resize(786, 516)
         self.centralwidget = QtWidgets.QWidget(self.ablak)
@@ -284,6 +285,7 @@ class Ui_Nomen_Elemek(object):
         item.setText(_translate("Ui_Nomen_Elemek", "Érték"))
         item = self.tableWidget.horizontalHeaderItem(1)
         item.setText(_translate("Ui_Nomen_Elemek", "Nyomtatási címke"))
+        self.tableWidget.resizeColumnsToContents()
 
     def open_Nomen_Elemek_Uj(self, nev):
          self.window = QtWidgets.QMainWindow()
@@ -340,7 +342,7 @@ class Ui_Nomen_Elemek_Ujfelvetel(object):
         self.lineEdit_2.setGeometry(QtCore.QRect(160, 100, 191, 21))
         self.lineEdit_2.setText("")
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.db=DbConnect()
+        self.db=DbConnectNomen()
         self.pushButton_mentes = QtWidgets.QPushButton(self.frame)
         self.pushButton_mentes.setGeometry(QtCore.QRect(240, 170, 91, 41))
         self.pushButton_mentes.setObjectName("pushButton_mentes")
@@ -487,7 +489,7 @@ class Ui_Nomen_Elemek_Kepzes(object):
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
 
-        self.db=DbConnect()
+        self.db=DbConnectNomen()
         self.bal=bal
         self.jobb=jobb
 
@@ -605,7 +607,7 @@ def updateRow(ablak, cimke):
 
 
 
-class DbConnect(object):
+class DbConnectNomen(object):
     def __init__(self):
         pass
 

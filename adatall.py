@@ -131,6 +131,7 @@ class Ui_Adatallomanyok(QtWidgets.QMainWindow):
         item.setText(_translate("Ui_Nomenklatura", "Állomány titkosítási kódja"))
         item = self.tableWidget.horizontalHeaderItem(7)
         item.setText(_translate("Ui_Nomenklatura", "Létrehozva"))
+        self.tableWidget.resizeColumnsToContents()
         
 
         self.pushButton_elonezet.setText(_translate("Ui_Adatallomanyok", "Előnézet"))
@@ -232,6 +233,8 @@ class Ui_Tablatartalom(object):
             for i in range(szamlalo):
                 self.tableWidget.setItem(k,i,QTableWidgetItem(str(sor[i])))
             k+=1
+
+        self.tableWidget.resizeColumnsToContents()
 
     def intToMezo(self, szam):
         if szam == 0:

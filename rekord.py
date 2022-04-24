@@ -129,6 +129,7 @@ class Ui_Rekordleirasok(QtWidgets.QMainWindow):
          
          __sortingEnabled = self.tableWidget.isSortingEnabled()
          self.tableWidget.setSortingEnabled(False)
+         self.tableWidget.resizeColumnsToContents()
 
  
          self.tableWidget.setSortingEnabled(__sortingEnabled)
@@ -254,6 +255,7 @@ class Ui_Mezok(object):
         item.setText(_translate("Ui_Mezok", "Típus"))
         item = self.tableWidget.horizontalHeaderItem(2)
         item.setText(_translate("Ui_Mezok", "Sorrend"))
+        self.tableWidget.resizeColumnsToContents()
 
 
     def intToMezo(self, szam):
@@ -547,6 +549,9 @@ class Ui_Mezok_Szerk(object):
                         self.tableWidget_nomen.cellWidget(i,3).setCurrentIndex(my_tuple[1])
                 i+=1
         self.oszlopNevBeallitas(oszlopnevek, nomen=True)
+
+        self.tableWidget_mutato.resizeColumnsToContents()
+        self.tableWidget_nomen.resizeColumnsToContents()
 
     def oszlopNevBeallitas(self, oszlopnevek, nomen=False):
         oszlopszam = 0
