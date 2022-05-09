@@ -191,12 +191,6 @@ class Ui_Tablatartalom(object):
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setRowCount(0)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
-        # self.pushButton_modosit = QtWidgets.QPushButton(self.frame)
-        # self.pushButton_modosit.setGeometry(QtCore.QRect(10, 10, 101, 31))
-        # self.pushButton_modosit.setObjectName("pushButton_modosit")
-        # self.pushButton_aktualizal = QtWidgets.QPushButton(self.frame)
-        # self.pushButton_aktualizal.setGeometry(QtCore.QRect(130, 10, 101, 31))
-        # self.pushButton_aktualizal.setObjectName("pushButton_aktualizal")
         self.ablak.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(self.ablak)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 622, 21))
@@ -212,8 +206,6 @@ class Ui_Tablatartalom(object):
     def retranslateUi(self,adatallomany_nev, rekordleiras_nev):
         _translate = QtCore.QCoreApplication.translate
         self.ablak.setWindowTitle(_translate("Ui_Tablatartalom", "Tábla tartalma"))
-        # self.pushButton_modosit.setText(_translate("Ui_Tablatartalom", "Módosít"))
-        # self.pushButton_aktualizal.setText(_translate("Ui_Tablatartalom", "Aktualizál"))
 
         szamlalo=0
         mezoLista=[]

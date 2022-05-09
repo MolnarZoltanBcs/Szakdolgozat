@@ -470,7 +470,7 @@ class DbConnectMutato(object):
                 exportalando_dataframe =pd.DataFrame(pd.read_sql_query("SELECT nev, cimke, leiras, hossz, tipus, kepzett_e,utolso_modositas, kezdoidopont, vegidopont FROM nomenklaturak", conn))
             exportalando_dataframe.index += 1
 
-        fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption="Fájl mentése "+kiterjesztes+"-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
+        fajl_nev=QtWidgets.QFileDialog.getSaveFileUrl(caption=f"Fájl mentése {kiterjesztes}-ként", filter=kiterjesztes, initialFilter=kiterjesztes)
         try:
             if kiterjesztes=="CSV fájl (*.csv)":
                 exportalando_dataframe.to_csv(QtCore.QUrl.toLocalFile(fajl_nev[0]))

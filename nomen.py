@@ -52,12 +52,6 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
         self.pushButton_torol.setEnabled(
             bool(self.tableWidget.selectionModel().selectedRows())
        )
-        self.pushButton_elemek.setEnabled(
-            bool(self.tableWidget.selectionModel().selectedRows())
-       )
-        self.pushButton_kepzes.setEnabled(
-            bool(self.tableWidget.selectionModel().selectedRows())
-       )
 
     def deleteCurrentRow(self):
         result = QtWidgets.QMessageBox.question(self,
@@ -127,10 +121,8 @@ class Ui_Nomenklatura(QtWidgets.QMainWindow):
          
     # itt definialjuk a nomen_elemek megnyitasa ablakot     
     def open_Nomen_Elemek(self):
-
          indexes = self.ui.tableWidget.selectionModel().selectedRows()
          self.ui.tableWidget.clearSelection()
-         # self.ui.tableWidget.selectionModel()
          if len(indexes) != 1:
              result = QtWidgets.QMessageBox.question(self,
                                                      "Hibás kijelölés",

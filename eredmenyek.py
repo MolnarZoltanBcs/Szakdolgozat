@@ -111,8 +111,6 @@ class Eredmeny(QtWidgets.QMainWindow):
                 self.form_init()
                 return
 
-    # def alma(self):
-    #     raise ValueError
 
 class EredmenyekMegjelenitese(Eredmeny):
     def __init__(self, ablak, parentAblak):
