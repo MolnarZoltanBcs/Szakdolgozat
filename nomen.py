@@ -633,9 +633,9 @@ class DbConnectNomen(object):
                                                     "Kérlek adj meg egy új értéket!",
                                                     QtWidgets.QMessageBox.Ok)
             return
-        c.execute('insert into nomenklatura_elemek values("'+valtnev+'", "'+ertek+'", "'+cimke+'");')
+        c.execute('insert into nomenklatura_elemek values("'+valtnev+'", "'+ertek+'", "'+str(cimke)+'");')
         if ablak is not None:
-            addNewRow(ablak.parentablak,[ertek, cimke])
+            addNewRow(ablak.parentablak,[ertek, str(cimke)])
         conn.commit()
         conn.close()
 
